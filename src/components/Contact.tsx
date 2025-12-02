@@ -40,8 +40,8 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      content: '+966 56 240 5666',
-      link: 'tel:+966562405666',
+      content: '+966 056 240 5666',
+      link: 'tel:+9660562405666',
     },
     {
       icon: Mail,

@@ -69,7 +69,7 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4">Connect With Us</h4>
             <div className="space-y-3 mb-6">
               <p className="text-white/70 text-sm">info@aqtraco.com</p>
-              <p className="text-white/70 text-sm">+966 XX XXX XXXX</p>
+              <p className="text-white/70 text-sm">+966 056 240 5666</p>
             </div>
             <div className="flex gap-4">
               {socialLinks.map((social, index) => {
