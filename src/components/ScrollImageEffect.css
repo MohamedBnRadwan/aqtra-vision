@@ -1,0 +1,18 @@
+.scroll-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.scroll-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 200px;
+  width: 3000px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left center;
+  transition: transform 0.1s linear;
+}

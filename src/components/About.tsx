@@ -1,5 +1,6 @@
 import { CheckCircle, Award, Users, Lightbulb } from 'lucide-react';
 import LogoIcon from '@/assets/logo-icon.png';
+import Marquee from './Marquee';
 
 const About = () => {
   const features = [
@@ -23,7 +24,7 @@ const About = () => {
   return (
     <section id="about" className="py-20 bg-white relative overflow-hidden">
       {/* Background Watermark */}
-      <div 
+      <div
         className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-50 w-1/2 h-auto pointer-events-none"
         style={{
           backgroundImage: `url(${LogoIcon})`,
@@ -33,12 +34,11 @@ const About = () => {
           height: '600px',
         }}
       />
-
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div data-aos="fade-right">
-            <h2 className="mb-6 text-foreground">About AQTRA</h2>
+        <h2 className="mb-6 text-foreground">About AQTRA</h2>
             <div className="space-y-4 text-lg text-foreground/80">
               <p>
                 AQTRA is a leading engineering and contracting company dedicated to delivering integrated solutions across multiple disciplines. Our commitment to accuracy and quality is reflected in every project we undertake.

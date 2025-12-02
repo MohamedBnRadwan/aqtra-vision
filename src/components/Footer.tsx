@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, X } from 'lucide-react';
 import logoVerticalLight from '@/assets/logo-vertical-light.png';
 import watermarkText from '@/assets/watermark-text.png';
 
@@ -18,14 +18,15 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
+    { icon: Facebook, href: 'https://www.facebook.com/AQTRACO', label: 'Facebook' },
+    { icon: Instagram, href: 'https://www.instagram.com/aqtra.co/', label: 'Instagram' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/aqtraco', label: 'LinkedIn' },
+    { icon: X, href: 'https://x.com/AQTRACO', label: 'Twitter' },
   ];
 
   return (
     <footer className="bg-foreground text-white">
+     
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
@@ -79,6 +80,8 @@ const Footer = () => {
                     key={index}
                     href={social.href}
                     aria-label={social.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
                   >
                     <Icon className="w-5 h-5" />
@@ -100,6 +103,7 @@ const Footer = () => {
             </p>
           </div>
         </div>
+        
       </div>
     </footer>
   );

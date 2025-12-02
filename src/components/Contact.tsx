@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import Marquee from './Marquee';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -59,6 +60,7 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-20 bg-secondary/30">
+       
       <div className="container mx-auto px-4">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="mb-4 text-foreground">Get In Touch</h2>

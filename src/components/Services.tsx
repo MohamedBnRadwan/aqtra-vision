@@ -1,5 +1,6 @@
 import { Wifi, Leaf, AirVent, Droplets, Zap, Network, FireExtinguisher } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import ScrollImageEffect from './ScrollImageEffect';
 
 const services = [
   {
@@ -59,7 +60,6 @@ const services = [
     bgColor: 'bg-purple-50',
   },
 ];
-
 const Services = () => {
   return (
     <section id="services" className="py-20 bg-secondary/30">

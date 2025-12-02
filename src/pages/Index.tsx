@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Header from '@/components/Header';
-import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
-import Marquee from '@/components/Marquee';
+import HeroIntro from '@/components/HeroIntro';
+import CustomHeader from '@/components/CustomHeader';
 
 const Index = () => {
   useEffect(() => {
@@ -21,10 +21,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      {/* <Header /> */}
+      <CustomHeader />
       <main>
-        <Hero />
-        <Marquee />
+        {/* <Hero /> */}
+        <HeroIntro />
+       
         <Services />
         <About />
         <Contact />
