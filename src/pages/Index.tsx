@@ -12,7 +12,7 @@ const Index = () => {
   useEffect(() => {
     AOS.init({
       duration: 800,
-      once: true,
+      // once: true,
       easing: 'ease-out',
       offset: 100,
     });
