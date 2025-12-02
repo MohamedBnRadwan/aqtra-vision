@@ -1,4 +1,4 @@
-import { Wifi, Sun, AirVent, Droplet, Zap, Network, Flame } from 'lucide-react';
+import { Wifi, Leaf, AirVent, Droplets, Zap, Network, FireExtinguisher } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const services = [
@@ -11,7 +11,7 @@ const services = [
     bgColor: 'bg-blue-50',
   },
   {
-    icon: Sun,
+    icon: Leaf,
     title: 'Solar Energy',
     description: 'Sustainable power solutions for your future',
     items: ['Solar Panel Installation', 'On/Off/Hybrid Grid Systems', 'Battery Storage', 'EPC & Maintenance'],
@@ -27,7 +27,7 @@ const services = [
     bgColor: 'bg-cyan-50',
   },
   {
-    icon: Droplet,
+    icon: Droplets,
     title: 'Plumbing',
     description: 'Complete water and drainage systems',
     items: ['Water & Drainage Systems', 'Heaters', 'Solar Hot Water', 'Leak Detection'],
@@ -35,7 +35,7 @@ const services = [
     bgColor: 'bg-blue-50',
   },
     {
-    icon: Flame,
+    icon: FireExtinguisher,
     title: 'Fire Fighting',
     description: 'Comprehensive fire safety solutions',
     items: ['Fire Suppression Systems', 'Fire Alarms', 'Emergency Lighting', 'Sprinkler Systems'],
@@ -71,13 +71,14 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 justify-items-center md:grid-cols-3 lg:grid-cols-4 gap-8">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
               <Card
                 key={index}
-                className="hover-lift hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50"
+                className="transition-all select-none duration-300 hover:shadow-xl"
+                // className="hover-lift hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50"
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
               >
@@ -89,7 +90,7 @@ const Services = () => {
                   <CardDescription className="text-base">{service.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2">
+                  <ul className="space-y-2 ">
                     {service.items.map((item, i) => (
                       <li key={i} className="flex items-start">
                         <span className="text-primary mr-2">•</span>

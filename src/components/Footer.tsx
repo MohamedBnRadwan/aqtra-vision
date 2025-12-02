@@ -1,5 +1,5 @@
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
-import logoVertical from '@/assets/logo-vertical.png';
+import logoVerticalLight from '@/assets/logo-vertical-light.png';
 import watermarkText from '@/assets/watermark-text.png';
 
 const Footer = () => {
@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <img src={logoVertical} alt="AQTRA Logo" className="h-32 w-auto mb-4 brightness-0 invert" />
+            <img src={logoVerticalLight} alt="AQTRA Logo" className="h-32 w-auto mb-4" />
             <p className="text-white/70 text-sm leading-relaxed">
               Integrated engineering solutions for modern living and business operations.
             </p>

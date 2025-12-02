@@ -40,8 +40,8 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      content: '+966 XX XXX XXXX',
-      link: 'tel:+966XXXXXXXXX',
+      content: '+966 56 240 5666',
+      link: 'tel:+966562405666',
     },
     {
       icon: Mail,
@@ -53,7 +53,7 @@ const Contact = () => {
       icon: MapPin,
       title: 'Location',
       content: 'Saudi Arabia',
-      link: '#',
+      link: 'https://maps.app.goo.gl/1bKxda2cTEAoHvv57',
     },
   ];
 
@@ -82,6 +82,7 @@ const Contact = () => {
                   <a
                     key={index}
                     href={info.link}
+                    target='_blank'
                     className="flex items-start gap-4 p-4 bg-white rounded-lg hover:shadow-lg transition-all hover-lift"
                   >
                     <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">

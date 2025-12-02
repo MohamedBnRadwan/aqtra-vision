@@ -1,5 +1,5 @@
 import { CheckCircle, Award, Users, Lightbulb } from 'lucide-react';
-import watermarkIcon from '@/assets/watermark-icon.png';
+import LogoIcon from '@/assets/logo-icon.png';
 
 const About = () => {
   const features = [
@@ -24,9 +24,9 @@ const About = () => {
     <section id="about" className="py-20 bg-white relative overflow-hidden">
       {/* Background Watermark */}
       <div 
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-5 w-1/2 h-auto pointer-events-none"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-50 w-1/2 h-auto pointer-events-none"
         style={{
-          backgroundImage: `url(${watermarkIcon})`,
+          backgroundImage: `url(${LogoIcon})`,
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
@@ -73,7 +73,7 @@ const About = () => {
               return (
                 <div
                   key={index}
-                  className="bg-secondary/50 p-6 rounded-xl hover-lift hover:shadow-lg transition-all"
+                  className="bg-secondary/50 p-6 rounded-xl hover-lift hover:shadow-lg transition-all backdrop-blur-sm"
                   data-aos="fade-left"
                   data-aos-delay={index * 100}
                 >
