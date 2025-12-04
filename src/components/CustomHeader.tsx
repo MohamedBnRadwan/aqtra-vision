@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MessageCircle } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faInstagram, faLinkedinIn, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
-import logoHorizontal from '@/assets/logo-icon.png';
+import logoLight from '@/assets/logo-icon.png';
 import { Link } from 'react-router-dom';
+
+import './CustomHeader.css';
 
 const CustomHeader: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,69 +19,106 @@ const CustomHeader: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white text-foreground shadow-md' : 'bg-light/50 backdrop-blur-sm text-white'
-      } py-5`}
+    <nav
+      className={`navbar navbar-expand-lg fixed-top ${
+        isScrolled ? 'navbar-scrolled' : 'navbar-transparent'
+      }`}
     >
-      <nav className="container mx-auto px-6 flex items-center justify-between">
+      <div className="container">
         {/* Logo and Website Name */}
-        <div className="flex items-center gap-3">
-          <img src={logoHorizontal} alt="AQTRA Logo" className="h-12 w-auto" />
-          <span className="text-2xl font-bold">AQTRA</span>
-        </div>
+        <a className="navbar-brand d-flex align-items-center" href="#">
+          <img
+            src={logoLight}
+            alt="AQTRA Logo"
+            style={{ height: '50px', width: '50px' }}
+            className="w-auto"
+          />
+          <span className="ms-2 fw-bold fs-4">AQTRA</span>
+        </a>
+
+        {/* Toggler for Mobile */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
         {/* Center Navigation */}
-        <div className="hidden md:flex items-center gap-10">
-          <Link
-            to="services"
-            className="hover:text-primary transition-colors font-medium"
-          >
-            Services
-          </Link>
-          <a
-            href="#about"
-            onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}
-            className="hover:text-primary transition-colors font-medium"
-          >
-            About
-          </a>
-          <a
-            href="#contact"
-            onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}
-            className="hover:text-primary transition-colors font-medium"
-          >
-            Contact
-          </a>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav mx-auto">
+            <li className="nav-item">
+              <Link to="home" className="nav-link">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="about" className="nav-link">
+                About
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="services" className="nav-link">
+                Services
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="portfolio" className="nav-link">
+                Portfolio
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="contact" className="nav-link">
+                Contact
+              </Link>
+            </li>
+          </ul>
         </div>
 
         {/* Right Buttons */}
-        <div className="flex items-center gap-5">
+        <div className="d-flex align-items-center gap-3">
           <a
-            href="https://wa.me/your-number"
+            href="tel:+966562405666"
+            className={`d-flex text-decoration-none border-end text-primary pe-3 border-success align-items-center gap-2 fs-4`}
+          >
+            <FontAwesomeIcon icon={faPhone} size="lg" /> +966 (056) 2405 666
+          </a>
+          <a
+            href="https://wa.me/966562405666"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+            className="btn btn-success rounded-circle d-flex align-items-center justify-content-center"
+            style={{ width: '40px', height: '40px' }}
           >
-            <MessageCircle size={20} /> WhatsApp
+            <FontAwesomeIcon icon={faWhatsapp} size="lg" />
           </a>
           <a
-            href="tel:+123456789"
-            className="flex items-center gap-2 border-2 bg-primary border-primary text-white px-5 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors"
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
+            style={{ width: '40px', height: '40px' }}
           >
-            <Phone size={20} /> Call
+            <FontAwesomeIcon icon={faInstagram} size="lg" />
+          </a>
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
+            style={{ width: '40px', height: '40px' }}
+          >
+            <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
           </a>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 };
 

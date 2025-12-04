@@ -1,0 +1,13 @@
+.nav-link{
+    font-size: 20px !important;
+}
+
+.navbar-scrolled {
+    background-color: #ffffff !important;
+    box-shadow: 0px 7px 20px 19px rgb(0 0 0 / 24%);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+.navbar-transparent {
+    background-color: transparent !important;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}

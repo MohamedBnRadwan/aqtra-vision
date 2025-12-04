@@ -1,41 +1,42 @@
 import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Header from '@/components/Header';
 import Services from '@/components/Services';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
 import HeroIntro from '@/components/HeroIntro';
-import CustomHeader from '@/components/CustomHeader';
-import Layout from '@/components/Layout';
 
 const Index = () => {
   useEffect(() => {
     AOS.init({
       duration: 500,
-      // once: true,
       easing: 'ease-out',
       offset: 100,
     });
   }, []);
 
   return (
-    <Layout>
-      <div className="min-h-screen">
-        {/* <Header /> */}
-        <CustomHeader />
-        <main>
-          {/* <Hero /> */}
-          <HeroIntro />
-         
-          <Services />
-          <About />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </Layout>
+    <div className="container-fluid mt-5">
+      {/* Hero Section */}
+      <section className="mb-5">
+        <HeroIntro />
+      </section>
+
+      {/* Services Section */}
+      <section className="mb-5">
+        <Services />
+      </section>
+
+      {/* About Section */}
+      <section className="mb-5">
+        <About />
+      </section>
+
+      {/* Contact Section */}
+      <section className="mb-5">
+        <Contact />
+      </section>
+    </div>
   );
 };
 

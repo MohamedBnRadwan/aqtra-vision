@@ -1,5 +1,4 @@
 import { Wifi, Leaf, AirVent, Droplets, Zap, Network, FireExtinguisher } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import ScrollImageEffect from './ScrollImageEffect';
 
 const services = [
@@ -8,98 +7,86 @@ const services = [
     title: 'Solar Energy',
     description: 'Sustainable power solutions for your future',
     items: ['Solar Panel Installation', 'On/Off/Hybrid Grid Systems', 'Battery Storage', 'EPC & Maintenance'],
-    color: 'text-primary',
-    bgColor: 'bg-primary/10',
+    color: 'text-success',
   },
   {
     icon: Wifi,
     title: 'Smart Home Systems',
     description: 'Advanced home automation for modern living',
     items: ['Smart Lighting', 'Smart Locks', 'Voice Control', 'Home Theater', 'HVAC Automation'],
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-50',
+    color: 'text-primary',
   },
   {
     icon: AirVent,
     title: 'HVAC & Chiller',
     description: 'Climate control and air quality solutions',
     items: ['Ducting Fabrication', 'Chillers', 'Air Handling Units', 'Maintenance'],
-    color: 'text-cyan-500',
-    bgColor: 'bg-cyan-50',
+    color: 'text-info',
   },
   {
     icon: Droplets,
     title: 'Plumbing',
     description: 'Complete water and drainage systems',
     items: ['Water & Drainage Systems', 'Heaters', 'Solar Hot Water', 'Leak Detection'],
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50',
+    color: 'text-primary',
   },
-    {
+  {
     icon: FireExtinguisher,
     title: 'Fire Fighting',
     description: 'Comprehensive fire safety solutions',
     items: ['Fire Suppression Systems', 'Fire Alarms', 'Emergency Lighting', 'Sprinkler Systems'],
-    color: 'text-red-600',
-    bgColor: 'bg-red-50',
+    color: 'text-danger',
   },
   {
     icon: Zap,
     title: 'Electrical',
     description: 'Professional electrical installations',
     items: ['Power Distribution', 'Panels', 'Lighting', 'Backup Systems', 'Earthing'],
-    color: 'text-yellow-500',
-    bgColor: 'bg-yellow-50',
+    color: 'text-warning',
   },
   {
     icon: Network,
     title: 'Network & Security',
     description: 'Modern IT infrastructure solutions',
     items: ['Structured Cabling', 'Wi-Fi', 'CCTV','PAVA Public Addres and Voice Alarm', 'Access Control', 'Data Rack Setup'],
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-50',
+    color: 'text-secondary',
   },
 ];
+
 const Services = () => {
   return (
-    <section id="services" className="py-20 bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="mb-4 text-foreground">Our Services</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+    <section id="services" className="py-5 bg-light">
+      <div className="container">
+        <div className="text-center mb-4" data-aos="fade-up">
+          <h2 className="mb-3 text-dark">Our Services</h2>
+          <p className="text-muted fs-5">
             Comprehensive engineering solutions tailored to your needs
           </p>
         </div>
 
-        <div className="grid grid-cols-1 justify-items-center md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="row g-4">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <Card
-                key={index}
-                className="transition-all select-none duration-300 hover:shadow-xl"
-                // className="hover-lift hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-              >
-                <CardHeader>
-                  <div className={`w-16 h-16 ${service.bgColor} rounded-lg flex items-center justify-center mb-4`}>
-                    <Icon className={`w-8 h-8 ${service.color}`} />
+              <div className="col-md-4" key={index} data-aos="fade-up" data-aos-delay={index * 100}>
+                <div className="card border-0 shadow-sm h-100">
+                  <div className="card-body">
+                    <div className="d-flex justify-content-center align-items-center mb-3" style={{ height: '64px', width: '64px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+                      <Icon className={`fs-2 ${service.color}`} />
+                    </div>
+                    <h5 className="card-title text-center">{service.title}</h5>
+                    <p className="card-text text-center text-muted">{service.description}</p>
+                    <ul className="list-unstyled mt-3">
+                      {service.items.map((item, i) => (
+                        <li key={i} className="d-flex align-items-start">
+                          <span className="text-success me-2">•</span>
+                          <span className="text-muted">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <CardTitle className="text-2xl">{service.title}</CardTitle>
-                  <CardDescription className="text-base">{service.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 ">
-                    {service.items.map((item, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="text-primary mr-2">•</span>
-                        <span className="text-foreground/80">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             );
           })}
         </div>

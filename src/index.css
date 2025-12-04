@@ -1,152 +1,124 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "bootstrap/dist/css/bootstrap.min.css";
+:root {
+  --background: #eff5f3;
+  --background-secondary: #f8f9fa; /* Lighter version for secondary backgrounds */
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+  --foreground: #3d3d3d;
 
-@layer base {
-  :root {
-    --background: 150 25% 95%; /* Converted #eff5f3 to HSL */
-    --background-secondary: 150 25% 98%; /* Lighter version for secondary backgrounds */
+  --card: #ffffff;
+  --card-foreground: #3d3d3d;
 
-    --foreground: 0 0% 24%;
+  --popover: #ffffff;
+  --popover-foreground: #3d3d3d;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 24%;
+  /* Updated primary color */
+  --primary: #119d60;
+  --primary-foreground: #ffffff;
+  --primary-hover: #0e8652;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 24%;
+  --secondary: #f8f9fa;
+  --secondary-foreground: #3d3d3d;
 
-    --primary: 154, 80%, 34%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 154, 80%, 28%;
+  --muted: #f8f9fa;
+  --muted-foreground: #737373;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 24%;
+  --accent: hsl(75, 65%, 53%);
+  --accent-foreground: #ffffff;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: #ffffff;
 
-    --accent: 75 65% 53%;
-    --accent-foreground: 0 0% 100%;
+  /* Updated border and ring colors */
+  --border: #119d60;
+  --input: #f0f0f0;
+  --ring: #119d60;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+  --radius: 0.75rem;
 
-    --border: 154, 80%, 34%;
-    --input: 0 0% 90%;
-    --ring: 75 65% 53%;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 40px -10px rgb(0 0 0 / 0.15);
 
-    --radius: 0.75rem;
-    
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 25px -5px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 40px -10px rgb(0 0 0 / 0.15);
-    
-    --gradient-primary: linear-gradient(135deg, hsl(154, 80%, 34%), hsl(154, 80%, 34%));
-    --gradient-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+  --gradient-primary: linear-gradient(135deg, #119d60, #0e8652);
+  --gradient-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
 
-    --sidebar-background: 0 0% 98%;
+  --sidebar-background: #f8f9fa;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-foreground: hsl(240, 5.3%, 26.1%);
 
-    --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary: hsl(240, 5.9%, 10%);
 
-    --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-primary-foreground: #ffffff;
 
-    --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent: hsl(240, 4.8%, 95.9%);
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-accent-foreground: hsl(240, 5.9%, 10%);
 
-    --sidebar-border: 220 13% 91%;
+  --sidebar-border: hsl(220, 13%, 91%);
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
 
-  .dark {
-    --background: 0 0% 10%;
-    --foreground: 0 0% 98%;
+  /* Override Bootstrap primary color */
+  --bs-primary: #119d60;
+  --bs-primary-rgb: 17, 157, 96;
 
-    --card: 0 0% 14%;
-    --card-foreground: 0 0% 98%;
+  /* Override Bootstrap success color */
+  --bs-success: #119d60;
+  --bs-success-rgb: 17, 157, 96;
 
-    --popover: 0 0% 14%;
-    --popover-foreground: 0 0% 98%;
+  /* Override Bootstrap border and background colors */
+  --bs-border-color: #119d60;
+  --bs-bg-color: #119d60;
 
-    --primary: 75 65% 53%;
-    --primary-foreground: 0 0% 10%;
-    --primary-hover: 75 65% 45%;
+  /* Override Bootstrap alert and button colors */
+  --bs-alert-color: #119d60;
+  --bs-btn-color: #119d60;
 
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 65%;
-
-    --accent: 75 65% 53%;
-    --accent-foreground: 0 0% 10%;
-
-    --destructive: 0 62.8% 50%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 75 65% 53%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  /* Override Bootstrap badge colors */
+  --bs-badge-color: #119d60;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
-  }
-  
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
-  }
-  
-  h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
-  }
-  
-  h3 {
-    @apply text-2xl md:text-3xl;
-  }
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-@layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-hover;
-  }
-  
-  .shadow-glow {
-    box-shadow: 0 0 30px rgba(164, 210, 51, 0.3);
-  }
-  
-  .hover-lift {
-    @apply transition-transform duration-300 hover:-translate-y-2;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
 }
 
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+.text-gradient {
+  background: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 30px rgba(17, 157, 96, 0.3);
+}
+
+.hover-lift {
+  transition: transform 0.3s;
+}
+
+.hover-lift:hover {
+  transform: translateY(-0.5rem);
+}
 
 .dark-body {
   background-color: #121212; /* Dark background color */
