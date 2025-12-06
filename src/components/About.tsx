@@ -74,7 +74,7 @@ const About = () => {
                 return (
                   <div
                     key={index}
-                    className="col-md-6 p-3 border rounded bg-light shadow-sm"
+                    className="col-md-12 p-3 rounded bg-light shadow-sm"
                     data-aos="fade-left"
                     data-aos-delay={index * 100}
                   >

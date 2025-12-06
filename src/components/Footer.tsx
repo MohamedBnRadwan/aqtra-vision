@@ -3,6 +3,8 @@ import './Footer.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faLinkedinIn, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import logoVerticalLight from '@/assets/logo-vertical-light.png';
+import { Icon } from 'lucide-react';
+import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -38,9 +40,15 @@ const Footer = () => {
           {/* Company Info */}
           <div className="col-lg-4 mb-3">
             <img src={logoVerticalLight} alt="AQTRA Logo" className="mb-3" style={{ height: '100px' }} />
-            <p >
+            <p>
               Integrated engineering solutions for modern living and business operations.
             </p>
+            {/* <p className="border rounded">
+              <strong><FontAwesomeIcon icon={faPhone} /></strong> +966 056 240 5666
+            </p>
+            <p>
+              <strong><FontAwesomeIcon icon={faEnvelope} /></strong> info@aqtraco.com
+            </p> */}
           </div>
 
           {/* Services Links */}
@@ -65,7 +73,20 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
+
+
           </div>
+          {/* <div className='col-12'>
+            <div className="mt-4 p-3 bg-light rounded shadow-sm">
+              <h6 className="fw-bold mb-2">AQTRA Services</h6>
+              <p className="text-muted mb-3">
+                Discover our innovative solutions for modern living and business operations.
+              </p>
+              <a href="#contact" className="btn btn-primary w-100">
+                Request a Consultation
+              </a>
+            </div>
+          </div> */}
         </div>
 
         {/* Social Links */}

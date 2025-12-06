@@ -1,7 +1,7 @@
 .hero-intro {
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 18px;
 }
 
 .hero-video {
@@ -12,7 +12,7 @@
   height: 100%;
   object-fit: cover;
   z-index: -1;
-
+  
 }
 
 .hero-content {
@@ -54,4 +54,20 @@
     font-size: 1.2rem;
     margin-top: 1rem;
     color: var(--sidebar-primary);
+  }
+
+  .intro-card{
+    max-width: 350px;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1;
+    background: #00000017; /* Transparent white background */
+    backdrop-filter: blur(3px); /* Blur effect */
+    border-radius: 0.5rem; /* Rounded corners */
+    color: #eeeeee;
+  }
+
+  .intro-card-icon{
+    width: 50px;
   }

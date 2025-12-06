@@ -3,6 +3,7 @@ import Marquee from './Marquee';
 import './HeroIntro.css';
 
 import BgVideo from '@/assets/intro-bg.mp4';
+import LogoIcon from '@/assets/logo-icon.png';
 
 const HeroIntro: React.FC = () => {
   const [videoDimensions, setVideoDimensions] = useState({ width: '100%', height: '100%' });
@@ -37,7 +38,6 @@ const HeroIntro: React.FC = () => {
         <div className="hero-overlay"></div>
         <video
           className="hero-video"
-          
           autoPlay
           loop
           muted
@@ -45,6 +45,15 @@ const HeroIntro: React.FC = () => {
           <source src={BgVideo} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+
+        <div className="intro-card p-4 rounded">
+          <img src={LogoIcon} alt="AQTRA Logo" className="intro-card-icon mb-3" />
+          <h3 className="fw-bold">Contact Us</h3>
+          <p className="mb-3">
+            Reach out to us for innovative engineering solutions tailored to your needs. Let’s build the future together.
+          </p>
+          <a href="#contact" className="btn btn-primary rounded-0 w-100">Get in Touch</a>
+        </div>
       </section>
     </>
   );

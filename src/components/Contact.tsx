@@ -107,7 +107,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="col-lg-6" data-aos="fade-left">
-            <form onSubmit={handleSubmit} className="p-4 border rounded bg-white shadow-sm">
+            <form onSubmit={handleSubmit} className="p-4 rounded bg-white shadow-sm">
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">
                   Full Name *
