@@ -6,6 +6,11 @@ import About from '@/components/About';
 import Contact from '@/components/Contact';
 import HeroIntro from '@/components/HeroIntro';
 import NewsletterSection from '@/components/NewsletterSection';
+import ParallaxVideoSection from '@/components/ParallaxVideoSection';
+import ParallaxImageSection from '@/components/ParallaxImageSection';
+
+import ParallaxVideo from '@/assets/intro-bg.mp4';
+import ParallaxImage from '@/assets/network-ftth-cables.jpg';
 
 const Index = () => {
   useEffect(() => {
@@ -27,7 +32,8 @@ const Index = () => {
       <section>
         <About />
       </section>
-
+      <ParallaxImageSection imageUrl={ParallaxImage} heading="Your Text Here" summary={'Your summary here'} />
+      <ParallaxVideoSection videoUrl={ParallaxVideo} text='asasas' />
       {/* Services Section */}
       <section id="services" className="py-5 bg-light">
         <div className="text-center mb-4" data-aos="fade-up">
@@ -39,11 +45,14 @@ const Index = () => {
         <Services />
       </section>
 
+
+
       {/* Contact Section */}
       <section >
         {/* <Contact /> */}
         <NewsletterSection />
       </section>
+
     </div>
   );
 };
