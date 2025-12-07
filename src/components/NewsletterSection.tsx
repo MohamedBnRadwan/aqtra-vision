@@ -4,10 +4,10 @@ import { ArrowRight } from 'lucide-react';
 
 const NewsletterSection: React.FC = () => {
     return (
-        <section className="newsletter-section p-5 bg-light">
+        <section className="newsletter-section p-5">
             <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-12 card-holder p-4">
+                <div className="row justify-content-center">
+                    <div className="col-md-10 card-holder p-4">
                         <div className="row g-4 align-items-center">
                             <div className="col-md-6">
                                 <h2 className="newsletter-title mb-4">Subscribe to our Newsletter</h2>

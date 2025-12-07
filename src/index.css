@@ -160,6 +160,12 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   box-shadow: 0 0 0 0.2rem var(--ring);
 }
 
+
+.btn-primary:focus-visible, .btn-primary:active, .btn-primary.active {
+     color: var(--bs-btn-hover-color);
+    background-color: #14363f !important;
+    border-color: #14363f !important;
+}
 /* Updated outline button styles to use theme colors */
 .btn-outline-primary {
   background-color: transparent;

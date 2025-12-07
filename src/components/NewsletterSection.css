@@ -1,6 +1,6 @@
 /* NewsletterSection.css */
 .newsletter-section {
-    background-color: #EAF4F4;
+    background-color: var(--background);
     padding: 2rem;
     text-align: center;
 }
@@ -72,8 +72,18 @@
 
 .newsletter-section .consent input {
     margin-right: 0.5rem;
-    accent-color: var(--primary);
 }
+
+.newsletter-section  input[type="checkbox"] {
+    accent-color: var(--primary);
+    height: 20px;
+    width: 20px;
+    line-height: 1;
+}
+.newsletter-section label   {
+font-size: 1.1rem;
+}
+
 
 .card-holder{
     background: rgba(255, 255, 255, 0.6);

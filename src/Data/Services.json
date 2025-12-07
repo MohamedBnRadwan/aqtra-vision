@@ -1,0 +1,104 @@
+[
+  {
+    "id": "solar-energy",
+    "title": "Solar Energy",
+    "description": "Sustainable power solutions for your future",
+    "videoUrl": "/videos/solar_energy.mp4",
+    "icon": "Leaf",
+    "items": [
+      "Solar Panel Installation",
+      "On/Off/Hybrid Grid Systems",
+      "Battery Storage",
+      "EPC & Maintenance"
+    ],
+    "color": "text-success"
+  },
+  {
+    "id": "smart-home-systems",
+    "title": "Smart Home Systems",
+    "description": "Advanced home automation for modern living",
+    "videoUrl": "/videos/smart_home_systems.mp4",
+    "icon": "Wifi",
+    "items": [
+      "Smart Lighting",
+      "Smart Locks",
+      "Voice Control",
+      "Home Theater",
+      "HVAC Automation"
+    ],
+    "color": "text-primary"
+  },
+  {
+    "id": "hvac-chiller",
+    "title": "HVAC & Chiller",
+    "description": "Climate control and air quality solutions",
+    "videoUrl": "/videos/hvac_chiller.mp4",
+    "icon": "AirVent",
+    "items": [
+      "Ducting Fabrication",
+      "Chillers",
+      "Air Handling Units",
+      "Maintenance"
+    ],
+    "color": "text-info"
+  },
+  {
+    "id": "plumbing",
+    "title": "Plumbing",
+    "description": "Complete water and drainage systems",
+    "videoUrl": "/videos/plumbing.mp4",
+    "icon": "Droplets",
+    "items": [
+      "Water & Drainage Systems",
+      "Heaters",
+      "Solar Hot Water",
+      "Leak Detection"
+    ],
+    "color": "text-primary"
+  },
+  {
+    "id": "fire-fighting",
+    "title": "Fire Fighting",
+    "description": "Comprehensive fire safety solutions",
+    "videoUrl": "/videos/fire_fighting.mp4",
+    "icon": "FireExtinguisher",
+    "items": [
+      "Fire Suppression Systems",
+      "Fire Alarms",
+      "Emergency Lighting",
+      "Sprinkler Systems"
+    ],
+    "color": "text-danger"
+  },
+  {
+    "id": "electrical",
+    "title": "Electrical",
+    "description": "Professional electrical installations",
+    "videoUrl": "/videos/electrical.mp4",
+    "icon": "Zap",
+    "items": [
+      "Power Distribution",
+      "Panels",
+      "Lighting",
+      "Backup Systems",
+      "Earthing"
+    ],
+    "color": "text-warning"
+  },
+  {
+    "id": "network-security",
+    "title": "Network & Security",
+    "description": "Modern IT infrastructure solutions",
+    "videoUrl": "/videos/network_security.mp4",
+    "icon": "Network",
+    "items": [
+      "Structured Cabling",
+      "Wi-Fi",
+      "CCTV",
+      "PAVA Public Addres and Voice Alarm",
+      "Access Control",
+      "Data Rack Setup"
+    ],
+    "color": "text-secondary"
+  }
+]

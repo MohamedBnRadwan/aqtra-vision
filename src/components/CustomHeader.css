@@ -4,7 +4,7 @@
 
 .navbar-scrolled {
     background-color: #eff5f3 !important;
-    box-shadow: 0px 7px 20px 19px rgb(0 0 0 / 24%);
+    box-shadow: 0px 7px 20px 10px #68686817;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 .navbar-transparent {

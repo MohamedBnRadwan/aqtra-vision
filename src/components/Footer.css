@@ -10,38 +10,42 @@
 } */
 footer {
   -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    position: fixed;
-    inset: auto 0 0;
-    z-index: -5;
-    max-height: 100svh;
-    padding: 2.5rem 0 5rem;
-    overflow: hidden auto;
-    background: #191414;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  /* position: fixed; */
+  inset: auto 0 0;
+  z-index: -1;
+  max-height: 100svh;
+  padding: 2.5rem 0 5rem;
+  overflow: hidden auto;
+  background: #eff5f3;
 }
 
 
 footer h5 {
-  color: var(--bs-light);
+  color: #14363f;
+  font-size: 1.8rem;
 }
 
 footer p {
-  color: var(--bs-muted);
+  color: #14363f;
+  font-size: 1.1rem;
 }
 
 footer ul li {
-  color: var(--bs-muted);
+  color: #14363f;
   transition: color 0.3s ease;
 }
 
 footer ul li:hover {
-  color: var(--bs-light);
+  color: var(--primary)
 }
 
 footer a {
-  color: var(--bs-light);
-  transition: color 0.3s ease, transform 0.3s ease;
+  color:#14363f;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.3s ease, color 0.3s ease;
 }
 
 footer a:hover {
@@ -50,12 +54,12 @@ footer a:hover {
 }
 
 footer .btn-outline-light {
-  border-color: var(--bs-light);
-  color: var(--bs-light);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  border-color: #14363f;
+  color: #14363f;
 }
 
 footer .btn-outline-light:hover {
   background-color: var(--bs-light);
-  color: var(--bs-dark);
+  color: var(--primary);
+  transition: all 0.3s ease, color 0.3s ease;
 }

@@ -29,7 +29,13 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section>
+      <section id="services" className="py-5 bg-light">
+        <div className="text-center mb-4" data-aos="fade-up">
+          <h2 className="mb-3 text-dark">Our Services</h2>
+          <p className="text-muted fs-5">
+            Comprehensive engineering solutions tailored to your needs
+          </p>
+        </div>
         <Services />
       </section>
 
