@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faLinkedinIn, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import logoLight from '@/assets/logo-icon.png';
 import { Link, useLocation } from 'react-router-dom';
@@ -101,9 +102,9 @@ const CustomHeader: React.FC = () => {
         <div className="d-flex align-items-center gap-3">
           <a
             href="tel:+966562405666"
-            className="d-flex text-decoration-none text-primary align-items-center gap-2 fs-5"
+            className="d-flex text-decoration-none text-primary align-items-center gap-2 "
           >
-            <FontAwesomeIcon icon={faPhone} size="lg" /> +966 (056) 2405 666
+            <FontAwesomeIcon icon={faPhone} size="lg" /> +966 (056) 240 5666
           </a>
           <span className="vr"></span>
           <a

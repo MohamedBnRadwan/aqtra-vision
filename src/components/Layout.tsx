@@ -8,18 +8,23 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      {/* Header */}
-      <CustomHeader />
+    <>
+        {/* Header */}
+        <CustomHeader />
+      <div className="d-flex flex-column min-vh-100">
 
-      {/* Main Content */}
-      <main className="flex-grow-1">
-        {children}
-      </main>
+        {/* Main Content */}
+        <main className="flex-grow-1 body-bg-light">
+          {children}
+        </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+        {/* Footer */}
+
+        <div style={{ position: 'relative' }}>
+          <Footer />
+        </div>
+      </div>
+    </>
   );
 };
 

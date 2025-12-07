@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Marquee from './Marquee';
-import './HeroIntro.css';
-
 import BgVideo from '@/assets/intro-bg.mp4';
 import LogoIcon from '@/assets/logo-icon.png';
+import './HeroIntro.css';
 
 const HeroIntro: React.FC = () => {
   const [videoDimensions, setVideoDimensions] = useState({ width: '100%', height: '100%' });
@@ -20,9 +19,11 @@ const HeroIntro: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+
+
   return (
     <>
-      <div className='container mt-5 mb-4'>
+      <div className='container mt-5 mb-4 '>
         <div className="row">
           <div className="col-md-6 my-5 text-center hero-text" data-aos="fade-up">
             <h1 className="display-4  text-dark">Accuracy and Quality</h1>
@@ -33,28 +34,28 @@ const HeroIntro: React.FC = () => {
           </div>
         </div>
       </div>
+      <div className="d-flex justify-content-center align-items-center px-2">
 
-      <section className="hero-intro d-flex justify-content-center align-items-center" style={{ width: videoDimensions.width, height: videoDimensions.height }}>
-        <div className="hero-overlay"></div>
-        <video
-          className="hero-video"
-          autoPlay
-          loop
-          muted
-        >
-          <source src={BgVideo} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
-        <div className="intro-card p-4 rounded">
-          <img src={LogoIcon} alt="AQTRA Logo" className="intro-card-icon mb-3" />
-          <h3 className="fw-bold">Contact Us</h3>
-          <p className="mb-3">
-            Reach out to us for innovative engineering solutions tailored to your needs. Let’s build the future together.
-          </p>
-          <a href="#contact" className="btn btn-primary rounded-0 w-100">Get in Touch</a>
-        </div>
-      </section>
+        <section className="hero-intro d-flex justify-content-center align-items-center" style={{ width: videoDimensions.width, height: videoDimensions.height }}>
+          <div className="hero-overlay"></div>
+          <video className="hero-video" autoPlay loop muted>
+            <source src={BgVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="intro-card d-md-none p-1" data-aos="fade-up">
+            <h6 className="fw-bold">AQTRA</h6>
+            {/* <img src={LogoIcon} alt="AQTRA Logo" className="intro-card-icon d-md-none" /> */}
+          </div>
+          <div className="intro-card p-4 rounded d-none d-md-block" data-aos="fade-up">
+            <img src={LogoIcon} alt="AQTRA Logo" className="intro-card-icon mb-3" />
+            <h3 className="fw-bold">AQTRA</h3>
+            <p className="mb-3">
+              Reach out to us for innovative engineering solutions tailored to your needs. Let’s build the future together.
+            </p>
+            <a href="#contact" className="btn btn-primary rounded-0 w-100">Get in Touch</a>
+          </div>
+        </section>
+      </div>
     </>
   );
 };

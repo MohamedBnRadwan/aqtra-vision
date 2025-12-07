@@ -16,7 +16,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="container-fluid mt-5">
+    <div className="mt-5 overflow-x-hidden">
       {/* Hero Section */}
       <section className="mb-5 d-flex flex-column justify-content-center align-items-center">
         <HeroIntro />

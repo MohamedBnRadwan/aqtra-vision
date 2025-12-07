@@ -1,7 +1,24 @@
 /* Footer Styles */
+/* footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%; 
+  z-index: -1;
+  background-color: var(--bs-dark);
+  color: var(--bs-light);
+  margin-top: 100%;
+} */
 footer {
-    background-color: var(--bs-dark);
-    color: var(--bs-light);
+  -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    position: fixed;
+    inset: auto 0 0;
+    z-index: -5;
+    max-height: 100svh;
+    padding: 2.5rem 0 5rem;
+    overflow: hidden auto;
+    background: #191414;
 }
 
 
