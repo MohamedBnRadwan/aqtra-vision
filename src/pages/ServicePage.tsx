@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import servicesData from '@/Data/Services.json';
+import servicesMedia from '@/Data/ServicesMedia.json';
 import HeaderBanner from '@/components/HeaderBanner';
+import ServiceVideoSection from '@/components/ServiceVideoSection';
 
 const ServicePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const service = servicesData.find((service) => service.id === id);
+  const service = servicesMedia.find((service) => service.id === id);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -30,20 +31,31 @@ const ServicePage: React.FC = () => {
     <>
       <HeaderBanner
         title={service.title}
-        subtitle={service.description}
+        subtitle="Explore our comprehensive solutions."
         backgroundImage="/path-to-service-banner.jpg"
       />
       <div className="container py-5">
         <h3>{service.title}</h3>
-        <p>{service.description}</p>
-        <ul className="list-unstyled">
-          {service.items.map((item, index) => (
-            <li key={index} className="d-flex align-items-start">
-              <span className="text-success me-2">•</span>
-              <span className="text-muted">{item}</span>
-            </li>
-          ))}
-        </ul>
+        <div dangerouslySetInnerHTML={{ __html: service.description }}></div>
+        {service.videoUrl && (
+          <div className="mt-4">
+            <ServiceVideoSection
+              title={service.title}
+              description={[service.description]}
+              videoUrl={service.videoUrl}
+            />
+          </div>
+        )}
+        <div className="mt-4">
+          <h4>Media</h4>
+          <div className="row">
+            {service.images.map((image, index) => (
+              <div key={index} className="col-md-4 mb-3">
+                <img src={image} alt={service.title} className="img-fluid rounded shadow-sm" />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
