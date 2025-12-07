@@ -32,8 +32,7 @@ const Index = () => {
       <section>
         <About />
       </section>
-      <ParallaxImageSection imageUrl={ParallaxImage} heading="Your Text Here" summary={'Your summary here'} />
-      <ParallaxVideoSection videoUrl={ParallaxVideo} text='asasas' />
+
       {/* Services Section */}
       <section id="services" className="py-5 bg-light">
         <div className="text-center mb-4" data-aos="fade-up">
@@ -45,7 +44,8 @@ const Index = () => {
         <Services />
       </section>
 
-
+      <ParallaxImageSection imageUrl={ParallaxImage} heading="Your Text Here" summary={'Your summary here'} />
+      {/* <ParallaxVideoSection videoUrl={ParallaxVideo} text='asasas' /> */}
 
       {/* Contact Section */}
       <section >

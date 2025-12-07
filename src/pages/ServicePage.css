@@ -1,0 +1,11 @@
+.gallery-con {
+column-count: 3;
+}
+
+.gallery-col {
+    list-style-type: none; 
+    break-inside: avoid;}
+
+.gallery-col img {
+    height: 100%;
+}

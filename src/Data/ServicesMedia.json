@@ -1,51 +1,79 @@
 [
-  {
-    "id": "solar-energy",
-    "title": "Solar Energy",
-    "description": "<p>Solar energy is a clean and renewable source of power that harnesses the sun's rays to generate electricity. It is an essential solution for reducing carbon emissions and achieving energy independence.</p>",
-    "videoUrl": "/videos/solar_energy.mp4",
-    "images": ["/images/solar1.jpg", "/images/solar2.jpg"]
-  },
-  {
-    "id": "smart-home-systems",
-    "title": "Smart Home Systems",
-    "description": "<p>Smart home systems provide advanced automation for modern living, including smart lighting, locks, and voice-controlled devices. They enhance convenience, security, and energy efficiency.</p>",
-    "videoUrl": "/videos/smart_home_systems.mp4",
-    "images": ["/images/smart_home1.jpg", "/images/smart_home2.jpg"]
-  },
-  {
-    "id": "hvac-chiller",
-    "title": "HVAC & Chiller",
-    "description": "<p>HVAC and chiller systems ensure optimal climate control and air quality. They are vital for maintaining comfortable and healthy indoor environments in residential and commercial spaces.</p>",
-    "videoUrl": "/videos/hvac_chiller.mp4",
-    "images": ["/images/hvac1.jpg", "/images/hvac2.jpg"]
-  },
-  {
-    "id": "plumbing",
-    "title": "Plumbing",
-    "description": "<p>Plumbing systems are essential for water supply and drainage. They include installations for heaters, leak detection, and solar hot water systems, ensuring efficient water management.</p>",
-    "videoUrl": "/videos/plumbing.mp4",
-    "images": ["/images/plumbing1.jpg", "/images/plumbing2.jpg"]
-  },
-  {
-    "id": "fire-fighting",
-    "title": "Fire Fighting",
-    "description": "<p>Fire fighting systems provide comprehensive safety solutions, including fire alarms, suppression systems, and emergency lighting to protect lives and property.</p>",
-    "videoUrl": "/videos/fire_fighting.mp4",
-    "images": ["/images/fire1.jpg", "/images/fire2.jpg"]
-  },
-  {
-    "id": "electrical",
-    "title": "Electrical",
-    "description": "<p>Electrical installations include power distribution, panels, lighting, and backup systems. They ensure reliable and safe electricity supply for various applications.</p>",
-    "videoUrl": "/videos/electrical.mp4",
-    "images": ["/images/electrical1.jpg", "/images/electrical2.jpg"]
-  },
-  {
-    "id": "network-security",
-    "title": "Network & Security",
-    "description": "<p>Network and security solutions include structured cabling, Wi-Fi, CCTV, and access control systems. They provide modern IT infrastructure and enhanced security.</p>",
-    "videoUrl": "/videos/network_security.mp4",
-    "images": ["/images/network1.jpg", "/images/network2.jpg"]
-  }
+    {
+        "id": "solar-energy",
+        "title": "Solar Energy",
+        "description": "<p>Solar energy is a clean and renewable source of power that harnesses the sun's rays to generate electricity. It is an essential solution for reducing carbon emissions and achieving energy independence.</p>",
+        "videoUrl": "/videos/solar_energy.mp4",
+        "images": [
+            "/images/solar1.jpg",
+            "/images/solar2.jpg"
+        ]
+    },
+    {
+        "id": "smart-home-systems",
+        "title": "Smart Home Systems",
+        "description": "<p>Smart home systems provide advanced automation for modern living, including smart lighting, locks, and voice-controlled devices. They enhance convenience, security, and energy efficiency.</p>",
+        "videoUrl": "/videos/smart_home_systems.mp4",
+        "images": [
+            "/images/smart_home1.jpg",
+            "/images/smart_home2.jpg"
+        ]
+    },
+    {
+        "id": "hvac-chiller",
+        "title": "HVAC & Chiller",
+        "description": "<p>HVAC and chiller systems ensure optimal climate control and air quality. They are vital for maintaining comfortable and healthy indoor environments in residential and commercial spaces.</p>",
+        "videoUrl": "/videos/hvac_chiller.mp4",
+        "images": [
+            "/src/assets/hvac/1.jpg",
+            "/src/assets/hvac/2.jpg",
+            "/src/assets/hvac/3.jpg",
+            "/src/assets/hvac/4.jpg",
+            "/src/assets/hvac/5.jpg",
+            "/src/assets/hvac/6.jpg",
+            "/src/assets/hvac/7.jpg",
+            "/src/assets/hvac/8.jpg",
+            "/src/assets/hvac/9.webp"
+        ]
+    },
+    {
+        "id": "plumbing",
+        "title": "Plumbing",
+        "description": "<p>Plumbing systems are essential for water supply and drainage. They include installations for heaters, leak detection, and solar hot water systems, ensuring efficient water management.</p>",
+        "videoUrl": "/videos/plumbing.mp4",
+        "images": [
+            "/images/plumbing1.jpg",
+            "/images/plumbing2.jpg"
+        ]
+    },
+    {
+        "id": "fire-fighting",
+        "title": "Fire Fighting",
+        "description": "<p>Fire fighting systems provide comprehensive safety solutions, including fire alarms, suppression systems, and emergency lighting to protect lives and property.</p>",
+        "videoUrl": "/videos/fire_fighting.mp4",
+        "images": [
+            "/images/fire1.jpg",
+            "/images/fire2.jpg"
+        ]
+    },
+    {
+        "id": "electrical",
+        "title": "Electrical",
+        "description": "<p>Electrical installations include power distribution, panels, lighting, and backup systems. They ensure reliable and safe electricity supply for various applications.</p>",
+        "videoUrl": "/videos/electrical.mp4",
+        "images": [
+            "/images/electrical1.jpg",
+            "/images/electrical2.jpg"
+        ]
+    },
+    {
+        "id": "network-security",
+        "title": "Network & Security",
+        "description": "<p>Network and security solutions include structured cabling, Wi-Fi, CCTV, and access control systems. They provide modern IT infrastructure and enhanced security.</p>",
+        "videoUrl": "/videos/network_security.mp4",
+        "images": [
+            "/images/network1.jpg",
+            "/images/network2.jpg"
+        ]
+    }
 ]

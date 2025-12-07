@@ -15,7 +15,7 @@ const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ title, descri
         <div className="text-content flex-grow-1">
           <h3>{title}</h3>
           {description.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+            <p key={index} dangerouslySetInnerHTML={{__html: paragraph}}></p>
           ))}
         </div>
 

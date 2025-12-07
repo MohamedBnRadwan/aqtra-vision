@@ -23,6 +23,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/services/:id" element={<ServicePage />} />
+            {/* Ignore /assets route to allow static files */}
+            <Route path="/src/assets/*" element={null} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
