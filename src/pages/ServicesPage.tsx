@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import ServiceVideoSection from '@/components/ServiceVideoSection';
 import Layout from '@/components/Layout';
+import HeaderBanner from '@/components/HeaderBanner';
 
 const services = [
   {
@@ -21,20 +22,27 @@ const services = [
 ];
 
 const ServicesPage: React.FC = () => {
-  useEffect(() => {
-    document.body.classList.add('dark-body');
-    return () => {
-      document.body.classList.remove('dark-body');
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.body.classList.add('body-bg-dark');
+  //   return () => {
+  //     document.body.classList.remove('body-bg-dark');
+  //   };
+  // }, []);
 
   return (
-    <Layout>
+    <>
+      <HeaderBanner
+        title="Our Services"
+        subtitle="Explore the wide range of services we offer to meet your needs."
+        backgroundImage="/path-to-your-banner-image.jpg"
+      />
       <div className="bg-dark">
-        <h1 className="text-center text-4xl font-bold my-8 text-white">Our Services</h1>
+        <h1 className="text-center text-4xl font-bold my-8 text-white">
+          Our Services
+        </h1>
         <ServiceVideoSection services={services} />
       </div>
-    </Layout>
+    </>
   );
 };
 

@@ -136,11 +136,6 @@ body, p, span, a, li {
   transform: translateY(-0.5rem);
 }
 
-.dark-body {
-  background-color: #121212; /* Dark background color */
-  color: #ffffff; /* Optional: Default text color */
-}
-
 /* Updated primary button styles to use theme colors */
 .btn-primary {
   background-color: var(--primary);
