@@ -10,8 +10,8 @@ const HeroIntro: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const newWidth = Math.max(50, 100 - scrollY / 10) + '%';
-      const newHeight = Math.max(50, 100 - scrollY / 10) + '%';
+      const newWidth = Math.max(50, 100 - scrollY / 20) + '%';
+      const newHeight = Math.max(50, 100 - scrollY / 20) + '%';
       setVideoDimensions({ width: newWidth, height: newHeight });
     };
 

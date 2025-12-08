@@ -78,12 +78,16 @@
 
   /* Override Bootstrap badge colors */
   --bs-badge-color: #119d60;
+
+
+  font-size: 18px;
 }
 
 body {
   background-color: var(--background-secondary-alt);
   color: var(--foreground);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 20px;
 }
 
 .body-bg-dark {
