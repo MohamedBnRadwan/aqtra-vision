@@ -2,6 +2,9 @@
   {
     "id": "solar-energy",
     "isHomeFeatured": true,
+    "logo": "/src/assets/solar/solar-logo.png",
+    "logoText": "/src/assets/solar/solar-logo-txt.png",
+    "logoIcon": "/src/assets/solar/solar-logo-icon.png",
     "title": "Solar Energy",
     "description": "Sustainable power solutions for your future",
     "videoUrl": "/videos/solar_energy.mp4",
@@ -17,6 +20,9 @@
   {
     "id": "smart-home-systems",
     "isHomeFeatured": true,
+    "logo": "/src/assets/smart-home/smart-home-logo.png",
+    "logoText": "/src/assets/smart-home/smart-home-logo-txt.png",
+    "logoIcon": "/src/assets/smart-home/smart-home-logo-icon.png",
     "title": "Smart Home Systems",
     "description": "Advanced home automation for modern living",
     "videoUrl": "/videos/smart_home_systems.mp4",
@@ -33,6 +39,9 @@
   {
     "id": "hvac-chiller",
     "isHomeFeatured": true,
+    "logo": "/src/assets/hvac/hvac-logo.png",
+    "logoText": "/src/assets/hvac/hvac-logo-txt.png",
+    "logoIcon": "/src/assets/hvac/hvac-logo-icon.png",
     "title": "HVAC & Chiller",
     "description": "Climate control and air quality solutions",
     "videoUrl": "/videos/hvac_chiller.mp4",
@@ -48,6 +57,9 @@
   {
     "id": "plumbing",
     "isHomeFeatured": false,
+    "logo": "/src/assets/plumbing/plumbing-logo.png",
+    "logoText": "/src/assets/plumbing/plumbing-logo-txt.png",
+    "logoIcon": "/src/assets/plumbing/plumbing-logo-icon.png",
     "title": "Plumbing",
     "description": "Complete water and drainage systems",
     "videoUrl": "/videos/plumbing.mp4",
@@ -63,6 +75,9 @@
   {
     "id": "fire-fighting",
     "isHomeFeatured": true,
+    "logo": "/src/assets/fire/fire-logo.png",
+    "logoText": "/src/assets/fire/fire-logo-txt.png",
+    "logoIcon": "/src/assets/fire/fire-logo-icon.png",
     "title": "Fire Fighting",
     "description": "Comprehensive fire safety solutions",
     "videoUrl": "/videos/fire_fighting.mp4",
@@ -78,6 +93,9 @@
   {
     "id": "electrical",
     "isHomeFeatured": true,
+    "logo": "/src/assets/electrical/electrical-logo.png",
+    "logoText": "/src/assets/electrical/electrical-logo-txt.png",
+    "logoIcon": "/src/assets/electrical/electrical-logo-icon.png",
     "title": "Electrical",
     "description": "Professional electrical installations",
     "videoUrl": "/videos/electrical.mp4",
@@ -94,6 +112,9 @@
   {
     "id": "network-security",
     "isHomeFeatured": true,
+    "logo": "/src/assets/network-security/network-security-logo.png",
+    "logoText": "/src/assets/network/network-logo-txt.png",
+    "logoIcon": "/src/assets/network/network-logo-icon.png",
     "title": "Network & Security",
     "description": "Modern IT infrastructure solutions",
     "videoUrl": "/videos/network_security.mp4",

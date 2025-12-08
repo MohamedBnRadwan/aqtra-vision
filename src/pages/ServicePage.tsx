@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import servicesMedia from '@/Data/ServicesMedia.json';
+import servicesInfo from '@/Data/Services.json';
 import HeaderBanner from '@/components/HeaderBanner';
 import  './ServicePage.css';
 
 const ServicePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const service = servicesMedia.find((service) => service.id === id);
+    const serviceInfo = servicesInfo.find((service) => service.id === id);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -27,6 +29,22 @@ const ServicePage: React.FC = () => {
             </>
         );
     }
+
+    
+	// function updateNavbarBrandImages() {
+	// 	const navbarBrandImages = document.querySelectorAll<HTMLImageElement>('.navbar-brand img.logo-icon, .navbar-brand img.logo-txt');
+	// 	navbarBrandImages.forEach((img) => {
+    //   if (img.classList.contains('logo-txt')) {
+    //     img.src = service.logoText; 
+    //     return;
+    //   }
+	// 		img.src = service.logoIcon; 
+	// 	});
+	// }
+
+	// useEffect(() => {
+	// 	updateNavbarBrandImages();
+	// }, [id]);
 
     return (
         <>

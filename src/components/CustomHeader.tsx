@@ -46,14 +46,14 @@ const CustomHeader: React.FC = () => {
             src={logoLight}
             alt="AQTRA Logo"
             style={{ height: '30px', width: '30px' }}
-            className="w-auto"
+            className="w-auto logo-icon"
           />
           <span className="vr" ></span>
               <img
             src={LogoText}
             alt="AQTRA Logo"
             style={{ height: '30px' }}
-            className="w-auto"
+            className="w-auto logo-txt"
           />
         </a>
 

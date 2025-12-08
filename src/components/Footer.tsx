@@ -68,7 +68,7 @@ const Footer = () => {
             </div>
 
             {/* Services Links */}
-            <div className="col-lg-4 mb-3">
+            <div className="col-lg-4 col-md-6 mb-3">
               <h5>Services</h5>
               <ul className="list-unstyled">
                 {footerLinks.services.map((service, index) => (
@@ -80,7 +80,7 @@ const Footer = () => {
             </div>
 
             {/* Company Links */}
-            <div className="col-lg-4 mb-3">
+            <div className="col-lg-4 col-md-6 mb-3">
               <h5>Company</h5>
               <ul className="list-unstyled">
                 {footerLinks.company.map((link, index) => (

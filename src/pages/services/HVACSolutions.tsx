@@ -12,6 +12,11 @@ const HVACSolutions: React.FC = () => {
             />
             <section className="container-fluid py-5">
                 <div className="text-center mb-5">
+                    <div >
+
+                    <img src='/src/assets/hvac/hvac-logo-icon.png' width={100} alt="HVAC Solutions" />
+                    <img src='/src/assets/hvac/hvac-logo-txt.png' width={150} alt="HVAC Solutions" />
+                    </div>
                     <h2 className="display-5">HVAC Services</h2>
                     <p className="text-muted">Professional Heating, Ventilation &amp; Air Conditioning Solutions by AQTRA Company</p>
                 </div>

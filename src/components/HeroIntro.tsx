@@ -52,7 +52,7 @@ const HeroIntro: React.FC = () => {
             <p className="mb-3">
               Reach out to us for innovative engineering solutions tailored to your needs. Let’s build the future together.
             </p>
-            <a href="#contact" className="btn btn-primary rounded-0 w-100">Get in Touch</a>
+            <a href="#contact" className="btn btn-primary rounded-pill w-100">Get in Touch</a>
           </div>
         </section>
       </div>
