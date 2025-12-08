@@ -7,6 +7,7 @@ import SolorBannels from '@/assets/intro-bg.mp4';
 import SolorInstall from '@/assets/solor-install.mp4';
 import KhobarLocation from '@/assets/khober-location.mp4';
 import Services from '@/components/Services';
+import { Link } from 'react-router-dom';
 
 const services = [
   {
@@ -37,9 +38,9 @@ const services = [
 
 const ServicesPage: React.FC = () => {
 
-    useEffect(() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   return (
     <>
@@ -50,22 +51,54 @@ const ServicesPage: React.FC = () => {
       />
       <div>
         <div className='container-fluid'>
+          <div className='my-5 row'>
+            <div className="col-12">
+              <div className="container">
+                <div className="row">
+                  <div className={"col-md-6"} data-aos="fade-up" data-aos-delay={100}>
+                    <Link to={`/services/`} className="text-decoration-none">
+                      <div className="card rounded border-0 shadow-sm h-100">
+                        <div className="card-body">
+                          <div
+                            className="d-flex justify-content-center align-items-center mb-3"
+                            style={{
+                              height: '64px',
+                              width: '64px',
+                              backgroundColor: '#f8f9fa',
+                              borderRadius: '8px',
+                            }}
+                          >
+                          </div>
+                          <h5 className="card-title text-center"></h5>
+                          <p className="card-text text-center text-muted">asasasa</p>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
 
           <div className='my-5 row'>
             <div className='col-md-10 offset-md-1'>
-                <Services col="col-md-6" />
+              <Services col="col-md-6" />
               {/* {services.map((service, index) => (
                 <div className='card-body mb-5 p-4 shadow-sm'>
-                  <ServiceVideoSection
-                    key={index}
-                    title={service.title}
-                    description={service.description}
-                    videoUrl={service.videoUrl}
-                  />
+                <ServiceVideoSection
+                key={index}
+                title={service.title}
+                description={service.description}
+                videoUrl={service.videoUrl}
+                />
                 </div>
-              ))} */}
+                ))} */}
+
             </div>
           </div>
+
+
         </div>
       </div>
     </>
