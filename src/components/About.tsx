@@ -2,6 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { CheckCircle, Award, Users, Lightbulb } from 'lucide-react';
 import LogoIcon from '@/assets/logo-icon.png';
 import Marquee from './Marquee';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const About = () => {
   const features = [
@@ -24,6 +26,15 @@ const About = () => {
 
   return (
     <section id="about" className="py-5 bg-white position-relative overflow-hidden">
+        <div className="section-header text-center mb-5" data-aos="fade-up">
+          <div className="section-title">
+            <h2>
+              <FontAwesomeIcon icon={faInfoCircle} className="me-2 text-primary" />
+              About AQTRA
+            </h2>
+          </div>
+        </div>
+
       {/* Background Watermark */}
       <div
         className="position-absolute top-50 end-0 translate-middle-y opacity-50 w-50 h-auto pointer-events-none"
@@ -40,7 +51,7 @@ const About = () => {
         <div className="row align-items-center g-4">
           {/* Left Content */}
           <div className="col-lg-6" data-aos="fade-right">
-            <h2 className="mb-4">About AQTRA</h2>
+
             <p className="text-muted">
               AQTRA is a leading engineering and contracting company dedicated to delivering integrated solutions across multiple disciplines. Our commitment to accuracy and quality is reflected in every project we undertake.
             </p>
