@@ -48,7 +48,7 @@ const Footer = () => {
   return (
     <>
       {/* <div id="footer-space" style={{ marginBottom: FooterSpaceHeight }}></div> */}
-      <footer  className="py-5">
+      <footer className="py-5">
         <div className="container">
           <div className="row mb-4">
             <div className='col-12'>
@@ -59,7 +59,7 @@ const Footer = () => {
               <p>
                 Integrated engineering solutions for modern living and business operations.
               </p>
-     
+
             </div>
 
             {/* Services Links */}
@@ -86,13 +86,13 @@ const Footer = () => {
               </ul>
             </div>
             <div className='col-12'>
-         <p>
+              <p>
                 It's in the meeting of people that ideas begin to spark. If you have a question, a suggestion, or simply wish to get in touch. Feel free to send us an email. We’ll respond as soon as possible and look forward to hearing from you.
               </p>
               <Link to="#contact" className="btn btn-primary rounded-pill btn-lg fs-4 px-4 py-3">
                 Get in Touch
               </Link>
-                <img src="/src/assets/saudi_vision_2030_logo.svg" style={{ height: '100px' }} alt="Saudi Vision 2030 Logo" className="mb-4 float-end" />
+              <img src="/src/assets/saudi_vision_2030_logo.svg" style={{ height: '100px' }} alt="Saudi Vision 2030 Logo" className="mb-4 float-end" />
             </div>
           </div>
 
