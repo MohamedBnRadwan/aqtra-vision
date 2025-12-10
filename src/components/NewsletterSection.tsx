@@ -2,6 +2,7 @@ import React from 'react';
 import './NewsletterSection.css';
 import { ArrowRight } from 'lucide-react';
 import { AlertDialog } from '@radix-ui/react-alert-dialog';
+import { Button } from './ui/button';
 
 const NewsletterSection: React.FC = () => {
     let [consentGiven, setConsentGiven] = React.useState(false);
@@ -58,9 +59,6 @@ const NewsletterSection: React.FC = () => {
                 </div>
             </div>
 
-            	<AlertDialog>
-		<Button color="red">Revoke access</Button>
-	</AlertDialog>
         </section>
     );
 };

@@ -40,7 +40,7 @@ const CustomHeader: React.FC = () => {
     >
       <div className="container">
         {/* Logo and Website Name */}
-        <a className="navbar-brand d-flex align-items-center" href="#">
+        <Link to="/" className="navbar-brand d-flex align-items-center" >
           <img
             src={logoLight}
             alt="AQTRA Logo"
@@ -54,7 +54,7 @@ const CustomHeader: React.FC = () => {
             style={{ height: '39px' }}
             className="w-auto logo-txt"
           />
-        </a>
+        </Link>
 
         {/* Toggler for Mobile */}
         <button
@@ -117,29 +117,27 @@ const CustomHeader: React.FC = () => {
 
         {/* Right Buttons */}
         <div className="w-100 justify-content-center d-flex gap-3 ">
-          <a
-            href="tel:+966562405666"
-            className="d-flex text-decoration-none text-primary align-items-center gap-2 "
-          >
-            <FontAwesomeIcon icon={faPhone} size="lg" /> +966 (056) 240 5666
+          <div className='d-none d-xl-flex'>
+            <a href="tel:+966562405666" className="d-flex text-decoration-none text-primary align-items-center gap-2">
+              <FontAwesomeIcon icon={faPhone} size="lg" /> +966 (056) 240 5666
+            </a>
+
+          </div>
+          <a href="tel:+966562405666" style={{width: '40px'}} title='+966 (056) 240 5666' className="d-xl-none text-decoration-none btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center">
+            <FontAwesomeIcon icon={faPhone} size='sm' />
           </a>
           <span className="vr"></span>
           <a href="https://wa.me/966562405666" target="_blank" rel="noopener noreferrer" className="btn btn-success rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: '40px', height: '40px' }}
-          >
+            style={{ width: '40px', height: '40px' }}>
             <FontAwesomeIcon icon={faWhatsapp} size="lg" />
           </a>
           <a
-            href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+            href="https://www.instagram.com/aqtra.co/" target="_blank" rel="noopener noreferrer"
             className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: '40px', height: '40px' }}
-          >
+            style={{ width: '40px', height: '40px' }}          >
             <FontAwesomeIcon icon={faInstagram} size="lg" />
           </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
+          <a href="https://www.linkedin.com/company/aqtraco/" target="_blank" rel="noopener noreferrer"
             className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
             style={{ width: '40px', height: '40px' }}
           >
