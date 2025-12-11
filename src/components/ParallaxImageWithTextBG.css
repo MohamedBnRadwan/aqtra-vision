@@ -1,0 +1,37 @@
+.parallax-txt-container {
+    background-image: url(https://images.unsplash.com/photo-1536264911542-668b0180d5a1?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=a9a32743f06349efc39aeae90f047e9f);
+    background-size: cover;
+    background-color: var(--primary-lightest);
+    background-position: 50% 50%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    height: 465px;
+    font-weight: bold;
+    background-repeat: repeat;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.parallax-txt-container::before {
+    content: "";
+    background-image: url(https://images.unsplash.com/photo-1536264911542-668b0180d5a1?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=a9a32743f06349efc39aeae90f047e9f);
+    background-size: cover;
+    background-position: 50% 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -2;
+}
+
+.parallax-txt-text{
+font-size: 25vw;
+}

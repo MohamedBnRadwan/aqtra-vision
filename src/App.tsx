@@ -14,6 +14,7 @@ import HVACSolutions from "./pages/services/HVACSolutions";
 import AboutUs from "./pages/AboutUs";
 import SaudiVision2030 from "./pages/SaudiVision2030";
 import PageLoader from "./pages/PageLoader";
+import CookiesPolicy from "./components/CookiesPolicy";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <CookiesPolicy />
       <BrowserRouter>
         <Layout>
           <PageLoader>

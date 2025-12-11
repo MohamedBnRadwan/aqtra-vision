@@ -8,6 +8,7 @@ import NewsletterSection from '@/components/NewsletterSection';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faConciergeBell } from '@fortawesome/free-solid-svg-icons';
+import ParallaxImageWithTextBG from '@/components/ParallaxImageWithTextBG';
 
 const Index = () => {
   useEffect(() => {
@@ -20,6 +21,7 @@ const Index = () => {
 
   return (
     <div className="mt-5 overflow-x-hidden">
+    
       {/* Hero Section */}
       <section className="mb-5 d-flex flex-column justify-content-center align-items-center">
         <HeroIntro />
