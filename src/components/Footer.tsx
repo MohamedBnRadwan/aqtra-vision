@@ -1,24 +1,22 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faInstagram, faLinkedinIn, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import logoVerticalLight from '@/assets/AQTRA-LOGO-TEXT-COLORD.png';
-import { Icon } from 'lucide-react';
-import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
-import './Footer.css';
-import { useEffect, useState } from 'react';
+import * as Brands from "@fortawesome/free-brands-svg-icons";
 import { Link } from 'react-router-dom';
+import { SocialLinks } from '@/Data/CompanyInfo.json';
+import './Footer.css';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  let [FooterSpaceHeight, setFooterSpaceHeight] = useState(0);
-  useEffect(() => {
-    const updateFooterHeight = () => {
-      setFooterSpaceHeight(document.getElementById('footer-space')?.offsetHeight || 0);
-    };
-    updateFooterHeight();
-    window.addEventListener('resize', updateFooterHeight);
-    return () => window.removeEventListener('resize', updateFooterHeight);
-  }, []);
+  // let [FooterSpaceHeight, setFooterSpaceHeight] = useState(0);
+  // useEffect(() => {
+  //   const updateFooterHeight = () => {
+  //     setFooterSpaceHeight(document.getElementById('footer-space')?.offsetHeight || 0);
+  //   };
+  //   updateFooterHeight();
+  //   window.addEventListener('resize', updateFooterHeight);
+  //   return () => window.removeEventListener('resize', updateFooterHeight);
+  // }, []);
 
   const footerLinks = {
     services: [
@@ -37,13 +35,6 @@ const Footer = () => {
       { name: 'Saudi Vision 2030', href: '/saudi-vision-2030' },
     ],
   };
-
-  const socialLinks = [
-    { icon: faFacebookF, href: 'https://www.facebook.com/AQTRACO', label: 'Facebook' },
-    { icon: faInstagram, href: 'https://www.instagram.com/aqtra.co/', label: 'Instagram' },
-    { icon: faLinkedinIn, href: 'https://www.linkedin.com/company/aqtraco', label: 'LinkedIn' },
-    { icon: faTwitter, href: 'https://x.com/AQTRACO', label: 'Twitter' },
-  ];
 
   return (
     <>
@@ -102,7 +93,7 @@ const Footer = () => {
               <p className="mb-0">&copy; {currentYear} AQTRA. All rights reserved.</p>
             </div>
             <div className="col-md-6 d-flex flex-row justify-content-center justify-content-md-end my-2 text-end">
-              {socialLinks.map((social, index) => (
+              {SocialLinks[0].map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
@@ -111,7 +102,7 @@ const Footer = () => {
                   className="btn btn-outline-light d-flex align-items-center justify-content-center rounded-circle mx-2"
                   style={{ width: '40px', height: '40px' }}
                 >
-                  <FontAwesomeIcon icon={social.icon} />
+                  <FontAwesomeIcon icon={Brands[social.icon]} />
                 </a>
               ))}
             </div>

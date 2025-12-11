@@ -1,0 +1,49 @@
+{
+    "SocialLinks": [
+        [
+            {
+                "icon": "faFacebookF",
+                "href": "https://www.facebook.com/AQTRACO",
+                "label": "Facebook",
+                "nav": true,
+                "newTab": true
+            },
+            {
+                "icon": "faInstagram",
+                "href": "https://www.instagram.com/aqtra.co/",
+                "label": "Instagram",
+                "nav": true,
+                "newTab": true
+            },
+            {
+                "icon": "faLinkedinIn",
+                "href": "https://www.linkedin.com/company/aqtraco",
+                "label": "LinkedIn",
+                "nav": true,
+                "newTab": true
+            },
+            {
+                "icon": "faTwitter",
+                "href": "https://x.com/AQTRACO",
+                "label": "Twitter",
+                "nav": true,
+                "newTab": true
+            },
+            {
+                "icon": "faWhatsapp",
+                "href": "https://wa.me/971554467755",
+                "label": "WhatsApp",
+                "nav": false,
+                "newTab": true
+            }
+        ]
+    ],
+    "contactInfo": [
+        {
+            "title": "Email",
+            "content": "info@aqtra.co",
+            "icon": "Mail",
+            "link": "mailto:"
+        }
+    ]
+}
