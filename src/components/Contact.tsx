@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from './ui/use-toast';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Contact.css';
 import mapImage from '@/assets/map-background.jpg';
+import AOS from 'aos';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -14,9 +15,9 @@ const Contact = () => {
     message: '',
   });
 
-  // useEffect(() => {
-  //   AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
-  // }, []);
+  useEffect(() => {
+    AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,7 +81,14 @@ const Contact = () => {
           {/* Contact Information */}
 
           <div className="col-lg-6" data-aos="fade-right" >
-            <h3 className="h5 mb-3">Contact Information</h3>
+        
+            <h3 className="h5 mb-3" onClick={
+              () => {
+                toast({
+                  title: 'Message Sent!',
+                  description: 'Thank you for contacting AQTRA. We will get back to you soon.',
+                });
+              }}>Contact Information</h3>
             <p className="text-muted mb-4">
               Reach out to our team for any inquiries about our services or to discuss your next project.
             </p>
@@ -89,16 +97,16 @@ const Contact = () => {
               {contactInfo.map((info, index) => {
                 const Icon = info.icon;
                 return (
-                  <li key={index} className="d-flex align-items-start mb-3 custom-list-item">
+                  <li key={index} className="custom-list-item mb-3">
+                      <a href={info.link} target='_blank' rel="noopener noreferrer" className="d-flex align-items-start text-muted text-decoration-none">
                     <div className="me-3">
                       <Icon className="text-primary" size={24} />
                     </div>
                     <div>
-                      <a href={info.link} target='_blank' rel="noopener noreferrer" className="text-muted text-decoration-none">
                         <h6 className="fw-bold mb-1">{info.title}</h6>
                         {info.content}
-                      </a>
                     </div>
+                      </a>
                   </li>
                 );
               })}
@@ -171,6 +179,7 @@ const Contact = () => {
                 <Send className="me-2" size={18} /> Send Message
               </button>
             </form>
+      
           </div>
         </div>
       </div>

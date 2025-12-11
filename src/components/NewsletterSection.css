@@ -20,7 +20,7 @@
 .newsletter-section p {
     font-size: 1rem;
     color: #003D3D;
-     text-align: start;
+    text-align: start;
     margin-bottom: 1.5rem;
 }
 
@@ -68,27 +68,31 @@
     margin-top: 1rem;
     font-size: 0.875rem;
     color: #003D3D;
+    display: flex;
+    align-items: flex-start;
 }
 
 .newsletter-section .consent input {
     margin-right: 0.5rem;
 }
 
-.newsletter-section  input[type="checkbox"] {
+.newsletter-section input[type="checkbox"] {
     accent-color: var(--primary);
     height: 20px;
     width: 20px;
     line-height: 1;
 }
-.newsletter-section label   {
-font-size: 1.1rem;
+
+.newsletter-section label {
+    font-size: 1.1rem;
 }
 
 
-.card-holder{
+.card-holder {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(5px);
-    border-radius: 1rem; 
-    padding: 0.75rem; 
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effects */
+    border-radius: 1rem;
+    padding: 0.75rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* Smooth hover effects */
 }

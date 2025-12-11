@@ -49,6 +49,23 @@ const ServicesPage: React.FC = () => {
 			/>
 			<div>
 				<div className="container-fluid">
+
+
+					<div className="my-5 row">
+						<div className="col-md-10 offset-md-1">
+							<Services col="col-md-6" />
+							{/* {services.map((service, index) => (
+                <div className='card-body mb-5 p-4 shadow-sm'>
+                <ServiceVideoSection
+                key={index}
+                title={service.title}
+                description={service.description}
+                videoUrl={service.videoUrl}
+                />
+                </div>
+                ))} */}
+						</div>
+					</div>
 					<div className="my-5 row">
 						<div className="col-12">
 							<div className="container">
@@ -84,12 +101,12 @@ const ServicesPage: React.FC = () => {
 											</div>
 										</Link>
 									</div>
-								
+
 
 									<div className="col-12"></div>
 
 
-                  							<div
+									<div
 										className={'col-md-10 mb-4'}
 										data-aos="fade-up"
 										data-aos-delay={200}
@@ -177,7 +194,7 @@ const ServicesPage: React.FC = () => {
 											</div>
 										</Link>
 									</div>
-	<div className="col-12"></div>
+									<div className="col-12"></div>
 
 									<div
 										className={'col-md-8 mb-4'}
@@ -270,22 +287,6 @@ const ServicesPage: React.FC = () => {
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-
-					<div className="my-5 row">
-						<div className="col-md-10 offset-md-1">
-							<Services col="col-md-6" />
-							{/* {services.map((service, index) => (
-                <div className='card-body mb-5 p-4 shadow-sm'>
-                <ServiceVideoSection
-                key={index}
-                title={service.title}
-                description={service.description}
-                videoUrl={service.videoUrl}
-                />
-                </div>
-                ))} */}
 						</div>
 					</div>
 				</div>
