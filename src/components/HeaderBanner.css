@@ -1,0 +1,28 @@
+.header-banner{
+ background-size: cover;
+    background-position: center;
+   background-repeat: no-repeat;
+   position: relative;
+   padding: 4rem 2rem;
+color: var(--bs-light);
+   text-align: center;
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #245e3794;
+    z-index: 1;
+}
+
+.header-banner.banner-light .overlay{
+ display: none;
+}
+
+.banner-light{
+    background-color: #e6f7f0;
+    color: #003D3D;
+}
