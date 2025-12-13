@@ -1,0 +1,44 @@
+.rate-us-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+.rate-us-button {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: 300;
+  font-size: 1.2rem;
+  padding: 2rem 2rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #fff;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.rate-us-button:hover {
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.google-map-logo {
+  width: 73px;
+  height: auto;
+  margin-right: 0.5rem;
+}
+
+.rate-us-stars {
+  display: flex;
+}
+
+.rate-us-stars .star {
+  color: #ffc107;
+  font-size: 2rem;
+  line-height: 1;
+  margin: 0 0.1rem;
+}
