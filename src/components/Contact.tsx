@@ -3,8 +3,8 @@ import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useToast } from './ui/use-toast';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Contact.css';
-import mapImage from '@/assets/map-background.jpg';
 import AOS from 'aos';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -70,14 +70,20 @@ const Contact = () => {
       ></div>
 
       <div className="container position-relative" style={{ zIndex: 1 }}>
-        <div className="text-center mb-4" data-aos="fade-up">
-          <h2 className="mb-3">Get In Touch</h2>
-          <p className="text-muted">
-            Ready to start your project? Contact us today for a consultation
-          </p>
-        </div>
+
+
 
         <div className="row g-4">
+          <div className="col-12 text-center">
+            <div className="mb-4 section-title">
+              <h3>
+                Get In Touch
+              </h3>
+            </div>
+              <p className="text-muted">
+                Ready to start your project? Contact us today for a consultation
+              </p>
+          </div>
           {/* Contact Information */}
 
           <div className="col-lg-6" data-aos="fade-right" >
