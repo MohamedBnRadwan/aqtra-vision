@@ -32,7 +32,7 @@ const Footer = () => {
       { name: 'Contact', href: '/contact' },
       { name: 'Projects', href: '/projects' },
       { name: 'Careers', href: '/careers' },
-      { name: 'Saudi Vision 2030', href: '/saudi-vision-2030' },
+      // { name: 'Saudi Vision 2030', href: '/saudi-vision-2030' },
     ],
   };
 
@@ -92,7 +92,7 @@ const Footer = () => {
               <p>
                 It's in the meeting of people that ideas begin to spark. If you have a question, a suggestion, or simply wish to get in touch. Feel free to send us an email. We’ll respond as soon as possible and look forward to hearing from you.
               </p>
-              <Link to="#contact" className="btn btn-primary rounded-pill btn-lg fs-4 px-4 py-3">
+              <Link to="/contact" className="btn btn-primary rounded-pill btn-lg fs-4 px-4 py-3">
                 Get in Touch
               </Link>
               <img src="/src/assets/saudi_vision_2030_logo.svg" style={{ height: '100px' }} alt="Saudi Vision 2030 Logo" className="mb-4 float-end" />
