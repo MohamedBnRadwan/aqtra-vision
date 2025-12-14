@@ -49,12 +49,12 @@ const CustomHeader: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollPosition]);
-
+//style={{ transition: 'visibility 0.3s, opacity 0.3s', opacity: isNavbarVisible ? 1 : 0 }}
   return (
     <nav
       className={`navbar navbar-expand-lg fixed-top ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'
-        } ${isNavbarVisible ? 'visible' : 'invisible'}`}
-      style={{ transition: 'visibility 0.3s, opacity 0.3s', opacity: isNavbarVisible ? 1 : 0 }}
+        } ${isNavbarVisible ? 'nav-visible' : 'nav-invisible'}`}
+      
     >
       <div className="container">
         {/* Logo and Website Name */}
