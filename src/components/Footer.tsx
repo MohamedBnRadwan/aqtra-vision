@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logoVerticalLight from '@/assets/AQTRA-LOGO-TEXT-COLORD.png';
 import * as Brands from "@fortawesome/free-brands-svg-icons";
@@ -5,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { SocialLinks } from '@/Data/CompanyInfo.json';
 import './Footer.css';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import Rellax from "rellax";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,6 +19,21 @@ const Footer = () => {
   //   window.addEventListener('resize', updateFooterHeight);
   //   return () => window.removeEventListener('resize', updateFooterHeight);
   // }, []);
+
+  useEffect(() => {
+    const rellax = new Rellax(".rellax", {
+      speed: 5,
+      center: true,
+      wrapper: null,
+      round: false,
+      vertical: true,
+      horizontal: true,
+    });
+
+    return () => {
+      rellax.destroy(); // VERY IMPORTANT
+    };
+  }, []);
 
   const footerLinks = {
     services: [
@@ -44,11 +61,12 @@ const Footer = () => {
     <>
       {/* <div id="footer-space" style={{ marginBottom: FooterSpaceHeight }}></div> */}
       <footer className="py-5">
+
         <div className="container">
           <div className="row mb-4">
             <div className='col-12'>
               <button
-              title="Back to top"
+                title="Back to top"
                 onClick={scrollToTop}
                 className="btn border-0 float-end mb-4"
                 aria-label="Scroll to top"
@@ -120,8 +138,8 @@ const Footer = () => {
             </div>
 
           </div>
-
         </div>
+
       </footer>
     </>
   );

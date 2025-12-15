@@ -43,7 +43,7 @@ footer ul li:hover {
 }
 
 footer a {
-  color:#14363f;
+  color: #14363f;
   font-size: 1.2rem;
   text-decoration: none;
   transition: all 0.3s ease, color 0.3s ease;
@@ -63,4 +63,11 @@ footer .btn-outline-light:hover {
   background-color: var(--bs-light);
   color: var(--primary);
   transition: all 0.3s ease, color 0.3s ease;
+}
+
+.decoration-21-img {
+  position: absolute;
+  padding: 20px;
+  width: 350px;
+  height: auto;
 }
