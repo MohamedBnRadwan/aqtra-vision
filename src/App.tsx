@@ -38,7 +38,7 @@ const App = () => {
     AOS.refresh();
   }, [location]);
 
-    useEffect(() => {
+  useEffect(() => {
     const rellax = new Rellax(".rellax", {
       speed: 2,
       center: true,

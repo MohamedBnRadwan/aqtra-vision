@@ -19,7 +19,7 @@ const Index = () => {
   // }, []);
 
   return (
-    <div className="mt-5 overflow-x-hidden">
+    <div className="mt-5">
 
       {/* Hero Section */}
       <section className="mb-5 d-flex flex-column justify-content-center align-items-center">
