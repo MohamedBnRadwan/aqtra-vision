@@ -3,6 +3,7 @@ import HeaderBanner from '@/components/HeaderBanner';
 import ParallaxImageSection from '@/components/ParallaxImageSection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCarBattery, faPlug} from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const SolarSolutions: React.FC = () => {
     return (
@@ -13,7 +14,7 @@ const SolarSolutions: React.FC = () => {
                 backgroundImage="/src/assets/hero-bg-2.jpg"
             />
 
-            <section className="container-fluid py-5">
+            <section className="container-fluid bg-light py-5">
                 <div className="text-center mb-5">
                     <div>
                         <img src="/src/assets/solar/solar-logo-icon.png" width={100} alt="AQTRA" />
@@ -25,7 +26,7 @@ const SolarSolutions: React.FC = () => {
 
                 <div className="row justify-content-center g-4">
 
-                    <ParallaxImageSection imageUrl={'/src/assets/hero-bg-1.jpg'} overlay heading="On-Grid Systems" summary={'Grid-tied solar systems for saving on utility bills while remaining connected to the grid.'} />
+                    {/* <ParallaxImageSection imageUrl={'/src/assets/hero-bg-1.jpg'} overlay heading="On-Grid Systems" summary={'Grid-tied solar systems for saving on utility bills while remaining connected to the grid.'} /> */}
                     <div className="col-md-8">
                         <div className="card h-100 shadow-sm border-0">
                             <div className="card-body">
@@ -53,7 +54,7 @@ const SolarSolutions: React.FC = () => {
                         </div>
                     </div>
 
-                    <ParallaxImageSection imageUrl={'/src/assets/hero-bg-3.jpg'} overlay heading="Off-Grid Systems" summary={'Fully independent solar systems with battery storage and backup generation.'} />
+                    {/* <ParallaxImageSection imageUrl={'/src/assets/hero-bg-3.jpg'} overlay heading="Off-Grid Systems" summary={'Fully independent solar systems with battery storage and backup generation.'} /> */}
                     <div className="col-md-10">
                         <div className="card h-100 shadow-sm border-0">
                             <div className="card-body">
@@ -89,7 +90,7 @@ const SolarSolutions: React.FC = () => {
                         </div>
                     </div>
 
-                    <ParallaxImageSection imageUrl={'/src/assets/hero-bg-1.jpg'} heading="Hybrid Systems" summary={'Hybrid systems combine grid connection with battery storage for resilience and peak shaving.'} />
+                    {/* <ParallaxImageSection imageUrl={'/src/assets/hero-bg-1.jpg'} heading="Hybrid Systems" summary={'Hybrid systems combine grid connection with battery storage for resilience and peak shaving.'} /> */}
                     <div className="col-md-10">
                         <div className="card h-100 shadow-sm border-0">
                             <div className="card-body">
@@ -124,7 +125,7 @@ const SolarSolutions: React.FC = () => {
                         </div>
                     </div>
 
-                    <ParallaxImageSection imageUrl={'/src/assets/hero-bg-2.jpg'} overlay heading="Solar Water Pumping System" summary={''} />
+                    {/* <ParallaxImageSection imageUrl={'/src/assets/hero-bg-2.jpg'} overlay heading="Solar Water Pumping System" summary={''} /> */}
                     <div className="col-md-10">
                         <div className="card h-100 shadow-sm border-0">
                             <div className="card-body">
@@ -154,6 +155,13 @@ const SolarSolutions: React.FC = () => {
                         </div>
                     </div>
 
+                    <div className="col-12 text-center mt-4">
+                        <Link to="/on-grid" className="btn btn-outline-primary mx-2">On-Grid Details</Link>
+                        <Link to="/off-grid" className="btn btn-outline-primary mx-2">Off-Grid Details</Link>
+                        <Link to="/hybrid" className="btn btn-outline-primary mx-2">Hybrid Details</Link>
+                        <Link to="/pump" className="btn btn-outline-primary mx-2">Pumping Systems</Link>
+                        <Link to="/solar-application" className="btn btn-primary mx-2">Get Recommendation</Link>
+                    </div>
                 </div>
             </section>
         </>

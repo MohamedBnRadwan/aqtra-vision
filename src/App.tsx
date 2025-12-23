@@ -12,6 +12,11 @@ import ServicePage from "./pages/ServicePage";
 import ContactPage from "./pages/ContactPage";
 import HVACSolutions from "./pages/solutions/HVACSolutions";
 import SolarSolutions from "./pages/solutions/SolarSolutions";
+import OnGrid from "./pages/solutions/solar-solutions/OnGrid";
+import OffGrid from "./pages/solutions/solar-solutions/OffGrid";
+import Hybrid from "./pages/solutions/solar-solutions/Hybrid";
+import Pump from "./pages/solutions/solar-solutions/Pump";
+import SolarApplicationForm from "./pages/solutions/solar-solutions/SolarApplicationForm";
 import AboutUs from "./pages/AboutUs";
 import SaudiVision2030 from "./pages/SaudiVision2030";
 import PageLoader from "./pages/PageLoader";
@@ -58,6 +63,11 @@ const App = () => {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/hvac-solutions" element={<HVACSolutions />} />
               <Route path="/solar-solutions" element={<SolarSolutions />} />
+              <Route path="/on-grid" element={<OnGrid />} />
+              <Route path="/off-grid" element={<OffGrid />} />
+              <Route path="/hybrid" element={<Hybrid />} />
+              <Route path="/pump" element={<Pump />} />
+              <Route path="/solar-application" element={<SolarApplicationForm />} />
               <Route path="/saudi-vision-2030" element={<SaudiVision2030 />} />
               <Route path="/src/assets/*" element={null} />
               <Route path="*" element={<NotFound />} />

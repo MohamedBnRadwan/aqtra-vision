@@ -2,6 +2,7 @@
     {
         "id": "solar-energy",
         "title": "Solar Energy",
+        "solutionPage": "/solar-solutions",
         "description": "<p>Solar energy is a clean and renewable source of power that harnesses the sun's rays to generate electricity. It is an essential solution for reducing carbon emissions and achieving energy independence.</p>",
         "videoUrl": "/src/assets/solar/1.mp4",
         "headerImage": "/src/assets/solar/2.jpg",
