@@ -1,0 +1,14 @@
+.solar-system-card .card{
+border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.solar-system-card:hover .card{
+    transform: translateY(-10px);
+
+    box-shadow: 0px 8px 18px 4px #0000000f !important;
+}
+
+.solar-system-calculator-vr {
+    width: 5px !important;
+}
