@@ -184,3 +184,192 @@ export function monthlyKwhFromBill(totalBillSar: number, tariff: Tariff, vatRate
   const tier2Kwh = tier2BillSar / tier2RateSar;
   return Math.round(tariff.tier1LimitKwh + tier2Kwh);
 }
+
+export function effectivePriceForMonthlyKwh(monthlyKwh: number, primaryUse: string, industryOptions?: IndustryOptions) {
+  const tariff = tariffForPrimaryUse(primaryUse, industryOptions);
+  const { avgSarPerKwh } = billFromMonthlyKwh(monthlyKwh, tariff);
+  return avgSarPerKwh;
+}
+
+// ---- Solar sizing & costing helpers ----
+
+export type PanelTierKey = 'economy' | 'standard' | 'premium';
+export type SystemType = 'onGrid' | 'hybrid' | 'offGrid';
+
+export const PANEL_PRICING: Record<PanelTierKey, { label: string; costPerPanel: number; efficiency: number; wattage: number; note: string }> = {
+  economy: { label: 'Economy', costPerPanel: 320, efficiency: 0.8, wattage: 350, note: 'Lower cost, shorter lifespan' },
+  standard: { label: 'Standard', costPerPanel: 420, efficiency: 1.0, wattage: 400, note: 'Balanced price/performance' },
+  premium: { label: 'Premium', costPerPanel: 800, efficiency: 1.2, wattage: 450, note: 'Higher efficiency, longer lifespan' },
+};
+
+const SIZE_PRICING_TIERS: Record<number, number> = {
+  10: 55000,
+  15: 50000,
+  20: 60000,
+  30: 85000,
+  50: 145000,
+  100: 290000,
+};
+
+const LOSSES = 0.85; // design losses accounted when sizing kW
+const DERATE = 0.8; // production derate for soiling/temp
+const SYSTEM_LIFETIME_YEARS = 25;
+const INSTALL_MARKUP = 0.35; // inverter + installation as % of panels cost
+const KW_PER_AREA = 9.5; // rule of thumb kW per 100 m²
+const BATTERY_DOD = 0.8; // usable depth of discharge
+const BATTERY_COST_PER_KWH: Record<SystemType, number> = {
+  onGrid: 0,
+  hybrid: 1400, // SAR/kWh (representative market ballpark, Dec 2025)
+  offGrid: 1700, // SAR/kWh, higher spec for off-grid
+};
+const INVERTER_UPGRADE_FACTOR: Record<SystemType, number> = {
+  onGrid: 0, // no upgrade needed
+  hybrid: 0.4, // +40% of base inverter/install for hybrid ATS + larger inverter
+  offGrid: 0.7, // +70% for off-grid capable inverter/controls
+};
+
+export type SolarEstimateInput = {
+  monthlyKWh?: number;
+  monthlyBill?: number;
+  primaryUse: string;
+  industryOptions?: IndustryOptions;
+  peakSunHours: number;
+  panelTier: PanelTierKey;
+  hasGrid: boolean;
+  wantBackup: boolean;
+  availableArea?: number;
+  overrideEffectiveKwhPrice?: number;
+};
+
+export type SolarEstimateResult =
+  | { ok: true; message: string;data: SolarEstimateData }
+  | { ok: false; message: string };
+
+export type SolarEstimateData = {
+  monthly: number;
+  monthlyBillComputed: number;
+  effectiveKwhPrice: number;
+  systemKw: number;
+  panels: number;
+  areaNeeded: number;
+  annualProdKwh: number;
+  annualSavingsSar: number;
+  paybackYears: number | typeof Infinity;
+  lifetimeGrossSavings: number;
+  lifetimeNetSavings: number;
+  packagePriceSar: number;
+  panelsCost: number;
+  inverterInstallBase: number;
+  inverterUpgradeAdder: number;
+  batteryCost: number;
+  batteryKwhNeeded: number;
+  totalSystemCost: number;
+  systemType: SystemType;
+  selectedPanel: (typeof PANEL_PRICING)[PanelTierKey];
+};
+
+function round(val: number, decimals = 1) {
+  const m = Math.pow(10, decimals);
+  return Math.round(val * m) / m;
+}
+
+function getTierPrice(kw: number) {
+  const tiers = Object.keys(SIZE_PRICING_TIERS)
+    .map(Number)
+    .sort((a, b) => a - b);
+  for (const t of tiers) {
+    if (kw <= t) return SIZE_PRICING_TIERS[t];
+  }
+  const lastKw = tiers[tiers.length - 1];
+  const lastPrice = SIZE_PRICING_TIERS[lastKw];
+  const perKw = lastPrice / lastKw;
+  return Math.round(kw * perKw);
+}
+
+function systemTypeFromFlags(hasGrid: boolean, wantBackup: boolean): SystemType {
+  if (!hasGrid) return 'offGrid';
+  if (wantBackup) return 'hybrid';
+  return 'onGrid';
+}
+
+export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateResult {
+  const tariff = tariffForPrimaryUse(input.primaryUse, input.industryOptions);
+
+  const monthlyBase = typeof input.monthlyKWh === 'number' && input.monthlyKWh > 0
+    ? input.monthlyKWh
+    : typeof input.monthlyBill === 'number' && input.monthlyBill > 0
+      ? monthlyKwhFromBill(input.monthlyBill, tariff)
+      : 0;
+
+  if (!monthlyBase) {
+    return { ok: false, message: 'Please provide a valid average monthly energy consumption or monthly bill amount.' };
+  }
+
+  const selectedPanel = PANEL_PRICING[input.panelTier];
+
+  const dailyKWh = monthlyBase / 30;
+  const requiredKw = dailyKWh / input.peakSunHours;
+  const systemKw = requiredKw / LOSSES;
+  const adjustedPanelWatt = selectedPanel.wattage * selectedPanel.efficiency;
+  const panels = Math.ceil((systemKw * 1000) / adjustedPanelWatt);
+  const areaNeeded = round(systemKw * KW_PER_AREA);
+
+  const { totalSar: monthlyBillComputedTariff, avgSarPerKwh: effectiveKwhPriceTariff } = billFromMonthlyKwh(monthlyBase, tariff);
+  const effectiveKwhPrice = input.overrideEffectiveKwhPrice ?? effectiveKwhPriceTariff;
+  const monthlyBillComputed = input.overrideEffectiveKwhPrice ? monthlyBase * input.overrideEffectiveKwhPrice : monthlyBillComputedTariff;
+
+  const annualProdKwh = systemKw * input.peakSunHours * 365 * DERATE * selectedPanel.efficiency;
+  const annualLoadKwh = monthlyBase * 12;
+  const annualOffset = Math.min(annualProdKwh, annualLoadKwh);
+  const annualSavingsSar = annualOffset * effectiveKwhPrice;
+
+  const panelsCost = panels * selectedPanel.costPerPanel;
+  const inverterInstallBase = panelsCost * INSTALL_MARKUP;
+
+  const packagePriceSar = getTierPrice(round(systemKw, 1));
+
+  const systemType = systemTypeFromFlags(input.hasGrid, input.wantBackup);
+  let batteryKwhNeeded = 0;
+  let batteryCost = 0;
+  let inverterUpgradeAdder = 0;
+
+  if (systemType !== 'onGrid') {
+    const autonomyHours = systemType === 'offGrid' ? 16 : 6; // design target hours of autonomy
+    batteryKwhNeeded = (dailyKWh * (autonomyHours / 24)) / BATTERY_DOD;
+    batteryCost = Math.max(0, batteryKwhNeeded * BATTERY_COST_PER_KWH[systemType]);
+    inverterUpgradeAdder = inverterInstallBase * INVERTER_UPGRADE_FACTOR[systemType];
+  }
+
+  const totalSystemCost = packagePriceSar + batteryCost + inverterUpgradeAdder;
+
+  const paybackYears = annualSavingsSar > 0 ? totalSystemCost / annualSavingsSar : Infinity;
+  const lifetimeGrossSavings = annualSavingsSar * SYSTEM_LIFETIME_YEARS;
+  const lifetimeNetSavings = lifetimeGrossSavings - totalSystemCost;
+
+  return {
+    ok: true,
+    message: 'Solar estimate computed successfully.',
+    data: {
+      monthly: monthlyBase,
+      monthlyBillComputed,
+      effectiveKwhPrice,
+      systemKw,
+      panels,
+      areaNeeded,
+      annualProdKwh,
+      annualSavingsSar,
+      paybackYears,
+      lifetimeGrossSavings,
+      lifetimeNetSavings,
+      packagePriceSar,
+      panelsCost,
+      inverterInstallBase,
+      inverterUpgradeAdder,
+      batteryCost,
+      batteryKwhNeeded,
+      totalSystemCost,
+      systemType,
+      selectedPanel,
+    },
+  };
+}
