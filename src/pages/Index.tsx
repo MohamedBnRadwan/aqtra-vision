@@ -1,15 +1,17 @@
-// import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import AOS from 'aos';
 // import 'aos/dist/aos.css';
 import Services from '@/components/Services';
 import About from '@/components/About';
-import HeroIntro from '@/components/HeroIntro';
 import NewsletterSection from '@/components/NewsletterSection';
+import HeroSlider from '@/components/HeroSlider';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faConciergeBell } from '@fortawesome/free-solid-svg-icons';
 
 const Index = () => {
+  const [heroPadding, setHeroPadding] = useState(0);
+
   // useEffect(() => {
   //   AOS.init({
   //     duration: 500,
@@ -18,12 +20,27 @@ const Index = () => {
   //   });
   // }, []);
 
-  return (
-    <div className="mt-5">
+  useEffect(() => {
+    const maxPadding = 24; // ~p-4
+    const threshold = 180;
 
-      {/* Hero Section */}
-      <section className="mb-5 d-flex flex-column justify-content-center align-items-center">
-        <HeroIntro />
+    const handleScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      const next = Math.min((y / threshold) * maxPadding, maxPadding);
+      setHeroPadding(next);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="">
+
+      {/* Hero Slider */}
+      <section style={{ padding: `${heroPadding}px`, transition: 'padding 0.35s ease' }} >
+        <HeroSlider />
       </section>
 
       {/* About Section */}

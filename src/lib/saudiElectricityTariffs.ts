@@ -204,19 +204,19 @@ export const PANEL_PRICING: Record<PanelTierKey, { label: string; costPerPanel: 
 
 const SIZE_PRICING_TIERS: Record<number, number> = {
   // Per-kW rate is capped at ~3,500 SAR for small systems and floors at ~2,800 SAR for large systems up to 500 kW.
-  10: 35000,   // 3,500 SAR/kW
-  15: 50000,   // 3,600 SAR/kW
-  20: 60000,   // 3,500 SAR/kW
-  30: 85000,  // 3,500 SAR/kW
-  50: 145000,  // 3,000 SAR/kW
-  100: 290000, // 2,900 SAR/kW
+  10: 35073,   // 3,500 SAR/kW
+  15: 50073,   // 3,600 SAR/kW
+  20: 60073,   // 3,500 SAR/kW
+  30: 85073,  // 3,500 SAR/kW
+  50: 145073,  // 3,000 SAR/kW
+  100: 290073, // 2,900 SAR/kW
 };
 
 const LOSSES = 0.85; // design losses accounted when sizing kW
 const DERATE = 0.8; // production derate for soiling/temp
 const SYSTEM_LIFETIME_YEARS = 25;
 const INSTALL_MARKUP = 0.35; // inverter + installation as % of panels cost
-const KW_PER_AREA = 9.5; // rule of thumb kW per 100 m²
+const AREA_PER_PANEL_M2 = 2.1; // average footprint per module including spacing (m²)
 const BATTERY_DOD = 0.8; // usable depth of discharge
 const BATTERY_COST_PER_KWH: Record<SystemType, number> = {
   onGrid: 0,
@@ -326,7 +326,7 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
   const systemKw = requiredKw / LOSSES;
   const adjustedPanelWatt = selectedPanel.wattage * selectedPanel.efficiency;
   const panels = Math.ceil((systemKw * 1000) / adjustedPanelWatt);
-  const areaNeeded = round(systemKw * KW_PER_AREA);
+  const areaNeeded = round(panels * AREA_PER_PANEL_M2);
 
   const { totalSar: monthlyBillComputedTariff, avgSarPerKwh: effectiveKwhPriceTariff } = billFromMonthlyKwh(monthlyBase, tariff);
   const effectiveKwhPrice = input.overrideEffectiveKwhPrice ?? effectiveKwhPriceTariff;

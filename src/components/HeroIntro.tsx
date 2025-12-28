@@ -21,19 +21,19 @@ const HeroIntro: React.FC = () => {
 
   return (
     <>
-      <div className='container mt-5 mb-4 '>
-        <div className="row">
-          <div className="col-md-6 my-5 text-center hero-text" data-aos="fade-up">
-            <h1 className="display-4  text-dark">Accuracy and Quality</h1>
-            <p>Innovating the future, one step at a time</p>
-          </div>
-          <div className="col-md-6 my-5 text-center hero-text" data-aos="fade-up">
-            <p className="mb-4">We deliver precise, reliable engineering and construction support services built on efficiency and expertise. Our team is committed to exceptional quality, timely execution, and trusted project results.</p>
+
+      <div className="d-flex justify-content-center align-items-center px-2">
+        <div className='container mt-5 mb-4 '>
+          <div className="row">
+            <div className="col-md-6 my-5 text-center hero-text" data-aos="fade-up">
+              <h1 className="display-4  text-dark">Accuracy and Quality</h1>
+              <p>Innovating the future, one step at a time</p>
+            </div>
+            <div className="col-md-6 my-5 text-center hero-text" data-aos="fade-up">
+              <p className="mb-4">We deliver precise, reliable engineering and construction support services built on efficiency and expertise. Our team is committed to exceptional quality, timely execution, and trusted project results.</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="d-flex justify-content-center align-items-center px-2">
-
         <section className="hero-intro d-flex justify-content-center align-items-center" style={{ width: videoDimensions.width, height: videoDimensions.height, visibility: isVideoReady ? 'visible' : 'hidden' }}>
           <div className="hero-overlay"></div>
           <video
