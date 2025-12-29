@@ -8,6 +8,7 @@ import electricalBg from '@/assets/electrical/s1.png';
 import smartHomeBg from '@/assets/smart_home/s1.png';
 import solarBg from '@/assets/solar/s1.png';
 import networkBg from '@/assets/network/s1.png';
+import landscapeBg from '@/assets/landscape/s1.png';
 import calculatorSVG from '@/assets/svg/calc-icon.svg';
 
 import engineeringLoop from '@/assets/intro-bg.mp4';
@@ -15,6 +16,7 @@ import siteAerial from '@/assets/khober-location.mp4';
 import solarLoop from '@/assets/solar/v2.mp4';
 import networkLoop from '@/assets/network/1.mp4';
 import electricLoop from '@/assets/electrical/v1.mp4';
+import landscapeLoop from '@/assets/landscape/v1.mp4';
 
 type HeroService = {
     title: string;
@@ -26,6 +28,14 @@ type HeroService = {
 };
 
 const services: HeroService[] = [
+       {
+        title: 'Landscape & Irrigation',
+        description: 'Sustainable landscape design and smart irrigation systems that conserve water and enhance outdoor spaces.',
+        image: landscapeBg,
+        video: landscapeLoop,
+        link: '/services/landscape-irrigation',
+        eyebrow: 'Green Spaces',
+    },
     {
         title: 'HVAC & Chiller',
         description: 'High-efficiency climate systems, chilled water plants, and lifecycle maintenance for mission-critical facilities.',

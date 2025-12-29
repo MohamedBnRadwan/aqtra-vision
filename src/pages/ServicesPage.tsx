@@ -4,7 +4,7 @@ import HeaderBanner from '@/components/HeaderBanner';
 import ServiceVideoSection, { buildServiceOverviewData } from '@/components/ServiceVideoSection';
 
 const ServicesPage: React.FC = () => {
-	const featuredServiceIds = ['smart-home-systems', 'hvac-chiller', 'solar-energy', 'plumbing', 'fire-fighting', 'electrical', 'network-security'];
+	const featuredServiceIds = ['smart-home-systems', 'hvac-chiller', 'solar-energy', 'plumbing', 'fire-fighting', 'electrical', 'network-security', 'landscape-irrigation'];
 	const serviceOverviewData = useMemo(() => buildServiceOverviewData(featuredServiceIds), []);
 	
 	// backgroundImage={'/src/assets/hero-bg-2.jpg#position=0px,-450px'}
