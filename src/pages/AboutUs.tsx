@@ -15,8 +15,7 @@ const AboutUs: React.FC = () => {
     <>
       <HeaderBanner
         title="AQTRA Company"
-        subtitle="Leading Engineering Solutions Provider"
-      />
+        subtitle="Leading Engineering Solutions Provider" />
 
       <div className="about-us">
         {/* Company Overview */}
@@ -30,7 +29,7 @@ const AboutUs: React.FC = () => {
               </h2>
             </div>
             <p className="text-muted my-2 fs-5">
-              AQTRA Company is a leading provider of engineering solutions, specializing in HVAC, MEP, Electrical, Low-Current Systems, Smart Home & Automation, Solar Energy, Embedded Systems, and Web Solutions. With a commitment to innovation and excellence, we deliver cutting-edge solutions tailored to meet the unique needs of our clients.
+              AQTRA Company is a leading provider of engineering solutions, specializing in HVAC, Electrical, Low-Current Systems, Smart Home & Automation and Solar Energy Solutions. With a commitment to innovation and excellence, we deliver cutting-edge solutions tailored to meet the unique needs of our clients.
             </p>
           </div>
 

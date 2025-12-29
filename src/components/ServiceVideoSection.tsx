@@ -129,7 +129,6 @@ const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, ser
                     </div>
                   </div>
 
-
                   <div className='card-footer bg-white border-0 pt-0 px-4 pb-4'>
                     <div className="d-flex flex-column flex-lg-row align-items-stretch justify-content-between gap-3 mt-3">
                       <div className="d-flex flex-wrap gap-2">

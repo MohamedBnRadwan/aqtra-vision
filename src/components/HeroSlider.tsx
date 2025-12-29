@@ -8,6 +8,7 @@ import electricalBg from '@/assets/electrical/s1.png';
 import smartHomeBg from '@/assets/smart_home/s1.png';
 import solarBg from '@/assets/solar/s1.png';
 import networkBg from '@/assets/network/s1.png';
+import calculatorSVG from '@/assets/svg/calc-icon.svg';
 
 import engineeringLoop from '@/assets/intro-bg.mp4';
 import siteAerial from '@/assets/khober-location.mp4';
@@ -26,7 +27,7 @@ type HeroService = {
 
 const services: HeroService[] = [
     {
-        title: 'HVAC & Chiller Engineering',
+        title: 'HVAC & Chiller',
         description: 'High-efficiency climate systems, chilled water plants, and lifecycle maintenance for mission-critical facilities.',
         image: hvacBg,
         video: '',
@@ -34,7 +35,7 @@ const services: HeroService[] = [
         eyebrow: 'Precision Air & Cooling',
     },
     {
-        title: 'Electrical Power Systems',
+        title: 'Electrical',
         description: 'Safe, code-compliant power distribution, backup generation, and lighting built for resilient operations.',
         image: electricalBg,
         video: electricLoop,
@@ -50,7 +51,7 @@ const services: HeroService[] = [
         eyebrow: 'Connected Living',
     },
     {
-        title: 'Solar Energy Solutions',
+        title: 'Solar Energy',
         description: 'Bankable PV design, hybrid storage, and intelligent monitoring delivering clean, stable energy.',
         image: solarBg,
         video: solarLoop,
@@ -193,7 +194,7 @@ const HeroSlider = () => {
                         <div className="hero-slide__overlay" />
 
                         <div className="hero-slide__content" aria-live={isActive ? 'polite' : 'off'}>
-                            <span className="hero-slide__eyebrow">{service.eyebrow ?? 'AQTRA Services'}</span>
+                            {/* <span className="hero-slide__eyebrow">{service.eyebrow ?? 'AQTRA Services'}</span> */}
                             <h1 className="hero-slide__title">{service.title}</h1>
                             <p className="hero-slide__description">{service.description}</p>
                             <div className="hero-slide__actions">
@@ -204,16 +205,25 @@ const HeroSlider = () => {
                                 >
                                     Explore Service
                                 </Link>
-                                <button
-                                    type="button"
+
+                                <Link
                                     className="hero-slide__ghost"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        navigate('/contact');
-                                    }}
+                                    to="/contact"
+                                    onClick={(e) => e.stopPropagation()}
                                 >
                                     Talk to an expert
-                                </button>
+                                </Link>
+
+                                {service.link === '/solar-solutions' && (
+                                    <Link
+                                        to="/solar-calculation"
+                                        className="hero-slide__ghost hero-slide__calculator"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        Solar Calculator
+                                        <img src={calculatorSVG} alt="" aria-hidden="true" />
+                                    </Link>
+                                )}
                             </div>
                         </div>
 

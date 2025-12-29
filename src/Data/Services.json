@@ -129,5 +129,23 @@
       "Data Rack Setup"
     ],
     "color": "text-secondary"
+  },
+  {
+    "id": "landscape-irrigation",
+    "isHomeFeatured": false,
+    "logo": "/src/assets/landscape/landscape-logo.png",
+    "logoText": "/src/assets/landscape/landscape-logo-txt.png",
+    "logoIcon": "/src/assets/landscape/landscape-logo-icon.png",
+    "title": "Landscape & Irrigation",
+    "description": "Outdoor water management solutions",
+    "videoUrl": "/src/assets/landscape/v1.mp4",
+    "icon": "Tree",
+    "items": [
+      "Irrigation Systems",
+      "Landscape Lighting",
+      "Water Features",
+      "Drainage Solutions"
+    ],
+    "color": "text-success"
   }
 ]
