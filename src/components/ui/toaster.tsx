@@ -20,10 +20,10 @@ export function Toaster() {
 
 
   return (
-    <ToastProvider>
+    <ToastProvider >
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
-          <Toast key={id} {...props}>
+          <Toast  key={id} {...props}>
             <div className="toast-header">
               <strong className="me-auto">{title && <ToastTitle>{title}</ToastTitle>}</strong>
               <small>{timeDiff(reletiveTime)}</small>

@@ -6,8 +6,9 @@ import './Contact.css';
 import AOS from 'aos';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+
 const Contact = () => {
-  const { toast } = useToast();
+   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,7 +27,7 @@ const Contact = () => {
     if (!formData.name || !formData.email || !formData.message) {
       toast({
         title: 'Missing Information',
-        description: 'Please fill in all required fields.',
+        description: 'Please fill in all required fields (Name, Email, Message).',
         variant: 'destructive',
       });
       return;
