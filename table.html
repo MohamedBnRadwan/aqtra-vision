@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Excel List Generator</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 5px 15px; text-align: left; }
+        button { padding: 10px; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h2>Excel Alphanumeric List Generator</h2>
+    <p>Generates numbers 50 to 600 with letters A through K.</p>
+    <button onclick="generateTable()">1. Generate List</button>
+    <button onclick="copyTable()">2. Copy to Clipboard</button>
+    
+    <div id="tableContainer"></div>
+
+<script>
+function generateTable() {
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    let html = '<table id="myTable"><thead><tr><th>Full Value</th><th>Number (Sort 1)</th><th>Letter (Sort 2)</th></tr></thead><tbody>';
+
+    for (let i = 1; i <= 1000; i++) {
+        for (let j = 0; j < letters.length; j++) {
+            html += `<tr>
+                <td>${i}${letters[j]}</td>
+                <td>${i}</td>
+                <td>${letters[j]}</td>
+            </tr>`;
+        }
+    }
+    html += '</tbody></table>';
+    document.getElementById('tableContainer').innerHTML = html;
+}
+
+function copyTable() {
+    const range = document.createRange();
+    range.selectNode(document.getElementById("myTable"));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    alert("Table copied! Now paste (Ctrl+V) into Excel.");
+}
+</script>
+
+</body>
+</html>
