@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './HeroSlider.css';
 
@@ -11,14 +12,13 @@ import networkBg from '@/assets/network/s1.png';
 import landscapeBg from '@/assets/landscape/s1.png';
 import calculatorSVG from '@/assets/svg/calc-icon.svg';
 
-import engineeringLoop from '@/assets/intro-bg.mp4';
-import siteAerial from '@/assets/khober-location.mp4';
 import solarLoop from '@/assets/solar/v2.mp4';
 import networkLoop from '@/assets/network/1.mp4';
 import electricLoop from '@/assets/electrical/v1.mp4';
 import landscapeLoop from '@/assets/landscape/v1.mp4';
 
 type HeroService = {
+    id: string;
     title: string;
     description: string;
     image: string;
@@ -29,6 +29,7 @@ type HeroService = {
 
 const services: HeroService[] = [
        {
+        id: 'landscape-irrigation',
         title: 'Landscape & Irrigation',
         description: 'Sustainable landscape design and smart irrigation systems that conserve water and enhance outdoor spaces.',
         image: landscapeBg,
@@ -37,6 +38,7 @@ const services: HeroService[] = [
         eyebrow: 'Green Spaces',
     },
     {
+        id: 'hvac-chiller',
         title: 'HVAC & Chiller',
         description: 'High-efficiency climate systems, chilled water plants, and lifecycle maintenance for mission-critical facilities.',
         image: hvacBg,
@@ -45,6 +47,7 @@ const services: HeroService[] = [
         eyebrow: 'Precision Air & Cooling',
     },
     {
+        id: 'electrical',
         title: 'Electrical',
         description: 'Safe, code-compliant power distribution, backup generation, and lighting built for resilient operations.',
         image: electricalBg,
@@ -53,6 +56,7 @@ const services: HeroService[] = [
         eyebrow: 'Power That Performs',
     },
     {
+        id: 'smart-home-systems',
         title: 'Smart Home & Automation',
         description: 'Integrated controls, security, and ambience that learn how you live and respond instantly.',
         image: smartHomeBg,
@@ -61,6 +65,7 @@ const services: HeroService[] = [
         eyebrow: 'Connected Living',
     },
     {
+        id: 'solar-energy',
         title: 'Solar Energy',
         description: 'Bankable PV design, hybrid storage, and intelligent monitoring delivering clean, stable energy.',
         image: solarBg,
@@ -69,6 +74,7 @@ const services: HeroService[] = [
         eyebrow: 'Sustainable Power',
     },
     {
+        id: 'network-security',
         title: 'Network & Security',
         description: 'Carrier-grade cabling, Wi-Fi, CCTV, and access control engineered for secure, scalable uptime.',
         image: networkBg,
@@ -81,6 +87,8 @@ const services: HeroService[] = [
 const SLIDE_DURATION = 7200;
 
 const HeroSlider = () => {
+    const { t, i18n } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
     const navigate = useNavigate();
     const [current, setCurrent] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
@@ -174,7 +182,7 @@ const HeroSlider = () => {
             className={`hero-slider ${isCompact ? 'hero-slider--compact' : 'hero-slider--flush'}`}
             onMouseEnter={() => setIsPaused(true)}
             role="region"
-            aria-label="Featured AQTRA services"
+            aria-label={t('heroSlider.ariaRegion')}
             onTouchStart={(e) => startTouch(e.touches[0].clientX)}
             onTouchMove={(e) => moveTouch(e.touches[0].clientX)}
             onTouchEnd={endTouch}
@@ -192,28 +200,30 @@ const HeroSlider = () => {
         >
             {services.map((service, index) => {
                 const isActive = index === current;
+                const localizedTitle = t(`servicesData.${service.id}.title`, { defaultValue: service.title });
+                const localizedDescription = t(`servicesData.${service.id}.description`, { defaultValue: service.description });
                 return (
                     <article
-                        key={service.title}
+                        key={service.id}
                         className={`hero-slide ${isActive ? 'hero-slide--active' : ''}`}
                         style={{ backgroundImage: `url(${service.image})` }}
                         role="button"
                         tabIndex={isActive ? 0 : -1}
-                        aria-label={`${service.title} slide`}
+                        aria-label={`${localizedTitle} slide`}
                     >
-                        <div className="hero-slide__overlay" />
+                        <div className={`hero-slide__overlay ${isRtl ? 'hero-slide__overlay--rtl' : ''}`} />
 
                         <div className="hero-slide__content" aria-live={isActive ? 'polite' : 'off'}>
                             {/* <span className="hero-slide__eyebrow">{service.eyebrow ?? 'AQTRA Services'}</span> */}
-                            <h1 className="hero-slide__title">{service.title}</h1>
-                            <p className="hero-slide__description">{service.description}</p>
+                            <h1 className="hero-slide__title">{localizedTitle}</h1>
+                            <p className="hero-slide__description">{localizedDescription}</p>
                             <div className="hero-slide__actions">
                                 <Link
                                     to={service.link}
                                     className="hero-slide__cta"
                                     onClick={(e) => e.stopPropagation()}
                                 >
-                                    Explore Service
+                                    {t('heroSlider.ctaPrimary')}
                                 </Link>
 
                                 <Link
@@ -221,7 +231,7 @@ const HeroSlider = () => {
                                     to="/contact"
                                     onClick={(e) => e.stopPropagation()}
                                 >
-                                    Talk to an expert
+                                    {t('heroSlider.ctaSecondary')}
                                 </Link>
 
                                 {service.link === '/solar-solutions' && (
@@ -230,7 +240,7 @@ const HeroSlider = () => {
                                         className="hero-slide__ghost hero-slide__calculator"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        Solar Calculator
+                                        {t('heroSlider.ctaCalculator')}
                                         <img src={calculatorSVG} alt="" aria-hidden="true" />
                                     </Link>
                                 )}
@@ -238,7 +248,7 @@ const HeroSlider = () => {
                         </div>
 
                         {service.video &&
-                            <div className={`hero-slide__video ${isActive ? 'hero-slide__video--active' : ''}`}
+                            <div className={`hero-slide__video ${isActive ? 'hero-slide__video--active' : ''} ${isRtl ? 'hero-slide__video--rtl' : ''}`}
                                 onClick={() => handleNavigate(service.link)}>
                                 <video
                                     src={service.video}
@@ -254,22 +264,32 @@ const HeroSlider = () => {
                 );
             })}
 
-            <div className="hero-slider__nav">
-                <button type="button" className="hero-slider__arrow" onClick={(e) => { e.stopPropagation(); handlePrev(); }} aria-label="Previous slide">
+            <div className={`hero-slider__nav ${isRtl ? 'hero-slider__nav--rtl' : ''}`}>
+                <button
+                    type="button"
+                    className="hero-slider__arrow"
+                    onClick={(e) => { e.stopPropagation(); isRtl ? handleNext() : handlePrev(); }}
+                    aria-label={isRtl ? t('heroSlider.ariaNext') ?? 'Next slide' : t('heroSlider.ariaPrev') ?? 'Previous slide'}
+                >
                     <ChevronLeft />
                 </button>
-                <button type="button" className="hero-slider__arrow" onClick={(e) => { e.stopPropagation(); handleNext(); }} aria-label="Next slide">
-                    <ChevronRight />
+                <button
+                    type="button"
+                    className="hero-slider__arrow"
+                    onClick={(e) => { e.stopPropagation(); isRtl ? handlePrev() : handleNext(); }}
+                    aria-label={isRtl ? t('heroSlider.ariaPrev') ?? 'Previous slide' : t('heroSlider.ariaNext') ?? 'Next slide'}
+                    >
+                        <ChevronRight />
                 </button>
             </div>
 
             <div className="hero-slider__dots" aria-label="Slide navigation">
                 {services.map((service, index) => (
                     <button
-                        key={service.title}
+                        key={service.id}
                         type="button"
                         className={`hero-slider__dot ${index === current ? 'hero-slider__dot--active' : ''}`}
-                        aria-label={`Go to ${service.title}`}
+                        aria-label={t('heroSlider.ariaGoTo', { title: t(`servicesData.${service.id}.title`, { defaultValue: service.title }) })}
                         onClick={(e) => {
                             e.stopPropagation();
                             goTo(index);

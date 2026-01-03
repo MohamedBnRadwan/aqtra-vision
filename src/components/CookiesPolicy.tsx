@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './CookiesPolicy.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCookie, faCookieBite } from '@fortawesome/free-solid-svg-icons';
+import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 const CookiesPolicy: React.FC = () => {
+    const { t, i18n } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
     const [isVisible, setIsVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [settings, setSettings] = useState({
@@ -26,63 +29,67 @@ const CookiesPolicy: React.FC = () => {
     };
 
 
+    const persistSettings = (nextSettings: typeof settings) => {
+        setSettings(nextSettings);
+        document.cookie = `cookiesAccepted='${JSON.stringify(nextSettings)}'; path=/; max-age=31536000`;
+        setIsVisible(false);
+        setShowModal(false);
+    };
+
     const acceptAll = () => {
-        setSettings({
+        persistSettings({
             necessary: true,
             functional: true,
             analytics: true,
             performance: true,
             advertisement: true,
         });
-        updateCookies();
     };
 
     const rejectAll = () => {
-        setSettings({
+        persistSettings({
             necessary: true,
             functional: false,
             analytics: false,
             performance: false,
             advertisement: false,
         });
-        updateCookies();
-    }
+    };
 
     const updateCookies = () => {
-        document.cookie = `cookiesAccepted='${JSON.stringify(settings)}'; path=/; max-age=31536000`; // ${60 * 60 * 24 * 365} 1 year
-        setIsVisible(false);
-        setShowModal(false);
+        persistSettings(settings);
     };
 
 
     if (!isVisible) return (
-        <div className='cookie-icon'
-        onClick={() => setIsVisible(true)}
-        ><FontAwesomeIcon  icon={faCookieBite} className="text-primary" /></div>
-
+        <button
+            type="button"
+            className={`cookie-icon ${isRtl ? 'cookie-icon--rtl' : ''}`}
+            onClick={() => setIsVisible(true)}
+            aria-label={t('cookies.iconLabel')}
+        >
+            <FontAwesomeIcon icon={faCookieBite} className="text-primary" />
+        </button>
     );
 
     return (
-        <div className="cookie-popup">
-            <h2><FontAwesomeIcon icon={faCookieBite} className="me-2 text-primary" /> We value your privacy </h2>
+        <div className={`cookie-popup ${isRtl ? 'cookie-popup--rtl' : ''}`}>
+            <h2>
+                <FontAwesomeIcon icon={faCookieBite} className="me-2 text-primary" />
+                {t('cookies.title')}
+            </h2>
 
-            <p>
-                We use cookies to enhance your browsing experience, serve personalised ads or
-                content, and analyse our traffic.
-            </p>
-            <p>By clicking "Accept", you consent to our use
-                of cookies.</p>
+            <p>{t('cookies.description')}</p>
+            <p>{t('cookies.consentReminder')}</p>
             <div className="cookie-buttons">
-                {/* <button className="reject" onClick={() => acceptCookies(false)}>Reject</button>
-                <button className="accept" onClick={() => acceptCookies(true)}>Accept</button> */}
-                <button className="customise" onClick={() => setShowModal(!showModal)}>
-                  Customise
+                <button className="customise" type="button" onClick={() => setShowModal(!showModal)}>
+                  {t('cookies.customise')}
                 </button>
-                <button className="reject" onClick={rejectAll}>
-                    Reject
+                <button className="reject" type="button" onClick={rejectAll}>
+                    {t('cookies.reject')}
                 </button>
-                <button className="accept" onClick={acceptAll}>
-                  Accept
+                <button className="accept" type="button" onClick={acceptAll}>
+                  {t('cookies.accept')}
                 </button>
             </div>
 
@@ -94,7 +101,7 @@ const CookiesPolicy: React.FC = () => {
                         <div className="section-title mb-3">
                             <h2 className='fs-6'>
                                 <FontAwesomeIcon icon={faCookieBite} className="me-2 text-primary" />
-                                Manage Cookie Preferences
+                                {t('cookies.manageTitle')}
                             </h2>
                         </div>
                         <ul className='list-unstyled'>
@@ -102,7 +109,7 @@ const CookiesPolicy: React.FC = () => {
                                 <li key={key} className="cookie-option">
                                     <div className="form-check form-switch">
                                         <input className="form-check-input" onChange={() => toggle(key)} disabled={key === "necessary"} type="checkbox" role="switch" id={`switchCheckDefault-${key}`} checked={settings[key as keyof typeof settings]} />
-                                        <label className="form-check-label" htmlFor={`switchCheckDefault-${key}`}><span>{key.charAt(0).toUpperCase() + key.slice(1)}</span></label>
+                                        <label className="form-check-label" htmlFor={`switchCheckDefault-${key}`}><span>{t(`cookies.categories.${key}`)}</span></label>
                                     </div>
                                 </li>
                             ))}
@@ -110,9 +117,9 @@ const CookiesPolicy: React.FC = () => {
 
 
                         <div className="cookie-buttons">
-                            <button onClick={() => setShowModal(false)}>Cancel</button>
-                            <button className="accept" onClick={updateCookies}>
-                                Save Preferences
+                            <button type="button" onClick={() => setShowModal(false)}>{t('cookies.cancel')}</button>
+                            <button className="accept" type="button" onClick={updateCookies}>
+                                {t('cookies.save')}
                             </button>
                         </div>
                     </div>

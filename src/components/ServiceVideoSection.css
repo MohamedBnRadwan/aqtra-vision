@@ -149,3 +149,12 @@
   font-weight: 300;
   line-height: 1.2;
 }
+
+.solution-card__row {
+  gap: 0.5rem;
+}
+
+[dir="rtl"] .solution-card__row,
+.solution-card--rtl .solution-card__row {
+  flex-direction: row-reverse;
+}

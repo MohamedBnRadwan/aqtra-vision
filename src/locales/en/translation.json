@@ -5,7 +5,9 @@
     "about": "About",
     "portfolio": "Portfolio",
     "contact": "Contact",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "freeQuote": "Free Quote",
+    "changeLanguage": "Language"
   },
   "common": {
     "rateUs": "Rate us on Google",
@@ -13,6 +15,25 @@
     "comingSoon": "Coming Soon",
     "portfolioComingSoon": "Portfolio Coming Soon",
     "loading": "Loading"
+  },
+  "cookies": {
+    "title": "We value your privacy",
+    "description": "We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic.",
+    "consentReminder": "By clicking \"Accept\", you consent to our use of cookies.",
+    "customise": "Customize",
+    "reject": "Reject",
+    "accept": "Accept",
+    "manageTitle": "Manage Cookie Preferences",
+    "cancel": "Cancel",
+    "save": "Save Preferences",
+    "iconLabel": "Open cookie preferences",
+    "categories": {
+      "necessary": "Necessary",
+      "functional": "Functional",
+      "analytics": "Analytics",
+      "performance": "Performance",
+      "advertisement": "Advertisement"
+    }
   },
   "home": {
     "heroTitle": "AQTRA",
@@ -23,6 +44,170 @@
     "servicesHeading": "Our Services",
     "servicesSubheading": "Comprehensive engineering solutions tailored to your needs",
     "viewAllServices": "View All Services"
+  },
+  "heroIntro": {
+    "title": "Accuracy and Quality",
+    "tagline": "Innovating the future, one step at a time",
+    "body": "We deliver precise, reliable engineering and construction support services built on efficiency and expertise. Our team is committed to exceptional quality, timely execution, and trusted project results.",
+    "cta": "Get in Touch"
+  },
+  "heroSlider": {
+    "ctaPrimary": "Explore Service",
+    "ctaSecondary": "Talk to an expert",
+    "ctaCalculator": "Solar Calculator",
+    "ariaRegion": "Featured AQTRA services",
+    "ariaGoTo": "Go to {{title}}",
+    "ariaPrev": "Previous slide",
+    "ariaNext": "Next slide"
+  },
+  "solarCalc": {
+    "title": "Solar Application Form",
+    "subtitle": "Answer a few questions to get a recommended system.",
+    "plannerHeading": "Solar system planner",
+    "recommended": "Recommended system",
+    "highBillFocus": "High bill focus",
+    "electricityCosts": "Electricity Costs (with VAT)",
+    "solarProduction": "Solar Production & Savings",
+    "systemCost": "System Cost Estimate — {{tier}}",
+    "consumption": "Consumption",
+    "bill": "Bill",
+    "powerSupply": "Power supply",
+    "area": "Area",
+    "syncedFromBill": "Synced from bill",
+    "syncedFromKwh": "Synced from kWh",
+    "currentPowerSupply": "Current power supply",
+    "gridOnly": "Grid only",
+    "generatorOnly": "Generator only",
+    "mixed": "Mixed (grid + generator)",
+    "none": "None",
+    "powerSupplyLabelGrid": "Grid only",
+    "powerSupplyLabelGenerator": "Generator only",
+    "powerSupplyLabelNone": "No grid",
+    "powerSupplyLabelMixed": "Mixed ({{share}}% gen)",
+    "supplyMixedDetailed": "Mixed (gen cost ~{{cost}} SAR/kWh, gen share {{share}}%)",
+    "supplyGeneratorDetailed": "Generator only (~{{cost}} SAR/kWh)",
+    "supplyNoGrid": "No grid (off-grid)",
+    "generatorCost": "Generator cost (SAR/kWh)",
+    "generatorShare": "Generator share of energy (%)",
+    "generatorCostHelp": "Approximate fuel+O&M cost per kWh.",
+    "generatorCostHelpNoGrid": "No grid: adjust this rate to derive kWh from your bill.",
+    "generatorShareHelp": "Share of total kWh currently supplied by generator.",
+    "monthlyKwhHelper": "If unknown, estimate from your bill.",
+    "monthlyBillHelper": "If unknown, use your typical monthly bill.",
+    "areaHelper": "Enter available roof/ground area in m².",
+    "pshLabel": "Peak Sun Hours (PSH)",
+    "pshHelper": "Average PSH: ~6 hours (summer), ~4 hours (winter) in KSA. Allowed range: 2–7.",
+    "quickSnapshot": "Quick snapshot",
+    "autoUpdates": "Auto-updates as you edit",
+    "panelSummary": "{{count}} panels (~{{kw}} kW)",
+    "na": "N/A",
+    "calcFailed": "Calculation failed.",
+    "recommendedType": {
+      "onGrid": "On-Grid (Grid-Tied)",
+      "offGrid": "Off-Grid (Standalone)",
+      "hybrid": "Hybrid (With Battery Backup)",
+      "pumping": "Solar Pumping System"
+    },
+    "typeMsg": {
+      "commercial": "Consider commercial-grade inverters and modules for enhanced reliability.",
+      "home": "Suitable for residential energy needs.",
+      "agri": "Ideal for agricultural water pumping applications."
+    },
+    "areaNeeded": "Estimated installation area needed: {{area}} m².",
+    "areaInsufficient": "Provided area ({{area}} m²) may be insufficient — consider higher-efficiency modules or ground mounts.",
+    "hugeBillTip1": "Higher ROI potential — expect faster payback with your current bill level.",
+    "hugeBillTip2": "Consider upsizing the system by ~20-30% to maximize reduction and hedge future rates.",
+    "hugeBillTip3": "We recommend an energy audit to capture quick efficiency wins before final sizing.",
+    "hugeBillTip4": "We can also review your tariff tier to ensure you’re on the optimal plan.",
+    "monthlyBillBefore": "Monthly bill (before solar): {{value}} SAR",
+    "effectiveTariff": "Effective tariff: {{value}} SAR/kWh",
+    "solarProdAnnual": "Estimated annual solar production: {{value}} kWh",
+    "solarProdSavings": "Annual savings: {{value}} SAR",
+    "solarProdPayback": "Payback period: {{value}} years",
+    "solarProdGross": "25-year gross savings: {{value}} SAR",
+    "solarProdNet": "25-year net savings (after cost): {{value}} SAR",
+    "systemCostPanels": "Panels allowance (included in package): {{value}} SAR",
+    "systemCostPackage": "Package price (on-grid baseline): ~{{value}} SAR",
+    "systemCostBattery": "Battery allowance (~{{kwh}} kWh): +{{cost}} SAR",
+    "systemCostInverter": "Hybrid/Off-grid inverter upgrade: +{{cost}} SAR",
+    "systemCostLarge": "For systems above 500 kW, please contact a professional engineer for a business-grade custom design.",
+    "assumptions": "Assumptions: PSH {{psh}} h/day, derate 80%, VAT included in electricity bill. Hybrid/Off-grid pricing includes batteries and larger inverter allowances.",
+    "siteType": "Site type",
+    "siteHome": "Home",
+    "siteBank": "Bank",
+    "siteHospital": "Hospital",
+    "siteAgricultural": "Agricultural",
+    "siteIndustrial": "Industrial",
+    "industrialOptions": "Industrial tariff options",
+    "fuelCompBand": "Fuel-cost compensation band",
+    "fuelCompLte20": "Fuel-cost compensation ≤ 20%",
+    "fuelCompGt20": "Fuel-cost compensation > 20%",
+    "connectionType": "Connection type",
+    "gridConnected": "Grid-connected",
+    "powerPlantConnected": "Power-plant connected",
+    "industrialStandard": "Industrial (grid-connected)",
+    "industrialStandardNote": "Standard industrial tariff is defined as grid-connected.",
+    "powerBackupOptions": "Power & backup options",
+    "outageQuestion": "Do you suffer from frequent power outages?",
+    "highBillQuestion": "Do you suffer from a bill price that is too high?",
+    "panelPriceCategory": "Panel price category",
+    "panelTierCostLine": "{{cost}} SAR / panel — {{note}}",
+    "panelTier": {
+      "economy": { "label": "Economy", "note": "Lower cost, shorter lifespan" },
+      "standard": { "label": "Standard", "note": "Balanced price/performance" },
+      "premium": { "label": "Premium", "note": "Higher efficiency, longer lifespan" }
+    },
+    "showAdvanced": "Show advanced options",
+    "shareLinkHelp": "Copy or share a link with your current inputs",
+    "shareLink": "Share link",
+    "saveCompare": "Save and Compare",
+    "recommendation": "Recommendation",
+    "approxNotice": "Approximation notice: This calculator provides an estimate and is not 100% accurate. Final system design and pricing require an engineer assessment and detailed load study. Contact us to get a tailored calculation and quote that fits your business.",
+    "backToCalculator": "Back to calculator",
+    "printRecommendation": "Print Recommendation",
+    "printRecommendationTitle": "Print recommendation section",
+    "whatsappCta": "Contact via WhatsApp for Free Consultant Quote",
+    "backToSolar": "Back to Solar systems",
+    "savedCalcs": "Saved calculations",
+    "savedCalcsHelp": "Click a row to reuse inputs; changes auto-recalculate.",
+    "noCalcs": "No calculations yet. Submit the form to add entries.",
+    "table": {
+      "use": "Use",
+      "type": "Type",
+      "size": "Size (kW)",
+      "panels": "Panels",
+      "totalCost": "Total Cost (SAR)",
+      "battery": "Battery (kWh)",
+      "actions": "Actions",
+      "selectRow": "Select this calculation to compare",
+      "remove": "Remove"
+    },
+    "shareTitle": "Solar system planner",
+    "shareCopied": "Shareable link copied to clipboard.",
+    "shareCopyPrompt": "Copy this link to share:",
+    "shareFailed": "Share failed",
+    "validationLow": "Monthly bill looks too low for the entered consumption. Please verify both values.",
+    "validationHigh": "Monthly bill looks too high for the entered consumption. Please verify both values.",
+    "yes": "Yes",
+    "no": "No",
+    "sarAmount": "{{value}} SAR",
+    "whatsappReference": "Solar inquiry reference",
+    "whatsappInputs": "Inputs",
+    "whatsappCalcMissing": "Calculation did not run — please review inputs.",
+    "whatsappUse": "Use: {{value}}",
+    "whatsappGrid": "Grid: {{value}}",
+    "whatsappBackup": "Backup: {{value}}",
+    "whatsappSupply": "Supply: {{value}}",
+    "whatsappMonthlyKwh": "Monthly kWh: {{value}}",
+    "whatsappMonthlyBill": "Monthly bill: {{value}} SAR",
+    "whatsappArea": "Area: {{value}} m²",
+    "whatsappPsh": "PSH: {{value}} h/day",
+    "whatsappPanelTier": "Panel tier: {{value}}",
+    "whatsappSystem": "System: {{type}} — {{kw}} kW (~{{panels}} panels)",
+    "whatsappTotalCost": "Total cost: {{cost}} SAR",
+    "whatsappBattery": "Battery: ~{{kwh}} kWh ({{cost}} SAR)",
+    "whatsappSavings": "Annual savings: {{savings}} SAR | Payback: {{payback}} years",
+    "whatsappTariff": "Tariff avg: {{tariff}} SAR/kWh"
   },
   "homeAbout": {
     "title": "About AQTRA",
@@ -126,6 +311,106 @@
     "moreAbout": "More about {{title}}",
     "portfolio": "Portfolio",
     "solutions": "Solutions"
+  },
+  "solutionsPage": {
+    "cards": {
+      "solar": "Solar System Solutions",
+      "smartHome": "Smart Home & Security Solutions",
+      "hvac": "HVAC Solutions",
+      "plumbing": "Plumbing Solutions",
+      "fire": "Fire Fighting Solutions",
+      "network": "Network Solutions",
+      "electric": "Electric Power Solutions"
+    }
+  },
+  "solarSolutions": {
+    "title": "Solar Solutions",
+    "subtitle": "Reliable solar energy systems for homes, businesses and industrial sites. On-grid, off-grid and hybrid configurations.",
+    "heading": "Solar Energy Solutions",
+    "description": "Design, supply and installation of photovoltaic (PV) systems tailored to your needs.",
+    "onGrid": {
+      "title": "On-Grid",
+      "desc": "Grid-tied PV systems — export surplus energy and reduce bills."
+    },
+    "offGrid": {
+      "title": "Off-Grid",
+      "desc": "Standalone systems with batteries for full independence."
+    },
+    "hybrid": {
+      "title": "Hybrid",
+      "desc": "Grid-connected systems with battery backup and smart control."
+    },
+    "pumping": {
+      "title": "Pumping",
+      "desc": "Solar water pumping solutions for irrigation and remote supply."
+    },
+    "calc": {
+      "title": "Get Recommendation",
+      "desc": "Answer a few questions to find the right system and estimated area."
+    }
+  },
+  "hvacSolutions": {
+    "title": "HVAC & Chiller",
+    "subtitle": "Optimal climate control and air quality solutions.",
+    "heading": "HVAC Services",
+    "description": "Professional Heating, Ventilation & Air Conditioning Solutions by AQTRA Company",
+    "solutionsHeading": "Solutions Provided:",
+    "ducting": {
+      "title": "Ducting Fabrication",
+      "summary": "Ducting fabrication to ensure efficient airflow.",
+      "body": "AQTRA provides high-precision ducting fabrication to ensure efficient airflow and improved indoor air quality. We use premium materials and advanced machinery to deliver durable, leak-proof duct systems following SMACNA and ASHRAE standards.",
+      "list": [
+        "Custom GI, PI, and aluminum duct fabrication",
+        "Airflow calculation & duct layout design",
+        "Rectangular and spiral duct fabrication",
+        "Thermal insulation & weatherproofing",
+        "Installation of dampers, access doors & fittings",
+        "Site installation & air balancing",
+        "Duct system upgrades & repair"
+      ]
+    },
+    "chillers": {
+      "title": "Chillers",
+      "summary": "Expert installation and servicing of air-cooled and water-cooled chillers.",
+      "body": "AQTRA offers expert installation and servicing of air-cooled and water-cooled chillers for commercial, industrial, and medical facilities. Our systems are designed for maximum cooling efficiency and reliability.",
+      "list": [
+        "Installation of air-cooled & water-cooled chillers",
+        "Chiller plant design, sizing & load calculation",
+        "Preventive & corrective maintenance programs",
+        "Compressor, pump, motor & control system repair",
+        "Refrigerant replacement & leak testing",
+        "Energy optimization & upgrade solutions",
+        "BMS integration for chiller systems"
+      ]
+    },
+    "ahu": {
+      "title": "Air Handling Units (AHUs)",
+      "summary": "Expert installation and servicing of air handling units.",
+      "body": "Our AHU services ensure clean, comfortable air through efficient ventilation, filtration, and cooling. We provide installation, maintenance, and upgrades of AHUs for all types of buildings.",
+      "list": [
+        "AHU installation, testing & commissioning",
+        "Supply of FAHU, HRU, FCU, and VAV units",
+        "Filter installation & HEPA/MERV replacements",
+        "Fan, motor, belt, coil & damper repair",
+        "Coil cleaning & chemical washing",
+        "Airflow measurement & balancing",
+        "BMS control integration"
+      ]
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "summary": "Comprehensive HVAC maintenance programs for optimal performance and longevity.",
+      "body": "AQTRA delivers complete HVAC maintenance programs to ensure long lifespan, reduced energy consumption, and optimal performance for all HVAC equipment across commercial and industrial facilities.",
+      "list": [
+        "Annual preventive maintenance contracts",
+        "System diagnostics & performance inspection",
+        "Coil, filter, duct & condenser cleaning",
+        "Thermostat & control panel testing",
+        "Refrigerant charging & leak detection",
+        "Emergency breakdown repair",
+        "Energy efficiency optimization"
+      ]
+    }
   },
   "servicePage": {
     "subtitle": "Explore our comprehensive solutions.",

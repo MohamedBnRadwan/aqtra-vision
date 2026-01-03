@@ -18,11 +18,20 @@ declare global {
 }
 
 const CustomHeader: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
   const location = useLocation();
+
+  const [isLangLoading, setIsLangLoading] = useState(false);
+
+  const toggleLanguage = () => {
+    if (isLangLoading) return;
+    const nextLang = i18n.language === 'ar' ? 'en' : 'ar';
+    setIsLangLoading(true);
+    i18n.changeLanguage(nextLang).finally(() => setIsLangLoading(false));
+  };
 
   useEffect(() => {
     const navbarCollapse = document.getElementById('navbarNav');
@@ -58,7 +67,7 @@ const CustomHeader: React.FC = () => {
         } ${isNavbarVisible ? 'nav-visible' : 'nav-invisible'}`}
       
     >
-      <div className="container">
+      <div className="container-fluid px-3 px-md-4">
         {/* Logo and Website Name */}
         <Link to="/" className="navbar-brand d-flex align-items-center" >
           <img
@@ -136,7 +145,20 @@ const CustomHeader: React.FC = () => {
         </div>
 
         {/* Right Buttons */}
-        <div className="w-100 justify-content-center d-flex gap-3 ">
+        <div className="w-100 justify-content-center d-flex gap-3 align-items-center">
+          <button
+            type="button"
+            className="btn btn-outline-secondary rounded-pill px-3 d-flex align-items-center gap-2"
+            onClick={toggleLanguage}
+            aria-label={t('nav.changeLanguage')}
+            disabled={isLangLoading}
+          >
+            <span className="fw-bold">{i18n.language === 'ar' ? 'E' : 'ع'}</span>
+            {isLangLoading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+          </button>
+          <Link to="/contact" className="btn btn-primary rounded-pill px-3" aria-label={t('nav.freeQuote')}>
+            {t('nav.freeQuote')}
+          </Link>
           <div className='d-none d-xl-flex'>
             <a href="tel:+966562405666" className="d-flex text-decoration-none text-primary align-items-center gap-2">
               <FontAwesomeIcon icon={faPhone} size="lg" /> +966 (056) 240 5666

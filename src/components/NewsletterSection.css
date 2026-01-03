@@ -100,6 +100,21 @@
     font-size: 1.1rem;
 }
 
+[dir="rtl"] .newsletter-section button[type=submit] {
+    right: auto;
+    left: 0.2rem;
+}
+
+[dir="rtl"] .newsletter-section .consent {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .newsletter-section .consent input {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
 
 .card-holder {
     background: rgba(255, 255, 255, 0.6);

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Solutions = () => {
+    const { t } = useTranslation();
     return <div className="container-fluid">
         <div className="my-5 row">
             <div className="col-12">
@@ -25,7 +27,7 @@ const Solutions = () => {
                                                 style={{ marginBottom: '12px' }}
                                             />
                                             <h3 className="display-5 text-truncate m-0">
-                                                Solar System Solutions
+                                                {t('solutionsPage.cards.solar')}
                                             </h3>
                                             <img
                                                 src="/src/assets/solar/solar-logo-txt.png"
@@ -58,7 +60,7 @@ const Solutions = () => {
                                                 style={{ marginBottom: '12px' }}
                                             />
                                             <h3 className="display-5 text-truncate m-0">
-                                                Smart Home & Security Solutions
+                                                {t('solutionsPage.cards.smartHome')}
                                             </h3>
                                             <img
                                                 src="/src/assets/smart_home/smart_home-logo-txt.png"
@@ -88,7 +90,7 @@ const Solutions = () => {
                                                 style={{ marginBottom: '12px' }}
                                             />
                                             <h3 className="display-5 text-truncate m-0">
-                                                HVAC Solutions
+                                                {t('solutionsPage.cards.hvac')}
                                             </h3>
                                             <img
                                                 src="/src/assets/fire/fire-logo-txt.png"
@@ -118,7 +120,7 @@ const Solutions = () => {
                                                 style={{ marginBottom: '12px' }}
                                             />
                                             <h3 className="display-5 text-truncate m-0">
-                                                Plumbing Solutions
+                                                {t('solutionsPage.cards.plumbing')}
                                             </h3>
                                             <img
                                                 src="/src/assets/plumbing/plumbing-logo-txt.png"
@@ -147,7 +149,7 @@ const Solutions = () => {
                                                 style={{ marginBottom: '12px' }}
                                             />
                                             <h3 className="display-5 text-truncate m-0">
-                                                Fire Fighting Solutions
+                                                {t('solutionsPage.cards.fire')}
                                             </h3>
                                             <img
                                                 src="/src/assets/fire/fire-logo-txt.png"
@@ -177,7 +179,7 @@ const Solutions = () => {
                                                 style={{ marginBottom: '12px' }}
                                             />
                                             <h3 className="display-5 text-truncate m-0">
-                                                Network Solutions
+                                                {t('solutionsPage.cards.network')}
                                             </h3>
                                             <img
                                                 src="/src/assets/network/network-logo-txt.png"
@@ -208,7 +210,7 @@ const Solutions = () => {
                                                 style={{ marginBottom: '12px' }}
                                             />
                                             <h3 className="display-5 text-truncate m-0">
-                                                Electric Power Solutions
+                                                {t('solutionsPage.cards.electric')}
                                             </h3>
                                             <img
                                                 src="/src/assets/electrical/electrical-logo-txt.png"

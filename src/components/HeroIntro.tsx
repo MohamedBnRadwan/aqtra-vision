@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import BgVideo from '@/assets/intro-bg.mp4';
 import './HeroIntro.css';
 
 const HeroIntro: React.FC = () => {
+  const { t } = useTranslation();
   const [videoDimensions, setVideoDimensions] = useState({ width: '50%', height: '50%' });
   const [isVideoReady, setIsVideoReady] = useState(false);
 
@@ -26,11 +28,11 @@ const HeroIntro: React.FC = () => {
         <div className='container mt-5 mb-4 '>
           <div className="row">
             <div className="col-md-6 my-5 text-center hero-text" data-aos="fade-up">
-              <h1 className="display-4  text-dark">Accuracy and Quality</h1>
-              <p>Innovating the future, one step at a time</p>
+              <h1 className="display-4  text-dark">{t('heroIntro.title')}</h1>
+              <p>{t('heroIntro.tagline')}</p>
             </div>
             <div className="col-md-6 my-5 text-center hero-text" data-aos="fade-up">
-              <p className="mb-4">We deliver precise, reliable engineering and construction support services built on efficiency and expertise. Our team is committed to exceptional quality, timely execution, and trusted project results.</p>
+              <p className="mb-4">{t('heroIntro.body')}</p>
             </div>
           </div>
         </div>
@@ -58,7 +60,7 @@ const HeroIntro: React.FC = () => {
               Reach out to us for innovative engineering solutions tailored to your needs.
             </p>
             <p>Let’s build the future together.</p>
-            <a href="#contact" className="btn btn-primary rounded-pill w-100">Get in Touch</a>
+            <a href="#contact" className="btn btn-primary rounded-pill w-100">{t('heroIntro.cta')}</a>
           </div>
         </section>
 

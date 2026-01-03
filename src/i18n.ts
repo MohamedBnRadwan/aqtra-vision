@@ -26,14 +26,18 @@ i18n
     },
   });
 
+function applyDir(lng: string) {
+  const root = document.documentElement;
+  root.dir = lng === 'ar' ? 'rtl' : 'ltr';
+  root.lang = lng || 'en';
+}
+
 // Set document direction based on language
 i18n.on('languageChanged', (lng) => {
-  document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
-  document.documentElement.lang = lng;
+  applyDir(lng);
 });
 
 // Ensure initial direction matches the detected language
-document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
-document.documentElement.lang = i18n.language || 'en';
+applyDir(i18n.language || 'en');
 
 export default i18n;

@@ -9,7 +9,8 @@ import './ContactPage.css';
 import Rellax from "rellax";
 
 const ContactPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.dir() === 'rtl';
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -68,7 +69,18 @@ const ContactPage: React.FC = () => {
       </div>
         <div className='map-con position-relative'>
           <div className='position-absolute w-100 h-100' style={{ backgroundColor: '#87dfa42a' }}></div>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6073.730568745681!2d50.215628220599164!3d26.298611262411967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49e9b6ccd2550f%3A0xc7a0c8c13763851!2sAQTRA!5e0!3m2!1sen!2ssa!4v1765628503985!5m2!1sen!2ssa" width="100%" height="450" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+          <iframe
+            src={isRtl
+              ? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6073.730568745681!2d50.215628220599164!3d26.298611262411967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49e9b6ccd2550f%3A0xc7a0c8c13763851!2sAQTRA!5e0!3m2!1sar!2ssa!4v1765628503985!5m2!1sar!2ssa&hl=ar&language=ar"
+              : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6073.730568745681!2d50.215628220599164!3d26.298611262411967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49e9b6ccd2550f%3A0xc7a0c8c13763851!2sAQTRA!5e0!3m2!1sen!2ssa!4v1765628503985!5m2!1sen!2ssa&hl=en&language=en"}
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title={t('contactPage.title')}
+          />
         </div>
           <img src="/src/assets/decoration-3.svg" alt={t('common.googleMapAlt')} className="decoration-3 rellax" />
       {/* <ParallaxImageWithTextBG

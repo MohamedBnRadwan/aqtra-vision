@@ -49,7 +49,16 @@
     left: -100px;
     height: 100%;
     width: 154px;
+    background: #eff5f3;
+}
+
+.navbar.navbar-transparent .navbar-brand::before {
     background: #f4f6f0;
+}
+
+[dir="rtl"] .navbar-brand::before {
+    left: auto;
+    right: -100px;
 }
 
 .navbar-brand .logo-txt {
@@ -61,6 +70,11 @@
     animation-delay: .5s;
 }
 
+[dir="rtl"] .navbar-brand .logo-txt {
+    transform: translateX(120px);
+    animation: identifier-rtl 1.5s ease-out forwards;
+}
+
 
 @keyframes identifier {
     0% {
@@ -70,6 +84,15 @@
     100% {
         transform: translateX(0);
         /* opacity: 1; */
+    }
+}
+
+@keyframes identifier-rtl {
+    0% {
+        transform: translateX(120px);
+    }
+    100% {
+        transform: translateX(0);
     }
 }
 /* Logo intro animation */

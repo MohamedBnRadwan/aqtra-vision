@@ -72,6 +72,18 @@ footer .btn-outline-light:hover {
   height: auto;
 }
 
+[dir="rtl"] .footer-logo {
+  float: right !important;
+}
+
+[dir="rtl"] .footer-vision {
+  float: left !important;
+}
+
+[dir="rtl"] .footer-backtotop {
+  float: left !important;
+}
+
 footer .hr {
   border-radius: 2px;
   margin: 0 10px;

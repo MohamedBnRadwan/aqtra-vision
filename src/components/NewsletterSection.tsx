@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import { useTranslation } from 'react-i18next';
 import './NewsletterSection.css';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
 import Rellax from "rellax";
 
 const NewsletterSection: React.FC = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
     let [consentGiven, setConsentGiven] = React.useState(false);
     let [email, setEmail] = React.useState('');
     let isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -60,7 +61,7 @@ const NewsletterSection: React.FC = () => {
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
                                             <button disabled={!isValidForm} className={!isValidForm ? 'btn disbled' : ''} type="submit">
-                                                <ArrowRight />
+                                                {isRtl ? <ArrowLeft /> : <ArrowRight />}
                                             </button>
                                         </div>
                                     </form>

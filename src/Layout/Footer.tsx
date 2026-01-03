@@ -58,12 +58,12 @@ const Footer = () => {
               <button
                 title={t('footer.backToTop')}
                 onClick={scrollToTop}
-                className="btn border-0 float-end mb-4"
+                className="btn border-0 float-end mb-4 footer-backtotop"
                 aria-label={t('footer.backToTop')}
               >
                 <FontAwesomeIcon icon={faArrowUp} size='2x' className='text-primary' />
               </button>
-              <img src={logoVerticalLight} alt="AQTRA Logo" className="mb-4 p-2 float-start" style={{ height: '100px' }} />
+              <img src={logoVerticalLight} alt="AQTRA Logo" className="mb-4 p-2 float-start footer-logo" style={{ height: '100px' }} />
             </div>
             {/* Company Info */}
             <div className="col-lg-4 mb-3">
@@ -103,7 +103,7 @@ const Footer = () => {
               <Link to="/contact" className="btn btn-primary rounded-pill btn-lg fs-4 px-4 py-3">
                 {t('footer.contactCta')}
               </Link>
-              <img src="/src/assets/saudi_vision_2030_logo.svg" style={{ height: '100px' }} alt={t('saudiVision.logoAlt')} className="mb-4 float-end" />
+              <img src="/src/assets/saudi_vision_2030_logo.svg" style={{ height: '100px' }} alt={t('saudiVision.logoAlt')} className="mb-4 float-end footer-vision" />
             </div>
           </div>
           {/* Social Links */}

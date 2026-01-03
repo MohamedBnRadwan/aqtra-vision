@@ -57,7 +57,8 @@ export const buildServiceOverviewData = (ids?: string[]): ServiceOverviewItem[] 
 };
 
 const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, serviceIds }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.dir() === 'rtl';
   const resolvedServices = services ?? buildServiceOverviewData(serviceIds);
 
   return (
@@ -169,10 +170,10 @@ const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, ser
                         </Link>
                       </div>
                       <Link to={service.solutionsLink || '/solutions'}
-                        className="text-decoration-none align-self-end">
+                        className={`text-decoration-none align-self-end ${isRtl ? 'solution-card--rtl' : ''}`}>
                         <div className="card solution-card rounded-pill border-0 hover-lift shadow-sm h-100">
                           <div className="card-body p-1">
-                            <div className="d-flex justify-content-between align-items-center">
+                            <div className="d-flex justify-content-between align-items-center solution-card__row">
                               <img
                                 src={service.logoIcon}
                                 width={70}

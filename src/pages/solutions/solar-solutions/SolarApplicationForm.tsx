@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import HeaderBanner from '@/components/HeaderBanner';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,6 +20,8 @@ import './SolarApplicationForm.css';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 const SolarApplicationForm: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.dir() === 'rtl';
   const [monthlyKWh, setMonthlyKWh] = useState<number | ''>('');
   const [monthlyBill, setMonthlyBill] = useState<number | ''>('');
   const [availableArea, setAvailableArea] = useState<number | ''>('');
@@ -56,6 +59,31 @@ const SolarApplicationForm: React.FC = () => {
   function parseBool(val: string | null | undefined) {
     return val === '1' || val === 'true';
   }
+
+  const formatPowerSupplyLabel = (type: 'grid' | 'generator' | 'mixed' | 'none' = powerSupplyType, share = generatorShare) => {
+    if (type === 'grid') return t('solarCalc.powerSupplyLabelGrid');
+    if (type === 'generator') return t('solarCalc.powerSupplyLabelGenerator');
+    if (type === 'none') return t('solarCalc.powerSupplyLabelNone');
+    const normalizedShare = Number.isFinite(share) ? Math.max(0, Math.min(100, share)) : 0;
+    return t('solarCalc.powerSupplyLabelMixed', { share: formatNumber(normalizedShare, 0) });
+  };
+
+  const formatPrimaryUseLabel = (use: string) => {
+    if (use === 'home') return t('solarCalc.siteHome');
+    if (use === 'bank') return t('solarCalc.siteBank');
+    if (use === 'hospital') return t('solarCalc.siteHospital');
+    if (use === 'agricultural') return t('solarCalc.siteAgricultural');
+    if (use === 'industry') return t('solarCalc.siteIndustrial');
+    return use;
+  };
+
+  const formatSystemType = (type: string) => {
+    if (type === 'onGrid') return t('solarCalc.recommendedType.onGrid');
+    if (type === 'offGrid') return t('solarCalc.recommendedType.offGrid');
+    if (type === 'hybrid') return t('solarCalc.recommendedType.hybrid');
+    if (type === 'pumping') return t('solarCalc.recommendedType.pumping');
+    return type;
+  };
 
   function buildShareUrl() {
     if (typeof window === 'undefined') return '';
@@ -98,10 +126,10 @@ const SolarApplicationForm: React.FC = () => {
     if (typeof input.monthlyKWh === 'number' && typeof input.monthlyBill === 'number' && input.monthlyKWh > 0 && input.monthlyBill > 0) {
       const impliedRate = input.monthlyBill / input.monthlyKWh;
       if (impliedRate < 0.05) {
-        return 'Monthly bill looks too low for the entered consumption. Please verify both values.';
+        return t('solarCalc.validationLow');
       }
       if (impliedRate > 2) {
-        return 'Monthly bill looks too high for the entered consumption. Please verify both values.';
+        return t('solarCalc.validationHigh');
       }
     }
 
@@ -223,31 +251,31 @@ const SolarApplicationForm: React.FC = () => {
   }, [syncConsumption, monthlyBill, primaryUse, industryConnection, industryFuelCompBand]);
 
   const renderResult = (calc: SolarEstimateResult, hasMonthlyBill: boolean) => {
-    if (!calc.ok || !calc.data) return <span className='text-danger'>Calculation failed.</span>;
+    if (!calc.ok || !calc.data) return <span className='text-danger'>{t('solarCalc.calcFailed')}</span>;
     const data = calc.data;
     const selectedPricing = data.selectedPanel;
 
-    let recommendedType = <><FontAwesomeIcon icon={faTachometerAlt} className='text-primary me-1' /> On-Grid (Grid-Tied)</>;
-    if (data.systemType === 'offGrid') recommendedType = <><FontAwesomeIcon icon={faCarBattery} className='text-primary me-1' /> Off-Grid (Standalone)</>;
-    else if (data.systemType === 'hybrid') recommendedType = <><FontAwesomeIcon icon={faSolarPanel} className='text-primary me-1' /> Hybrid (With Battery Backup)</>;
-    if (primaryUse === 'agricultural') recommendedType = <><FontAwesomeIcon icon={faTractor} className='text-primary me-1' /> Solar Pumping System</>;
+    let recommendedType = <><FontAwesomeIcon icon={faTachometerAlt} className='text-primary me-1' /> {t('solarCalc.recommendedType.onGrid')}</>;
+    if (data.systemType === 'offGrid') recommendedType = <><FontAwesomeIcon icon={faCarBattery} className='text-primary me-1' /> {t('solarCalc.recommendedType.offGrid')}</>;
+    else if (data.systemType === 'hybrid') recommendedType = <><FontAwesomeIcon icon={faSolarPanel} className='text-primary me-1' /> {t('solarCalc.recommendedType.hybrid')}</>;
+    if (primaryUse === 'agricultural') recommendedType = <><FontAwesomeIcon icon={faTractor} className='text-primary me-1' /> {t('solarCalc.recommendedType.pumping')}</>;
 
     let typeMsg = <></>;
     if (primaryUse === 'hospital' || primaryUse === 'bank' || primaryUse === 'industry') {
-      typeMsg = <><FontAwesomeIcon icon={faHandHolding} className='text-primary me-1' /> Consider commercial-grade inverters and modules for enhanced reliability.</>;
+      typeMsg = <><FontAwesomeIcon icon={faHandHolding} className='text-primary me-1' /> {t('solarCalc.typeMsg.commercial')}</>;
     }
 
     if (primaryUse === 'home') {
-      typeMsg = <><FontAwesomeIcon icon={faHome} className='text-primary me-1' /> Suitable for residential energy needs.</>;
+      typeMsg = <><FontAwesomeIcon icon={faHome} className='text-primary me-1' /> {t('solarCalc.typeMsg.home')}</>;
     } else if (primaryUse === 'agricultural') {
-      typeMsg = <><FontAwesomeIcon icon={faTractor} className='text-primary me-1' /> Ideal for agricultural water pumping applications.</>;
+      typeMsg = <><FontAwesomeIcon icon={faTractor} className='text-primary me-1' /> {t('solarCalc.typeMsg.agri')}</>;
     }
 
     const areaNeeded = data.areaNeeded;
-    let areaMsg = <><FontAwesomeIcon icon={faRulerCombined} className='text-primary me-1' /> Estimated installation area needed: {formatNumber(areaNeeded, 0)} m².</>;
+    let areaMsg = <><FontAwesomeIcon icon={faRulerCombined} className='text-primary me-1' /> {t('solarCalc.areaNeeded', { area: formatNumber(areaNeeded, 0) })}</>;
     let areaAlertMessage = <></>;
     if (availableArea && typeof availableArea === 'number' && (availableArea + availableArea * 0.1) < areaNeeded) {
-      areaAlertMessage = <span className='rounded-pill lh-1 text-bg-danger'> <FontAwesomeIcon icon={faExclamationTriangle} className='text-warning me-1' /> Provided area ({availableArea} m²) may be insufficient — consider higher-efficiency modules or ground mounts.</span>;
+      areaAlertMessage = <span className='rounded-pill lh-1 text-bg-danger'> <FontAwesomeIcon icon={faExclamationTriangle} className='text-warning me-1' /> {t('solarCalc.areaInsufficient', { area: availableArea })}</span>;
     }
 
     return (
@@ -255,19 +283,19 @@ const SolarApplicationForm: React.FC = () => {
         <div className="row g-3">
           <div className="col-12">
             <div className="alert alert-success mb-2">
-              <div className="fw-bold">Recommended system: {recommendedType}</div>
+              <div className="fw-bold">{t('solarCalc.recommended')}: {recommendedType}</div>
               <div>{typeMsg}</div>
-              <div><FontAwesomeIcon icon={faSolarPanel} className='text-primary me-1' /> {formatNumber(data.panels, 0)} panels <strong>(~{formatNumber(round(data.systemKw, 1), 1)} kW)</strong></div>
+              <div><FontAwesomeIcon icon={faSolarPanel} className='text-primary me-1' /> {t('solarCalc.panelSummary', { count: data.panels, kw: round(data.systemKw, 1) })}</div>
               <div>{areaMsg}</div>
               <div>{areaAlertMessage}</div>
               {hugeBill && (
                 <div className="alert alert-warning mt-2 mb-0 py-2">
-                  <div className="fw-semibold">High bill focus</div>
+                  <div className="fw-semibold">{t('solarCalc.highBillFocus')}</div>
                   <ul className="mb-0 ps-3">
-                    <li>⚡ Higher ROI potential — expect faster payback with your current bill level.</li>
-                    <li>💡 Consider upsizing the system by ~20-30% to maximize reduction and hedge future rates.</li>
-                    <li>📊 We recommend an energy audit to capture quick efficiency wins before final sizing.</li>
-                    <li>💰 We can also review your tariff tier to ensure you’re on the optimal plan.</li>
+                    <li>⚡ {t('solarCalc.hugeBillTip1')}</li>
+                    <li>💡 {t('solarCalc.hugeBillTip2')}</li>
+                    <li>📊 {t('solarCalc.hugeBillTip3')}</li>
+                    <li>💰 {t('solarCalc.hugeBillTip4')}</li>
                   </ul>
                 </div>
               )}
@@ -278,10 +306,10 @@ const SolarApplicationForm: React.FC = () => {
             <div className="col-md-12">
               <div className="card h-100 shadow-sm">
                 <div className="card-body">
-                  <h6 className="card-title">Electricity Costs (with VAT)</h6>
+                  <h6 className="card-title">{t('solarCalc.electricityCosts')}</h6>
                   <ul className="mb-0">
-                    <li>Monthly bill (before solar): {formatNumber(data.monthlyBillComputed, 2)} SAR</li>
-                    <li>Effective tariff: {formatNumber(data.effectiveKwhPrice, 3)} SAR/kWh</li>
+                    <li>{t('solarCalc.monthlyBillBefore', { value: formatNumber(data.monthlyBillComputed, 2) })}</li>
+                    <li>{t('solarCalc.effectiveTariff', { value: formatNumber(data.effectiveKwhPrice, 3) })}</li>
                   </ul>
                 </div>
               </div>
@@ -291,13 +319,13 @@ const SolarApplicationForm: React.FC = () => {
           <div className="col-md-12">
             <div className="card h-100 shadow-sm">
               <div className="card-body">
-                <h6 className="card-title">Solar Production &amp; Savings</h6>
+                <h6 className="card-title">{t('solarCalc.solarProduction')}</h6>
                 <ul className="mb-0">
-                  <li>Estimated annual solar production: {formatNumber(data.annualProdKwh, 0)} kWh</li>
-                  <li>Annual savings: {formatNumber(data.annualSavingsSar, 0)} SAR</li>
-                  <li>Payback period: {data.paybackYears === Infinity ? 'N/A' : `${formatNumber(data.paybackYears, 2)} years`}</li>
-                  <li>25-year gross savings: {formatNumber(data.lifetimeGrossSavings, 0)} SAR</li>
-                  <li>25-year net savings (after cost): {formatNumber(data.lifetimeNetSavings, 0)} SAR</li>
+                  <li>{t('solarCalc.solarProdAnnual', { value: formatNumber(data.annualProdKwh, 0) })}</li>
+                  <li>{t('solarCalc.solarProdSavings', { value: formatNumber(data.annualSavingsSar, 0) })}</li>
+                  <li>{t('solarCalc.solarProdPayback', { value: data.paybackYears === Infinity ? t('solarCalc.na') : `${formatNumber(data.paybackYears, 2)}` })}</li>
+                  <li>{t('solarCalc.solarProdGross', { value: formatNumber(data.lifetimeGrossSavings, 0) })}</li>
+                  <li>{t('solarCalc.solarProdNet', { value: formatNumber(data.lifetimeNetSavings, 0) })}</li>
                 </ul>
               </div>
             </div>
@@ -306,26 +334,26 @@ const SolarApplicationForm: React.FC = () => {
           <div className="col-12">
             <div className="card shadow-sm">
               <div className="card-body">
-                <h6 className="card-title">System Cost Estimate — {selectedPricing.label}</h6>
+                <h6 className="card-title">{t('solarCalc.systemCost', { tier: selectedPricing.label })}</h6>
                 <ul className="mb-0">
                   {/* <li>Cost per panel: {formatNumber(selectedPricing.costPerPanel, 0)} SAR</li> */}
-                  <li>Panels allowance (included in package): {formatNumber(data.panelsCost, 0)} SAR</li>
+                  <li>{t('solarCalc.systemCostPanels', { value: formatNumber(data.panelsCost, 0) })}</li>
                   {/* <li >Inverter + install allowance (included): {formatNumber(data.inverterInstallBase, 0)} SAR</li> */}
-                  <li className="fw-semibold">Package price (all-in, on-grid baseline): ~{formatNumber(data.packagePriceSar, 0)} SAR</li>
+                  <li className="fw-semibold">{t('solarCalc.systemCostPackage', { value: formatNumber(data.packagePriceSar, 0) })}</li>
                   {data.batteryCost > 0 && (
-                    <li>Battery allowance (~{formatNumber(data.batteryKwhNeeded, 1)} kWh): +{formatNumber(data.batteryCost, 0)} SAR</li>
+                    <li>{t('solarCalc.systemCostBattery', { kwh: formatNumber(data.batteryKwhNeeded, 1), cost: formatNumber(data.batteryCost, 0) })}</li>
                   )}
                   {data.inverterUpgradeAdder > 0 && (
-                    <li>Hybrid/Off-grid inverter upgrade: +{formatNumber(data.inverterUpgradeAdder, 0)} SAR</li>
+                    <li>{t('solarCalc.systemCostInverter', { cost: formatNumber(data.inverterUpgradeAdder, 0) })}</li>
                   )}
                   {data.systemKw > 500 && (
-                    <li className="text-warning fw-semibold">For systems above 500 kW, please contact a professional engineer for a business-grade custom design.</li>
+                    <li className="text-warning fw-semibold">{t('solarCalc.systemCostLarge')}</li>
                   )}
                   {/* <li className="fw-bold text-primary">Estimated total system cost (package + any batteries/upgrades): {formatNumber(data.totalSystemCost, 0)} SAR</li> */}
                   {/* <li className="text-muted">Package already includes panels, inverter, and balance-of-system; allowances shown above are not added on top.</li> */}
 
                 </ul>
-                <small className="text-muted">Assumptions: PSH {peakSunHours} h/day, derate 80%, VAT included in electricity bill. Hybrid/Off-grid pricing includes batteries and larger inverter allowances.</small>
+                <small className="text-muted">{t('solarCalc.assumptions', { psh: peakSunHours })}</small>
               </div>
             </div>
           </div>
@@ -338,39 +366,36 @@ const SolarApplicationForm: React.FC = () => {
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   <h6 className="mb-0">
                     <FontAwesomeIcon icon={faTachometerAlt} className='text-primary me-2' />
-                    Quick snapshot
+                    {t('solarCalc.quickSnapshot')}
                   </h6>
-                  <small className="text-muted">Auto-updates as you edit</small>
+                  <small className="text-muted">{t('solarCalc.autoUpdates')}</small>
                 </div>
                 <div className="row g-2 text-center">
                   <div className="col">
                     <div className="border rounded p-2 h-100">
-                      <div className="small text-muted">Consumption</div>
+                      <div className="small text-muted">{t('solarCalc.consumption')}</div>
                       <div className="fw-semibold">{typeof monthlyKWh === 'number' && monthlyKWh > 0 ? `${formatNumber(monthlyKWh, 0)} kWh` : '—'}</div>
-                      {syncConsumption && <span className="badge bg-primary-subtle text-primary mt-1">Synced from bill</span>}
+                      {syncConsumption && <span className="badge bg-primary-subtle text-primary mt-1">{t('solarCalc.syncedFromBill')}</span>}
                     </div>
                   </div>
                   <div className="col">
                     <div className="border rounded p-2 h-100">
-                      <div className="small text-muted">Bill</div>
-                      <div className="fw-semibold">{typeof monthlyBill === 'number' && monthlyBill > 0 ? `${formatNumber(monthlyBill, 2)} SAR` : '—'}</div>
-                      {syncBill && <span className="badge bg-primary-subtle text-primary mt-1">Synced from kWh</span>}
+                      <div className="small text-muted">{t('solarCalc.bill')}</div>
+                      <div className="fw-semibold">{typeof monthlyBill === 'number' && monthlyBill > 0 ? t('solarCalc.sarAmount', { value: formatNumber(monthlyBill, 2) }) : '—'}</div>
+                      {syncBill && <span className="badge bg-primary-subtle text-primary mt-1">{t('solarCalc.syncedFromKwh')}</span>}
                     </div>
                   </div>
                   <div className="col">
                     <div className="border rounded p-2 h-100">
-                      <div className="small text-muted">Power supply</div>
+                      <div className="small text-muted">{t('solarCalc.powerSupply')}</div>
                       <div className="fw-semibold">
-                        {powerSupplyType === 'grid' ? 'Grid only'
-                          : powerSupplyType === 'mixed' ? `Mixed (${formatNumber(generatorShare, 0)}% gen)`
-                            : powerSupplyType === 'generator' ? 'Generator only'
-                              : 'No grid'}
+                        {formatPowerSupplyLabel()}
                       </div>
                     </div>
                   </div>
                   <div className="col">
                     <div className="border rounded p-2 h-100">
-                      <div className="small text-muted">Area</div>
+                      <div className="small text-muted">{t('solarCalc.area')}</div>
                       <div className="fw-semibold">{typeof availableArea === 'number' && availableArea > 0 ? `${formatNumber(availableArea, 0)} m²` : '—'}</div>
                     </div>
                   </div>
@@ -414,39 +439,39 @@ const SolarApplicationForm: React.FC = () => {
     });
 
     const supplyLabel = powerSupplyType === 'grid'
-      ? 'Grid only'
+      ? t('solarCalc.powerSupplyLabelGrid')
       : powerSupplyType === 'mixed'
-        ? `Mixed (gen cost ~${formatNumber(generatorCostPerKwh, 2)} SAR/kWh, gen share ${generatorShare}%)`
+        ? t('solarCalc.supplyMixedDetailed', { cost: formatNumber(generatorCostPerKwh, 2), share: formatNumber(generatorShare, 0) })
         : powerSupplyType === 'generator'
-          ? `Generator only (~${formatNumber(generatorCostPerKwh, 2)} SAR/kWh)`
-          : 'No grid (off-grid)';
+          ? t('solarCalc.supplyGeneratorDetailed', { cost: formatNumber(generatorCostPerKwh, 2) })
+          : t('solarCalc.supplyNoGrid');
 
     const inputsLine = [
-      `Use: ${primaryUse}`,
-      `Grid: ${hasGrid ? 'Yes' : 'No'}`,
-      `Backup: ${wantBackup ? 'Yes' : 'No'}`,
-      `Supply: ${supplyLabel}`,
-      typeof monthlyKWh === 'number' ? `Monthly kWh: ${formatNumber(monthlyKWh, 0)}` : undefined,
-      typeof monthlyBill === 'number' ? `Monthly bill: ${formatNumber(monthlyBill, 2)} SAR` : undefined,
-      typeof availableArea === 'number' ? `Area: ${formatNumber(availableArea, 0)} m²` : undefined,
-      `PSH: ${formatNumber(peakSunHours, 1)} h/day`,
-      `Panel tier: ${panelTier}`,
+      t('solarCalc.whatsappUse', { value: formatPrimaryUseLabel(primaryUse) }),
+      t('solarCalc.whatsappGrid', { value: hasGrid ? t('solarCalc.yes') : t('solarCalc.no') }),
+      t('solarCalc.whatsappBackup', { value: wantBackup ? t('solarCalc.yes') : t('solarCalc.no') }),
+      t('solarCalc.whatsappSupply', { value: supplyLabel }),
+      typeof monthlyKWh === 'number' ? t('solarCalc.whatsappMonthlyKwh', { value: formatNumber(monthlyKWh, 0) }) : undefined,
+      typeof monthlyBill === 'number' ? t('solarCalc.whatsappMonthlyBill', { value: formatNumber(monthlyBill, 2) }) : undefined,
+      typeof availableArea === 'number' ? t('solarCalc.whatsappArea', { value: formatNumber(availableArea, 0) }) : undefined,
+      t('solarCalc.whatsappPsh', { value: formatNumber(peakSunHours, 1) }),
+      t('solarCalc.whatsappPanelTier', { value: panelTier }),
     ].filter(Boolean).join(' | ');
 
     if (!calc.ok || !calc.data) {
-      return `Solar inquiry reference\nInputs: ${inputsLine}\nNote: Calculation did not run — please review inputs.`;
+      return `${t('solarCalc.whatsappReference')}\n${t('solarCalc.whatsappInputs')}: ${inputsLine}\n${t('solarCalc.whatsappCalcMissing')}`;
     }
 
     const d = calc.data;
     const summary = [
-      `System: ${d.systemType} — ${formatNumber(d.systemKw, 1)} kW (~${formatNumber(d.panels, 0)} panels)`,
-      `Total cost: ${formatNumber(d.totalSystemCost, 0)} SAR`,
-      d.batteryKwhNeeded ? `Battery: ~${formatNumber(d.batteryKwhNeeded, 1)} kWh (${formatNumber(d.batteryCost, 0)} SAR)` : undefined,
-      `Annual savings: ${formatNumber(d.annualSavingsSar, 0)} SAR | Payback: ${d.paybackYears === Infinity ? 'N/A' : formatNumber(d.paybackYears, 2) + ' years'}`,
-      `Tariff avg: ${formatNumber(d.effectiveKwhPrice, 3)} SAR/kWh`,
+      t('solarCalc.whatsappSystem', { type: formatSystemType(d.systemType), kw: formatNumber(d.systemKw, 1), panels: formatNumber(d.panels, 0) }),
+      t('solarCalc.whatsappTotalCost', { cost: formatNumber(d.totalSystemCost, 0) }),
+      d.batteryKwhNeeded ? t('solarCalc.whatsappBattery', { kwh: formatNumber(d.batteryKwhNeeded, 1), cost: formatNumber(d.batteryCost, 0) }) : undefined,
+      t('solarCalc.whatsappSavings', { savings: formatNumber(d.annualSavingsSar, 0), payback: d.paybackYears === Infinity ? t('solarCalc.na') : `${formatNumber(d.paybackYears, 2)}` }),
+      t('solarCalc.whatsappTariff', { tariff: formatNumber(d.effectiveKwhPrice, 3) }),
     ].filter(Boolean).join('\n');
 
-    return `Solar inquiry reference\nInputs: ${inputsLine}\n${summary}`;
+    return `${t('solarCalc.whatsappReference')}\n${t('solarCalc.whatsappInputs')}: ${inputsLine}\n${summary}`;
   };
 
   const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -468,18 +493,18 @@ const SolarApplicationForm: React.FC = () => {
     const shareUrl = buildShareUrl();
     try {
       if (navigator.share) {
-        await navigator.share({ title: 'Solar system planner', url: shareUrl });
+        await navigator.share({ title: t('solarCalc.shareTitle'), url: shareUrl });
         return;
       }
       if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
         await navigator.clipboard.writeText(shareUrl);
-        window.alert('Shareable link copied to clipboard.');
+        window.alert(t('solarCalc.shareCopied'));
         return;
       }
     } catch (err) {
-      console.error('Share failed', err);
+      console.error(t('solarCalc.shareFailed'), err);
     }
-    window.prompt('Copy this link to share:', shareUrl);
+    window.prompt(t('solarCalc.shareCopyPrompt'), shareUrl);
   };
 
   const runCalculation = (payload?: Partial<SolarCalcHistoryEntry['input']>, skipHistory = false) => {
@@ -609,9 +634,16 @@ const SolarApplicationForm: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monthlyKWh, monthlyBill, availableArea, hasGrid, wantBackup, hugeBill, primaryUse, industryConnection, industryFuelCompBand, panelTier, peakSunHours, powerSupplyType, generatorCostPerKwh, generatorShare]);
 
+  useEffect(() => {
+    const validInput = (typeof monthlyKWh === 'number' && monthlyKWh > 0) || (typeof monthlyBill === 'number' && monthlyBill > 0);
+    if (!validInput) return;
+    runCalculation({}, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n.language]);
+
   return (
     <>
-      <HeaderBanner title="Solar Application Form" subtitle="Answer a few questions to get a recommended system." backgroundImage="/src/assets/hero-bg-2.jpg" />
+      <HeaderBanner title={t('solarCalc.title')} subtitle={t('solarCalc.subtitle')} backgroundImage="/src/assets/hero-bg-2.jpg" />
 
       <section className="container-fluid py-5">
         <div className="row justify-content-center">
@@ -621,7 +653,7 @@ const SolarApplicationForm: React.FC = () => {
                 <div className="card card-form-holder p-4">
                   <h4 className='display-6 text-center mb-4'>
                     <FontAwesomeIcon icon={faSolarPanel} className='text-primary me-2' />
-                    Solar system planner
+                    {t('solarCalc.plannerHeading')}
                   </h4>
                   <form className='row align-items-baseline' onSubmit={handleSubmit}>
 
@@ -634,7 +666,7 @@ const SolarApplicationForm: React.FC = () => {
 
                             <label className="form-label d-flex align-items-center flex-column">
                               <FontAwesomeIcon icon={faTachometerAlt} className='fa-2x text-primary me-1' />
-                              <small className='text-center'>Monthly consumption</small>
+                              <small className='text-center'>{t('solarCalc.consumption')}</small>
                             </label>
                             <input type="number" className="form-control text-center" value={monthlyKWh as any} onChange={e => setMonthlyKWh(e.target.value === '' ? '' : Number(e.target.value))} min={0} />
 
@@ -652,12 +684,11 @@ const SolarApplicationForm: React.FC = () => {
                                     if (next) setSyncBill(false);
                                   }}
                                 />
-                                <label className="form-check-label small" htmlFor="syncConsumption">Sync</label>
+                                <label className="form-check-label small" htmlFor="syncConsumption">{t('solarCalc.syncedFromBill')}</label>
                               </div>
                             </div>
                             <small className="form-text text-muted helper-text">
-                              Average monthly energy consumption (kWh) (optional).
-                              Leave blank to estimate from monthly bill.
+                              {t('solarCalc.monthlyKwhHelper')}
                             </small>
                           </div>
 
@@ -670,9 +701,9 @@ const SolarApplicationForm: React.FC = () => {
                               {/* <span className='fs-5 text-primary fw-bold me-1'>&#x20C1;</span> */}
                               <FontAwesomeIcon icon={faMoneyBill} className='fa-2x text-primary me-1' />
 
-                              <small className='text-center'>Monthly bill</small>
+                              <small className='text-center'>{t('solarCalc.bill')}</small>
                             </label>
-                            <div className="input-group">
+                            <div className={`input-group ${isRtl ? 'flex-row-reverse' : ''}`}>
                               <input type="number" className="form-control text-center" value={monthlyBill as any} onChange={e => setMonthlyBill(e.target.value === '' ? '' : Number(e.target.value))} min={0} />
                               <span className="input-group-text text-primary bg-white">&#x20C1;</span>
                             </div>
@@ -691,13 +722,12 @@ const SolarApplicationForm: React.FC = () => {
                                     if (next) setSyncConsumption(false);
                                   }}
                                 />
-                                <label className="form-check-label small" htmlFor="syncBill">Sync</label>
+                                <label className="form-check-label small" htmlFor="syncBill">{t('solarCalc.syncedFromKwh')}</label>
                               </div>
                             </div>
 
                             <small className="form-text text-muted helper-text">
-                              Average monthly electricity bill (optional).
-                              Leave blank if unknown.
+                              {t('solarCalc.monthlyBillHelper')}
                             </small>
                           </div>
                         </div>
@@ -706,12 +736,11 @@ const SolarApplicationForm: React.FC = () => {
                           <div className='card p-2 input-card'>
                             <label className="form-label d-flex align-items-center flex-column">
                               <FontAwesomeIcon icon={faRulerCombined} className='fa-2x text-primary me-1' />
-                              <small className='text-center'>Area</small>
+                              <small className='text-center'>{t('solarCalc.area')}</small>
                             </label>
                             <input type="number" className="form-control text-center" value={availableArea as any} onChange={e => setAvailableArea(e.target.value === '' ? '' : Number(e.target.value))} min={0} />
                             <small className="form-text text-muted helper-text">
-                              Available installation area (m²) (optional).
-                              Leave blank if unknown.
+                              {t('solarCalc.areaHelper')}
                             </small>
                           </div>
                         </div>
@@ -721,7 +750,7 @@ const SolarApplicationForm: React.FC = () => {
                             <div className='card p-2 input-card'>
                               <label className="form-label d-flex align-items-center flex-column">
                                 <FontAwesomeIcon icon={faSun} className='fa-2x text-primary me-1' />
-                                <small className='text-center'>Peak Sun Hours (PSH)</small>
+                                <small className='text-center'>{t('solarCalc.pshLabel')}</small>
                               </label>
                               <input
                                 type="number"
@@ -741,7 +770,7 @@ const SolarApplicationForm: React.FC = () => {
                                 step={0.1}
                               />
                               <small className="form-text text-muted helper-text">
-                                Average PSH: ~6 hours (summer), ~4 hours (winter) in KSA. Allowed range: 2–7.
+                                {t('solarCalc.pshHelper')}
                               </small>
                             </div>
                           </div>
@@ -752,7 +781,8 @@ const SolarApplicationForm: React.FC = () => {
                       <div className="mb-3 mt-4">
                         <h3 className='display-1 fs-4'>
                           <FontAwesomeIcon icon={faHome} className='text-primary' />
-                          Site type</h3>
+                          {t('solarCalc.siteType')}
+                        </h3>
                         <div className='card p-3'>
                           <div className='row justify-content-center flex-row'>
 
@@ -763,7 +793,7 @@ const SolarApplicationForm: React.FC = () => {
                               />
                               <label className="btn btn-outline-primary d-flex align-items-center flex-column" htmlFor="btn-check-home">
                                 <FontAwesomeIcon icon={faHome} className='fa-2x m-1' />
-                                <span>Home</span>
+                                <span>{t('solarCalc.siteHome')}</span>
                               </label>
                             </div>
 
@@ -774,7 +804,7 @@ const SolarApplicationForm: React.FC = () => {
                               />
                               <label className="btn btn-outline-primary d-flex align-items-center flex-column" htmlFor="btn-check-bank">
                                 <FontAwesomeIcon icon={faBank} className='fa-2x m-1' />
-                                <span>Bank</span>
+                                <span>{t('solarCalc.siteBank')}</span>
                               </label>
                             </div>
 
@@ -785,7 +815,7 @@ const SolarApplicationForm: React.FC = () => {
                               />
                               <label className="btn btn-outline-primary d-flex align-items-center flex-column" htmlFor="btn-check-hospital">
                                 <FontAwesomeIcon icon={faHospital} className='fa-2x m-1' />
-                                <span>Hospital</span>
+                                <span>{t('solarCalc.siteHospital')}</span>
                               </label>
                             </div>
 
@@ -796,7 +826,7 @@ const SolarApplicationForm: React.FC = () => {
                               />
                               <label className="btn btn-outline-primary d-flex align-items-center flex-column" htmlFor="btn-check-tractor">
                                 <FontAwesomeIcon icon={faTractor} className='fa-2x m-1' />
-                                <span>Agricultural</span>
+                                <span>{t('solarCalc.siteAgricultural')}</span>
                               </label>
                             </div>
 
@@ -808,7 +838,7 @@ const SolarApplicationForm: React.FC = () => {
                               />
                               <label className="btn btn-outline-primary d-flex align-items-center flex-column" htmlFor="btn-check-industry">
                                 <FontAwesomeIcon icon={faIndustry} className='fa-2x m-1' />
-                                <span>Industrial</span>
+                                <span>{t('solarCalc.siteIndustrial')}</span>
                               </label>
                             </div>
                           </div>
@@ -818,35 +848,35 @@ const SolarApplicationForm: React.FC = () => {
                       {showAdvanced && primaryUse === 'industry' && (
                         <div className="mb-3">
                           <div className="border rounded p-3">
-                            <div className="fw-bold mb-2">Industrial tariff options</div>
+                            <div className="fw-bold mb-2">{t('solarCalc.industrialOptions')}</div>
                             <div className="row g-2">
                               <div className="col-md-6">
-                                <label className="form-label">Fuel-cost compensation band</label>
+                                <label className="form-label">{t('solarCalc.fuelCompBand')}</label>
                                 <select
                                   className="form-select"
                                   value={industryFuelCompBand}
                                   onChange={e => setIndustryFuelCompBand(e.target.value as IndustryFuelCompBand)}
                                 // disabled={!hasGrid} Disable if grid is not available
                                 >
-                                  <option value="standard">Industrial (grid-connected)</option>
-                                  <option value="lte20">Fuel-cost compensation ≤ 20%</option>
-                                  <option value="gt20">Fuel-cost compensation &gt; 20%</option>
+                                  <option value="standard">{t('solarCalc.industrialStandard')}</option>
+                                  <option value="lte20">{t('solarCalc.fuelCompLte20')}</option>
+                                  <option value="gt20">{t('solarCalc.fuelCompGt20')}</option>
                                 </select>
                               </div>
 
                               <div className="col-md-6">
-                                <label className="form-label">Connection type</label>
+                                <label className="form-label">{t('solarCalc.connectionType')}</label>
                                 <select
                                   className="form-select"
                                   value={industryConnection}
                                   onChange={e => setIndustryConnection(e.target.value as IndustryConnection)}
                                   disabled={industryFuelCompBand === 'standard' || !hasGrid} // Disable if standard or no grid
                                 >
-                                  <option value="grid">Grid-connected</option>
-                                  <option value="powerPlant">Power-plant connected</option>
+                                  <option value="grid">{t('solarCalc.gridConnected')}</option>
+                                  <option value="powerPlant">{t('solarCalc.powerPlantConnected')}</option>
                                 </select>
                                 {industryFuelCompBand === 'standard' && (
-                                  <div className="form-text">Standard industrial tariff is defined as grid-connected.</div>
+                                  <div className="form-text">{t('solarCalc.industrialStandardNote')}</div>
                                 )}
                               </div>
                             </div>
@@ -858,35 +888,35 @@ const SolarApplicationForm: React.FC = () => {
                     <div className='col-md-12'>
                       <h3 className='display-1 fs-4'>
                         <FontAwesomeIcon icon={faBolt} className='text-primary' />
-                        Power &amp; backup options
+                        {t('solarCalc.powerBackupOptions')}
                       </h3>
                       <div className='card p-3 mb-3'>
 
                         <div className="mt-2">
-                          <div className="fw-semibold mb-2">Current power supply</div>
+                          <div className="fw-semibold mb-2">{t('solarCalc.currentPowerSupply')}</div>
                           <div className="d-flex flex-wrap gap-2">
                             <div className="form-check form-check-inline border rounded px-3 py-2">
                               <input className="form-check-input" type="radio" name="powerSupply" id="ps-grid" value="grid" checked={powerSupplyType === 'grid'} onChange={() => setPowerSupplyType('grid')} />
-                              <label className="form-check-label" htmlFor="ps-grid">Grid only</label>
+                              <label className="form-check-label" htmlFor="ps-grid">{t('solarCalc.gridOnly')}</label>
                             </div>
                             <div className="form-check form-check-inline border rounded px-3 py-2">
                               <input className="form-check-input" type="radio" name="powerSupply" id="ps-generator" value="generator" checked={powerSupplyType === 'generator'} onChange={() => setPowerSupplyType('generator')} />
-                              <label className="form-check-label" htmlFor="ps-generator">Generator only</label>
+                              <label className="form-check-label" htmlFor="ps-generator">{t('solarCalc.generatorOnly')}</label>
                             </div>
                             <div className="form-check form-check-inline border rounded px-3 py-2">
                               <input className="form-check-input" type="radio" name="powerSupply" id="ps-mixed" value="mixed" checked={powerSupplyType === 'mixed'} onChange={() => setPowerSupplyType('mixed')} />
-                              <label className="form-check-label" htmlFor="ps-mixed">Mixed (grid + generator)</label>
+                              <label className="form-check-label" htmlFor="ps-mixed">{t('solarCalc.mixed')}</label>
                             </div>
                             <div className="form-check form-check-inline border rounded px-3 py-2">
                               <input className="form-check-input" type="radio" name="powerSupply" id="ps-none" value="none" checked={powerSupplyType === 'none'} onChange={() => setPowerSupplyType('none')} />
-                              <label className="form-check-label" htmlFor="ps-none">None</label>
+                              <label className="form-check-label" htmlFor="ps-none">{t('solarCalc.none')}</label>
                             </div>
                           </div>
 
                           {(powerSupplyType === 'generator' || powerSupplyType === 'mixed' || (powerSupplyType === 'none' && typeof monthlyBill === 'number' && monthlyBill > 0)) && (
                             <div className="row g-2 mt-2">
                               <div className="col-md-6">
-                                <label className="form-label">Generator cost (SAR/kWh)</label>
+                                <label className="form-label">{t('solarCalc.generatorCost')}</label>
                                 <input
                                   type="number"
                                   className="form-control"
@@ -895,12 +925,12 @@ const SolarApplicationForm: React.FC = () => {
                                   min={0}
                                   step={0.05}
                                 />
-                                <div className="form-text">Approximate fuel+O&M cost per kWh.{powerSupplyType === 'none' ? ' No grid: adjust this rate to derive kWh from your bill.' : ''}</div>
+                                <div className="form-text">{t('solarCalc.generatorCostHelp')}{powerSupplyType === 'none' ? ' ' + t('solarCalc.generatorCostHelpNoGrid') : ''}</div>
                               </div>
                               {powerSupplyType === 'mixed' && (
                                 <div className="col-md-6">
-                                  <label className="form-label">Generator share of energy (%)</label>
-                                  <div className="input-group">
+                                  <label className="form-label">{t('solarCalc.generatorShare')}</label>
+                                  <div className={`input-group ${isRtl ? 'flex-row-reverse' : ''}`}>
                                     <input
                                       type="number"
                                       className="form-control"
@@ -912,7 +942,7 @@ const SolarApplicationForm: React.FC = () => {
                                     />
                                     <span className="input-group-text">%</span>
                                   </div>
-                                  <div className="form-text">Share of total kWh currently supplied by generator.</div>
+                                  <div className="form-text">{t('solarCalc.generatorShareHelp')}</div>
                                 </div>
                               )}
                             </div>
@@ -926,14 +956,14 @@ const SolarApplicationForm: React.FC = () => {
                               <FontAwesomeIcon icon={faBolt} className='text-warning' />
                               <FontAwesomeIcon icon={faSlash} className='text-danger' transform="grow-2" />
                             </span>
-                            Do you suffer from frequent power outages?</label>
+                            {t('solarCalc.outageQuestion')}</label>
                         </div>
 
                         <div className="form-check form-switch mb-2">
                           <input className="form-check-input" type="checkbox" role="switch" id="hugeBill" checked={hugeBill} onChange={e => setHugeBill(e.target.checked)} />
                           <label className="form-check-label" htmlFor="hugeBill">
                             <FontAwesomeIcon icon={faHandHoldingUsd} className='text-warning' />
-                            Do you suffer from a bill price that is too high?</label>
+                            {t('solarCalc.highBillQuestion')}</label>
                         </div>
 
 
@@ -947,14 +977,14 @@ const SolarApplicationForm: React.FC = () => {
                     {showAdvanced && (
                       <div className='col-md-6'>
                         <div className="mb-3">
-                          <label className="form-label d-flex align-items-center gap-2"><FontAwesomeIcon icon={faSolarPanel} className='text-primary' /> Panel price category</label>
+                          <label className="form-label d-flex align-items-center gap-2"><FontAwesomeIcon icon={faSolarPanel} className='text-primary' /> {t('solarCalc.panelPriceCategory')}</label>
                           <div className="d-flex flex-wrap gap-2 flex-column">
                             {(['economy', 'standard', 'premium'] as const).map(key => (
                               <div key={key} className='form-check form-check-inline border rounded px-3 py-2'>
                                 <input className="form-check-input" type="radio" name="panelTier" id={`panel-${key}`} value={key} checked={panelTier === key} onChange={e => setPanelTier(e.target.value as PanelTierKey)} />
                                 <label className="form-check-label" htmlFor={`panel-${key}`}>
-                                  <span className='fw-bold text-capitalize'>{PANEL_PRICING[key].label}</span>
-                                  <span className='d-block small text-muted'>{PANEL_PRICING[key].costPerPanel} SAR / panel — {PANEL_PRICING[key].note}</span>
+                                  <span className='fw-bold text-capitalize'>{t(`solarCalc.panelTier.${key}.label`)}</span>
+                                  <span className='d-block small text-muted'>{t('solarCalc.panelTierCostLine', { cost: PANEL_PRICING[key].costPerPanel, note: t(`solarCalc.panelTier.${key}.note`) })}</span>
                                 </label>
                               </div>
                             ))}
@@ -970,21 +1000,21 @@ const SolarApplicationForm: React.FC = () => {
                         <input className="form-check-input" type="checkbox" role="switch" id="advancedOptions" checked={showAdvanced} onChange={e => setShowAdvanced(e.target.checked)} />
                         <label className="form-check-label" htmlFor="advancedOptions">
                           <FontAwesomeIcon icon={faTachometerAlt} className='text-primary' />
-                          Show advanced options</label>
+                          {t('solarCalc.showAdvanced')}</label>
                       </div>
                       <div className="d-flex w-100 justify-content-end gap-2">
                         <button
                           type="button"
                           className="btn btn-outline-secondary"
                           onClick={handleShareLink}
-                          title="Copy or share a link with your current inputs"
+                          title={t('solarCalc.shareLinkHelp')}
                         >
-                          Share link
+                          {t('solarCalc.shareLink')}
                         </button>
                         <button className="btn btn-primary d-flex w-100 justify-content-center flex-row align-items-center" type="submit">
                           <FontAwesomeIcon icon={faSave} className='fa-3x' />
                           <small className='ms-2'>
-                            Save and Compare
+                            {t('solarCalc.saveCompare')}
                           </small>
                         </button>
                       </div>
@@ -1001,7 +1031,7 @@ const SolarApplicationForm: React.FC = () => {
                     </div>
                     <h4 className='display-6 text-center mb-4'>
                       <FontAwesomeIcon icon={faHandHoldingUsd} className='text-primary me-2' />
-                      Recommendation
+                      {t('solarCalc.recommendation')}
                     </h4>
                     {result && (
                       <>
@@ -1009,11 +1039,11 @@ const SolarApplicationForm: React.FC = () => {
                           {result}
                         </div>
                         <p className="mt-3 text-muted">
-                          Approximation notice: This calculator provides an estimate and is not 100% accurate. Final system design and pricing require an engineer assessment and detailed load study. Contact us to get a tailored calculation and quote that fits your business.
+                          {t('solarCalc.approxNotice')}
                         </p>
                         <div className="print-only print-qr">
                           <div className="mb-2">
-                            <a href={pageUrl} title="Back to calculator">{pageUrl || 'https://aqtraco.com/solar-solutions'}</a>
+                            <a href={pageUrl} title={t('solarCalc.backToCalculator')}>{pageUrl || 'https://aqtraco.com/solar-solutions'}</a>
                           </div>
                           <img
                             src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(pageUrl || 'https://aqtraco.com/solar-solutions')}`}
@@ -1024,10 +1054,10 @@ const SolarApplicationForm: React.FC = () => {
                           type="button"
                           onClick={handlePrintRecommendation}
                           className="btn btn-outline-secondary w-100 mt-2 no-print"
-                          title="Print recommendation section"
+                          title={t('solarCalc.printRecommendationTitle')}
                         >
                           <FontAwesomeIcon icon={faPrint} className='me-2' />
-                          Print Recommendation
+                          {t('solarCalc.printRecommendation')}
                         </button>
                       </>
                     )}
@@ -1035,13 +1065,13 @@ const SolarApplicationForm: React.FC = () => {
                       href="#"
                       onClick={handleWhatsAppClick}
                       className="btn btn-success btn-lg w-100 mt-3 no-print"
-                      title="Copy details and open WhatsApp"
+                      title={t('solarCalc.whatsappCta')}
                     >
                       <FontAwesomeIcon icon={faWhatsapp} className='me-2' />
-                      Contact via WhatsApp for Free Consultant Quote
+                      {t('solarCalc.whatsappCta')}
                     </a>
                   </div>
-                  <Link to="/solar-solutions" className="btn my-2 btn-outline-secondary no-print">Back to Solar systems</Link>
+                  <Link to="/solar-solutions" className="btn my-2 btn-outline-secondary no-print">{t('solarCalc.backToSolar')}</Link>
                 </div>
               </div>
             </div>
@@ -1055,24 +1085,24 @@ const SolarApplicationForm: React.FC = () => {
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   <h5 className="card-title mb-0">
                     <FontAwesomeIcon icon={faSave} className='text-primary me-2' />
-                    Saved calculations
+                    {t('solarCalc.savedCalcs')}
                   </h5>
-                  <small className="text-muted">Click a row to reuse inputs; changes auto-recalculate.</small>
+                  <small className="text-muted">{t('solarCalc.savedCalcsHelp')}</small>
                 </div>
                 {history.length === 0 ? (
-                  <div className="text-muted">No calculations yet. Submit the form to add entries.</div>
+                  <div className="text-muted">{t('solarCalc.noCalcs')}</div>
                 ) : (
                   <div className="table-responsive">
                     <table className="table table-sm align-middle">
                       <thead>
                         <tr>
-                          <th>Use</th>
-                          <th>Type</th>
-                          <th>Size (kW)</th>
-                          <th>Panels</th>
-                          <th>Total Cost (SAR)</th>
-                          <th>Battery (kWh)</th>
-                          <th>Actions</th>
+                          <th>{t('solarCalc.table.use')}</th>
+                          <th>{t('solarCalc.table.type')}</th>
+                          <th>{t('solarCalc.table.size')}</th>
+                          <th>{t('solarCalc.table.panels')}</th>
+                          <th>{t('solarCalc.table.totalCost')}</th>
+                          <th>{t('solarCalc.table.battery')}</th>
+                          <th>{t('solarCalc.table.actions')}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1087,15 +1117,15 @@ const SolarApplicationForm: React.FC = () => {
                                   primary === 'agricultural' ? faTractor :
                                     primary === 'industry' ? faIndustry : faSolarPanel;
                           return (
-                            <tr key={entry.id} className="align-middle" style={{ cursor: 'pointer' }} onClick={() => handleSelectHistory(entry)} title="Select this calculation to compare">
+                                    <tr key={entry.id} className="align-middle" style={{ cursor: 'pointer' }} onClick={() => handleSelectHistory(entry)} title={t('solarCalc.table.selectRow')}>
                               <td><FontAwesomeIcon icon={useIcon} className='text-primary' /></td>
-                              <td>{data.systemType}</td>
+                              <td>{formatSystemType(data.systemType)}</td>
                               <td>{formatNumber(data.systemKw, 1)}</td>
                               <td>{formatNumber(data.panels, 0)}</td>
                               <td>{formatNumber(data.totalSystemCost, 0)}</td>
                               <td>{data.batteryKwhNeeded ? formatNumber(data.batteryKwhNeeded, 1) : '-'}</td>
                               <td className="d-flex gap-2">
-                                <button type="button" className="btn btn-sm btn-outline-danger" onClick={(e) => { e.stopPropagation(); handleRemoveHistory(entry.id); }} title="Remove">
+                                        <button type="button" className="btn btn-sm btn-outline-danger" onClick={(e) => { e.stopPropagation(); handleRemoveHistory(entry.id); }} title={t('solarCalc.table.remove')}>
                                   <FontAwesomeIcon icon={faTrash} />
                                 </button>
                               </td>

@@ -5,7 +5,14 @@ import { Button } from '@/components/ui/button';
 import logoHorizontal from '@/assets/logo-horizontal.png';
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [isLangLoading, setIsLangLoading] = useState(false);
+  const toggleLanguage = () => {
+    if (isLangLoading) return;
+    const next = i18n.language === 'ar' ? 'en' : 'ar';
+    setIsLangLoading(true);
+    i18n.changeLanguage(next).finally(() => setIsLangLoading(false));
+  };
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -53,6 +60,15 @@ const Header = () => {
             {t('nav.about')}
           </a>
           <Button 
+            variant="outline"
+            onClick={toggleLanguage}
+            className="border-foreground/30 flex items-center gap-2"
+            disabled={isLangLoading}
+          >
+            <span className="font-semibold">{i18n.language === 'ar' ? 'E' : 'ع'}</span>
+            {isLangLoading && <span className="inline-block w-3 h-3 rounded-full border-2 border-current border-t-transparent animate-spin" aria-hidden="true" />}
+          </Button>
+          <Button 
             onClick={() => scrollToSection('contact')}
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
@@ -86,6 +102,15 @@ const Header = () => {
               >
                 {t('nav.about')}
               </a>
+              <Button 
+                variant="outline"
+                onClick={toggleLanguage}
+                className="border-foreground/30 flex items-center gap-2"
+                disabled={isLangLoading}
+              >
+                <span className="font-semibold">{i18n.language === 'ar' ? 'E' : 'ع'}</span>
+                {isLangLoading && <span className="inline-block w-3 h-3 rounded-full border-2 border-current border-t-transparent animate-spin" aria-hidden="true" />}
+              </Button>
               <Button 
                 onClick={() => scrollToSection('contact')}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground w-full"
