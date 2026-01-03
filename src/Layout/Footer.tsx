@@ -6,8 +6,10 @@ import { Link } from 'react-router-dom';
 import { SocialLinks } from '@/Data/CompanyInfo.json';
 import './Footer.css';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
   // let [FooterSpaceHeight, setFooterSpaceHeight] = useState(0);
   // useEffect(() => {
@@ -23,18 +25,18 @@ const Footer = () => {
 
   const footerLinks = {
     services: [
-      { name: 'Smart Home Systems', href: '/services/smart-home-systems' },
-      { name: 'Solar Energy', href: '/services/solar-energy' },
-      { name: 'HVAC & Chiller', href: '/services/hvac-chiller' },
-      { name: 'Plumbing', href: '/services/plumbing' },
-      { name: 'Electrical', href: '/services/electrical' },
-      { name: 'Network & IT', href: '/services/network-security' },
+      { id: 'smart-home-systems', href: '/services/smart-home-systems' },
+      { id: 'solar-energy', href: '/services/solar-energy' },
+      { id: 'hvac-chiller', href: '/services/hvac-chiller' },
+      { id: 'plumbing', href: '/services/plumbing' },
+      { id: 'electrical', href: '/services/electrical' },
+      { id: 'network-security', href: '/services/network-security' },
     ],
     company: [
-      { name: 'About Us', href: '/about-us' },
-      { name: 'Contact', href: '/contact' },
-      { name: 'Projects', href: '/projects' },
-      { name: 'Careers', href: '/careers' },
+      { nameKey: 'footerLinks.about', href: '/about-us' },
+      { nameKey: 'footerLinks.contact', href: '/contact' },
+      { nameKey: 'footerLinks.projects', href: '/projects' },
+      { nameKey: 'footerLinks.careers', href: '/careers' },
       // { name: 'Saudi Vision 2030', href: '/saudi-vision-2030' },
     ],
   };
@@ -54,10 +56,10 @@ const Footer = () => {
           <div className="row mb-4">
             <div className='col-12'>
               <button
-                title="Back to top"
+                title={t('footer.backToTop')}
                 onClick={scrollToTop}
                 className="btn border-0 float-end mb-4"
-                aria-label="Scroll to top"
+                aria-label={t('footer.backToTop')}
               >
                 <FontAwesomeIcon icon={faArrowUp} size='2x' className='text-primary' />
               </button>
@@ -66,18 +68,18 @@ const Footer = () => {
             {/* Company Info */}
             <div className="col-lg-4 mb-3">
               <p>
-                Integrated engineering solutions for modern living and business operations.
+                {t('footer.description')}
               </p>
 
             </div>
 
             {/* Services Links */}
             <div className="col-lg-4 col-md-6 mb-3">
-              <h5>Services</h5>
+              <h5>{t('footer.servicesTitle')}</h5>
               <ul className="list-unstyled">
                 {footerLinks.services.map((service, index) => (
                   <li key={index} className="d-flex align-items-center">
-                    <Link to={service.href}>{service.name}</Link>
+                    <Link to={service.href}>{t(`servicesData.${service.id}.title`)}</Link>
                   </li>
                 ))}
               </ul>
@@ -85,30 +87,30 @@ const Footer = () => {
 
             {/* Company Links */}
             <div className="col-lg-4 col-md-6 mb-3">
-              <h5>Company</h5>
+              <h5>{t('footer.companyTitle')}</h5>
               <ul className="list-unstyled">
                 {footerLinks.company.map((link, index) => (
                   <li key={index} className="d-flex align-items-center">
-                    <Link to={link.href}>{link.name}</Link>
+                    <Link to={link.href}>{t(link.nameKey)}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div className='col-12'>
               <p>
-                It's in the meeting of people that ideas begin to spark. If you have a question, a suggestion, or simply wish to get in touch. Feel free to send us an email. We’ll respond as soon as possible and look forward to hearing from you.
+                {t('footer.inviteText')}
               </p>
               <Link to="/contact" className="btn btn-primary rounded-pill btn-lg fs-4 px-4 py-3">
-                Get in Touch
+                {t('footer.contactCta')}
               </Link>
-              <img src="/src/assets/saudi_vision_2030_logo.svg" style={{ height: '100px' }} alt="Saudi Vision 2030 Logo" className="mb-4 float-end" />
+              <img src="/src/assets/saudi_vision_2030_logo.svg" style={{ height: '100px' }} alt={t('saudiVision.logoAlt')} className="mb-4 float-end" />
             </div>
           </div>
           {/* Social Links */}
           <div className="row mt-4 pt-3">
             <hr className="hr mb-5" />
             <div className="col-md-6 d-flex flex-row justify-content-center justify-content-md-start my-2 text-start">
-              <p className="mb-0">&copy; {currentYear} AQTRA. All rights reserved.</p>
+              <p className="mb-0">&copy; {currentYear} AQTRA. {t('footer.rights')}</p>
             </div>
             <div className="col-md-6 d-flex flex-row justify-content-center justify-content-md-end my-2 text-end">
               {SocialLinks[0].map((social, index) => (

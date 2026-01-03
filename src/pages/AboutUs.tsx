@@ -2,10 +2,12 @@ import HeaderBanner from '@/components/HeaderBanner';
 import { faInfoCircle, faStar, faCertificate, faBullseye, faEye, faAtom } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import AOS from 'aos';
 import './AboutUs.css';
 
 const AboutUs: React.FC = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     // window.scrollTo({ top: 0, behavior: 'smooth' });
     AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
@@ -14,8 +16,8 @@ const AboutUs: React.FC = () => {
   return (
     <>
       <HeaderBanner
-        title="AQTRA Company"
-        subtitle="Leading Engineering Solutions Provider" />
+        title={t('about.headerTitle')}
+        subtitle={t('about.headerSubtitle')} />
 
       <div className="about-us">
         {/* Company Overview */}
@@ -25,11 +27,11 @@ const AboutUs: React.FC = () => {
             <div className="section-title">
               <h2>
                 <FontAwesomeIcon icon={faInfoCircle} className="me-2 text-primary" />
-                AQTRA Company Overview
+                    {t('about.overviewTitle')}
               </h2>
             </div>
             <p className="text-muted my-2 fs-5">
-              AQTRA Company is a leading provider of engineering solutions, specializing in HVAC, Electrical, Low-Current Systems, Smart Home & Automation and Solar Energy Solutions. With a commitment to innovation and excellence, we deliver cutting-edge solutions tailored to meet the unique needs of our clients.
+                  {t('about.overviewDescription')}
             </p>
           </div>
 
@@ -41,34 +43,34 @@ const AboutUs: React.FC = () => {
             <div className="row">
               <div className="col-12 text-center mb-4" data-aos="fade-up">
                 <div className="section-title mb-3">
-                  <h2>Our Sectors</h2>
+                  <h2>{t('about.sectorsTitle')}</h2>
                 </div>
 
                 <ol className="list-group">
                   <li className="list-group-item mb-3">
-                    <strong>HVAC & Electromechanical Contracting</strong>
-                    <p>Comprehensive climate control and mechanical solutions for residential, commercial, and industrial projects.</p>
+                    <strong>{t('about.sector1Title')}</strong>
+                    <p>{t('about.sector1Description')}</p>
                     <img src='/src/assets/info.svg' style={{ maxWidth: '350px' }} className='m-3' />
                   </li>
 
                   <li className="list-group-item mb-3">
-                    <strong>Smart Home & Automation Systems</strong>
-                    <p>Advanced automation solutions for modern living, enhancing convenience, security, and energy efficiency.</p>
+                    <strong>{t('about.sector2Title')}</strong>
+                    <p>{t('about.sector2Description')}</p>
                     <img src='/src/assets/smart-home.svg' style={{ maxWidth: '350px' }} className='m-3' />
                   </li>
                   <li className="list-group-item mb-3">
-                    <strong>Electrical & Low-Current Systems</strong>
-                    <p>Reliable electrical installations and low-current systems for communication, security, and data networks.</p>
+                    <strong>{t('about.sector3Title')}</strong>
+                    <p>{t('about.sector3Description')}</p>
                     <img src='/src/assets/physics.svg' style={{ maxWidth: '350px' }} className='m-3' />
                   </li>
                   <li className="list-group-item mb-3">
-                    <strong>Solar Energy Systems</strong>
-                    <p>Sustainable and renewable energy solutions to reduce carbon footprints and achieve energy independence.</p>
+                    <strong>{t('about.sector4Title')}</strong>
+                    <p>{t('about.sector4Description')}</p>
                     <img src='/src/assets/quiet-street.svg' style={{ maxWidth: '350px' }} className='m-3' />
                   </li>
                   <li className="list-group-item mb-3">
-                    <strong>Embedded Systems & IoT</strong>
-                    <p>Innovative embedded systems and IoT solutions for smarter devices and connected environments.</p>
+                    <strong>{t('about.sector5Title')}</strong>
+                    <p>{t('about.sector5Description')}</p>
                     <img src='/src/assets/programming.svg' style={{ maxWidth: '350px' }} className='m-3' />
                   </li>
                 </ol>
@@ -85,11 +87,11 @@ const AboutUs: React.FC = () => {
             <div className="mb-4 section-title">
               <h3 >
                 {/* <FontAwesomeIcon icon={faCertificate} className="text-primary" /> */}
-                Licenses & Certifications
+                {t('about.licensesTitle')}
               </h3>
             </div>
             <p>
-              AQTRA Company holds a range of professional licenses and certifications, including Civil Defense approvals, HVAC installation certificates, low-voltage compliance, and safety and quality certifications. These credentials reflect our commitment to excellence and adherence to industry standards.
+              {t('about.licensesDescription')}
             </p>
           </div>
         </section>
@@ -100,11 +102,11 @@ const AboutUs: React.FC = () => {
             <div className="mb-4 section-title">
               <h3 >
                 {/* <FontAwesomeIcon icon={faStar} className="text-primary" /> */}
-                Our Experience
+                {t('about.experienceTitle')}
               </h3>
             </div>
             <p>
-              With over a decade of combined expertise, AQTRA Company has successfully delivered projects across commercial, residential, industrial, and healthcare sectors. Our team is known for its reliability, technical accuracy, engineering quality, and exceptional project management capabilities.
+              {t('about.experienceDescription')}
             </p>
           </div>
         </section>
@@ -115,11 +117,11 @@ const AboutUs: React.FC = () => {
             <div className="mb-4 section-title">
               <h3 >
                 {/* <FontAwesomeIcon icon={faBullseye} className="text-primary" /> */}
-                Our Mission
+                {t('about.missionTitle')}
               </h3>
             </div>
             <p>
-              To provide innovative and sustainable engineering solutions that exceed client expectations, while fostering a culture of excellence and continuous improvement.
+              {t('about.missionDescription')}
             </p>
           </div>
         </section>
@@ -130,11 +132,11 @@ const AboutUs: React.FC = () => {
             <div className="mb-4 section-title">
               <h3 >
                 {/* <FontAwesomeIcon icon={faEye} className="text-primary" /> */}
-                Our Vision
+                {t('about.visionTitle')}
               </h3>
             </div>
             <p>
-              To be a global leader in engineering and technology solutions, driving progress and creating value for our clients and communities.
+              {t('about.visionDescription')}
             </p>
           </div>
         </section>
@@ -145,15 +147,13 @@ const AboutUs: React.FC = () => {
             <div className="mb-4 section-title">
               <h3 >
                 {/* <FontAwesomeIcon icon={faAtom} className="text-primary" /> */}
-                Our Values
+                {t('about.valuesTitle')}
               </h3>
             </div>
             <ul className="list-unstyled">
-              <li className="mb-2">Integrity: We uphold the highest standards of honesty and transparency in all our dealings.</li>
-              <li className="mb-2">Innovation: We embrace creativity and strive to deliver cutting-edge solutions.</li>
-              <li className="mb-2">Excellence: We are committed to delivering quality and exceeding expectations.</li>
-              <li className="mb-2">Sustainability: We prioritize environmentally friendly practices and solutions.</li>
-              <li className="mb-2">Collaboration: We believe in the power of teamwork and strong partnerships.</li>
+              {(t('about.valuesList', { returnObjects: true }) as string[]).map((value, idx) => (
+                <li className="mb-2" key={idx}>{value}</li>
+              ))}
             </ul>
           </div>
         </section>

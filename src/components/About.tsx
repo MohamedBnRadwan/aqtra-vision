@@ -1,12 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CheckCircle, Award, Users, Lightbulb } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import LogoIcon from '@/assets/logo-icon.png';
-import Marquee from './Marquee';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const About = () => {
-  const features = [
+  const { t } = useTranslation();
+
+  const defaultFeatures = [
     {
       icon: Award,
       title: 'Quality Excellence',
@@ -24,13 +26,26 @@ const About = () => {
     },
   ];
 
+  const translatedFeatures = t('homeAbout.features', { returnObjects: true }) as Array<{ title: string; description: string }> | string;
+  const features = Array.isArray(translatedFeatures) ? translatedFeatures : defaultFeatures;
+
+  const translatedListItems = t('homeAbout.listItems', { returnObjects: true }) as string[] | string;
+  const listItems = Array.isArray(translatedListItems)
+    ? translatedListItems
+    : [
+        'Licensed & Certified Engineers',
+        'Comprehensive Project Management',
+        '24/7 Support & Maintenance',
+        'Sustainable & Energy-Efficient Solutions',
+      ];
+
   return (
     <section id="about" className="py-5 bg-white position-relative overflow-hidden">
         <div className="section-header text-center mb-5" data-aos="fade-up">
           <div className="section-title">
             <h2>
               <FontAwesomeIcon icon={faInfoCircle} className="me-2 text-primary" />
-              About AQTRA
+              {t('homeAbout.title')}
             </h2>
           </div>
         </div>
@@ -53,22 +68,17 @@ const About = () => {
           <div className="col-lg-6" data-aos="fade-right">
 
             <p className="text-muted">
-              AQTRA is a leading engineering and contracting company dedicated to delivering integrated solutions across multiple disciplines. Our commitment to accuracy and quality is reflected in every project we undertake.
+              {t('homeAbout.paragraph1')}
             </p>
             <p className="text-muted">
-              From smart home automation to sustainable solar energy systems, we combine technical expertise with innovative thinking to create solutions that enhance modern living and business operations.
+              {t('homeAbout.paragraph2')}
             </p>
             <p className="text-muted">
-              Our comprehensive service portfolio includes HVAC systems, plumbing, electrical installations, and network infrastructure – all designed to meet the evolving needs of our clients.
+              {t('homeAbout.paragraph3')}
             </p>
 
             <ul className="list-unstyled mt-4">
-              {[
-                'Licensed & Certified Engineers',
-                'Comprehensive Project Management',
-                '24/7 Support & Maintenance',
-                'Sustainable & Energy-Efficient Solutions',
-              ].map((item, index) => (
+              {listItems.map((item, index) => (
                 <li key={index} className="d-flex align-items-center mb-2">
                   <CheckCircle className="text-primary me-2" size={24} />
                   <span>{item}</span>
@@ -81,7 +91,11 @@ const About = () => {
           <div className="col-lg-6" data-aos="fade-left">
             <div className="row justify-content-center g-3">
               {features.map((feature, index) => {
-                const Icon = feature.icon;
+                const featureWithIcon = {
+                  ...feature,
+                  icon: (defaultFeatures[index]?.icon) || Award,
+                } as typeof defaultFeatures[number];
+                const Icon = featureWithIcon.icon;
                 return (
                   <div
                     key={index}
@@ -94,8 +108,8 @@ const About = () => {
                         <Icon className="text-primary" size={32} />
                       </div>
                       <div>
-                        <h5 className="fw-bold mb-1">{feature.title}</h5>
-                        <p className="text-muted mb-0">{feature.description}</p>
+                        <h5 className="fw-bold mb-1">{featureWithIcon.title}</h5>
+                        <p className="text-muted mb-0">{featureWithIcon.description}</p>
                       </div>
                     </div>
                   </div>

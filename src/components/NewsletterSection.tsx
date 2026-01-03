@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
+import { useTranslation } from 'react-i18next';
 import './NewsletterSection.css';
 import { ArrowRight } from 'lucide-react';
 import Rellax from "rellax";
 
 const NewsletterSection: React.FC = () => {
+    const { t } = useTranslation();
     let [consentGiven, setConsentGiven] = React.useState(false);
     let [email, setEmail] = React.useState('');
     let isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -12,10 +14,10 @@ const NewsletterSection: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!consentGiven) {
-            alert('Please provide consent to subscribe to the newsletter.');
+            alert(t('newsletter.missingConsent'));
             return;
         }
-        alert('Thank you for subscribing to our newsletter!');
+        alert(t('newsletter.thankYou'));
     };
 
   useEffect(() => {
@@ -44,8 +46,8 @@ const NewsletterSection: React.FC = () => {
                         <div className="col-12 newsletter-col12 col-md-10 card-holder p-4">
                             <div className="row g-4 align-items-center">
                                 <div className="col-md-6">
-                                    <h2 className="newsletter-title mb-4">Subscribe to our Newsletter</h2>
-                                    <p className="newsletter-description mb-4">Stay updated with the latest news and offers from our team.</p>
+                                    <h2 className="newsletter-title mb-4">{t('newsletter.title')}</h2>
+                                    <p className="newsletter-description mb-4">{t('newsletter.description')}</p>
                                 </div>
                                 <div className="col-md-6">
                                     <form className="newsletter-form" onSubmit={handleSubmit}>
@@ -53,7 +55,7 @@ const NewsletterSection: React.FC = () => {
                                             <input
                                                 type="email"
                                                 className="form-control"
-                                                placeholder="Your email address..."
+                                                placeholder={t('newsletter.placeholder')}
                                                 required
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
@@ -66,7 +68,7 @@ const NewsletterSection: React.FC = () => {
                                         <input type="checkbox" checked={consentGiven} onChange={() => setConsentGiven(!consentGiven)} name='IAgree' id="consent" />
                                         <label htmlFor="consent" onChange={() => setConsentGiven(!consentGiven)}
                                             style={{ cursor: 'pointer' }}>
-                                            I agree to AQTRA storing my email information for newsletter subscription.
+                                            {t('newsletter.consent')}
                                         </label>
                                     </div>
                                 </div>

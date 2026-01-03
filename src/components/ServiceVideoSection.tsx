@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import servicesCatalog from '@/Data/Services.json';
 import servicesMedia from '@/Data/ServicesMedia.json';
 import './ServiceVideoSection.css';
@@ -7,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faStar } from '@fortawesome/free-solid-svg-icons';
 
 export interface ServiceOverviewItem {
+  id?: string;
   title: string;
   description?: string;
   descriptionHtml?: string;
@@ -38,6 +40,7 @@ export const buildServiceOverviewData = (ids?: string[]): ServiceOverviewItem[] 
     const videoFromMedia = media?.videoUrl || svc.videoUrl;
 
     return {
+      id: svc.id,
       title: svc.title,
       description: svc.description,
       descriptionHtml: media?.description,
@@ -54,6 +57,7 @@ export const buildServiceOverviewData = (ids?: string[]): ServiceOverviewItem[] 
 };
 
 const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, serviceIds }) => {
+  const { t } = useTranslation();
   const resolvedServices = services ?? buildServiceOverviewData(serviceIds);
 
   return (
@@ -61,32 +65,44 @@ const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, ser
       <div className="container">
         <div className="row g-4">
           {resolvedServices.map((service) => {
+            const localizedTitle = service.id
+              ? t(`servicesData.${service.id}.title`, { defaultValue: service.title })
+              : service.title;
+            const localizedDescription = service.id
+              ? t(`servicesData.${service.id}.description`, { defaultValue: service.description })
+              : service.description;
+            const translatedHighlights = service.id
+              ? (t(`servicesData.${service.id}.items`, { returnObjects: true }) as string[] | string)
+              : undefined;
+            const highlights = Array.isArray(translatedHighlights)
+              ? translatedHighlights
+              : service.highlights;
             const hasImage = Boolean(service.imageUrl);
             const hasVideo = Boolean(service.videoUrl);
             const showVideo = !hasImage && hasVideo;
             const mediaSrc = service.imageUrl || service.videoUrl;
 
             return (
-              <div className="col-12" key={service.title}>
+              <div className="col-12" key={service.id || service.title}>
                 <div className="card service-overview-card shadow-sm border-0 overflow-hidden">
                   <div className="row row-reverse g-0 align-items-stretch">
                     <div className="col-lg-6 p-4 p-lg-5 d-flex flex-column justify-content-center">
                       <span className="badge badge-overview bg-primary-subtle text-primary fw-semibold rounded-pill px-3 py-2 small text-uppercase tracking-wide">
-                        AQTRA {service.title} Service Overview
+                        {t('servicesPage.overviewBadge', { title: localizedTitle })}
                       </span>
-                      <h3 className="mt-3 mb-3 display-6 fs-2 text-dark fw-semibold">{service.title}</h3>
+                      <h3 className="mt-3 mb-3 display-6 fs-2 text-dark fw-semibold">{localizedTitle}</h3>
                       {service.descriptionHtml ? (
                         <div
                           className="text-secondary mb-3 lh-lg"
                           dangerouslySetInnerHTML={{ __html: service.descriptionHtml }}
                         />
                       ) : (
-                        <p className="text-secondary mb-3 lh-lg">{service.description}</p>
+                        <p className="text-secondary mb-3 lh-lg">{localizedDescription}</p>
                       )}
 
-                      {service.highlights?.length ? (
+                      {highlights?.length ? (
                         <ul className="list-unstyled mb-3 text-body small">
-                          {service.highlights.map((item) => (
+                          {highlights.map((item) => (
                             <li className="d-flex align-items-start gap-2 highlight-item" key={item}>
                               <span className="bullet mt-1" aria-hidden="true" />
                               <span>{item}</span>
@@ -113,14 +129,14 @@ const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, ser
                             ) : (
                               <img
                                 src={service.imageUrl}
-                                alt={service.title}
+                                alt={localizedTitle}
                                 className="media-content w-100 h-100"
                                 loading="lazy"
                               />
                             )
                           ) : (
                             <div className="media-placeholder d-flex align-items-center justify-content-center text-secondary">
-                              Media coming soon
+                              {t('servicesPage.mediaComingSoon')}
                             </div>
                           )}
                           <div className="media-overlay" aria-hidden="true" />
@@ -135,21 +151,21 @@ const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, ser
                         <Link
                           to={service.serviceLink}
                           className="btn btn-primary rounded-pill px-4 shadow-sm hover-lift d-inline-flex align-items-center gap-2"
-                          aria-label={`${service.title} service page`}
+                          aria-label={t('servicesPage.moreAbout', { title: localizedTitle })}
                         >
                           <span className="btn-icon" aria-hidden="true"><FontAwesomeIcon icon={faArrowRight} /></span>
-                          <span>More about {service.title}</span>
+                          <span>{t('servicesPage.moreAbout', { title: localizedTitle })}</span>
                         </Link>
 
                         <Link
                           to={service.portfolioLink}
                           className="btn btn-outline-primary rounded-pill px-4 shadow-sm hover-lift d-inline-flex align-items-center gap-2"
-                          aria-label={`${service.title} portfolio`}
+                          aria-label={`${localizedTitle} ${t('servicesPage.portfolio')}`}
                         >
                           <span className="btn-icon" aria-hidden="true">
                             <FontAwesomeIcon icon={faStar} />
                           </span>
-                          <span>Portfolio</span>
+                          <span>{t('servicesPage.portfolio')}</span>
                         </Link>
                       </div>
                       <Link to={service.solutionsLink || '/solutions'}
@@ -160,17 +176,17 @@ const ServiceVideoSection: React.FC<ServiceVideoSectionProps> = ({ services, ser
                               <img
                                 src={service.logoIcon}
                                 width={70}
-                                alt="Solution Page"
+                                alt={t('servicePage.solutionPageAlt')}
                                 style={{ marginBottom: '12px' }}
                               />
                               <h3 className="display-6 text-truncate mb-0"
                                 style={{ marginLeft: "-15px" }}>
-                                Solutions
+                                {t('servicesPage.solutions')}
                               </h3>
                               <img
                                 src={service.logoText}
                                 width={100}
-                                alt={`${service.title} logo`}
+                                alt={`${localizedTitle} logo`}
                               />
                             </div>
                           </div>

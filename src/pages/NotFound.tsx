@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import HeaderBanner from "@/components/HeaderBanner";
 
 const NotFound = () => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   useEffect(() => {
@@ -12,8 +14,8 @@ const NotFound = () => {
   return (
     <>
       <HeaderBanner
-        title="404 Page Not Found"
-        subtitle="May something good is going to happen, stay updated."
+        title={t('notFound.title')}
+        subtitle={t('notFound.subtitle')}
       />
       <h1 className="d-none">404</h1>
 
@@ -21,18 +23,18 @@ const NotFound = () => {
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
           <div className="text-center">
             <div className="flex justify-center gap-4 mb-4">
-              <img src="/src/assets/404.svg" style={{maxWidth: '80vw'}} alt="Placeholder 1" className="w-32 h-32" />
+              <img src="/src/assets/404.svg" style={{maxWidth: '80vw'}} alt={t('notFound.title')} className="w-32 h-32" />
             </div>
-            <h2 className="mb-4">Oops! The page you're looking for doesn't exist.</h2>
+            <h2 className="mb-4">{t('notFound.heading')}</h2>
             <p className="mb-4 text-xl text-gray-600">
-              Good things are cooking! We're working to bring this page to life. Stay around for updates.
+              {t('notFound.description')}
             </p>
 
             <Link to="/" className="btn btn-primary rounded-pill px-4 py-2 mb-4">
-              Return to Home
+              {t('notFound.returnHome')}
             </Link>
             <p className="mb-4 text-muted">
-              It seems you've ventured into uncharted territory. Don't worry, let's get you back on track!
+              {t('notFound.footerText')}
             </p>
           </div>
         </div>

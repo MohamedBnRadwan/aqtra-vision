@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import heroBg1 from '@/assets/hero-bg-1.jpg';
 import heroBg2 from '@/assets/hero-bg-2.jpg';
 import heroBg3 from '@/assets/hero-bg-3.jpg';
-import Marquee from './Marquee';
 
 const Hero = () => {
+  const { t } = useTranslation();
   const [currentBg, setCurrentBg] = useState(0);
   const backgrounds = [heroBg1, heroBg2, heroBg3];
 
@@ -51,7 +52,7 @@ const Hero = () => {
           data-aos="fade-up"
           data-aos-duration="800"
         >
-          AQTRA
+          {t('home.heroTitle')}
         </h1>
         <div 
           className="mb-8 text-xl md:text-2xl lg:text-3xl font-light"
@@ -59,7 +60,7 @@ const Hero = () => {
           data-aos-delay="200"
           data-aos-duration="800"
         >
-          Integrated Engineering Solutions
+          {t('home.heroSubtitle')}
         </div>
         <p 
           className="mb-10 text-lg md:text-xl max-w-3xl mx-auto text-white/90"
@@ -67,7 +68,7 @@ const Hero = () => {
           data-aos-delay="400"
           data-aos-duration="800"
         >
-          Transforming spaces with smart home systems, sustainable solar energy, and comprehensive engineering services
+          {t('home.heroDescription')}
         </p>
         <div 
           className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -80,7 +81,7 @@ const Hero = () => {
             onClick={() => scrollToSection('services')}
             className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-6 shadow-glow"
           >
-            Explore Services
+            {t('home.heroPrimaryCta')}
           </Button>
           <Button 
             size="lg"
@@ -88,7 +89,7 @@ const Hero = () => {
             onClick={() => scrollToSection('contact')}
             className="bg-white/10 border-white text-white hover:bg-white hover:text-foreground text-lg px-8 py-6 backdrop-blur-sm"
           >
-            Get In Touch
+            {t('home.heroSecondaryCta')}
           </Button>
         </div>
 

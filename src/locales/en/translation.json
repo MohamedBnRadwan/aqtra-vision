@@ -1,0 +1,278 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "contactUs": "Contact Us"
+  },
+  "common": {
+    "rateUs": "Rate us on Google",
+    "googleMapAlt": "Google Map Logo",
+    "comingSoon": "Coming Soon",
+    "portfolioComingSoon": "Portfolio Coming Soon",
+    "loading": "Loading"
+  },
+  "home": {
+    "heroTitle": "AQTRA",
+    "heroSubtitle": "Integrated Engineering Solutions",
+    "heroDescription": "Transforming spaces with smart home systems, sustainable solar energy, and comprehensive engineering services",
+    "heroPrimaryCta": "Explore Services",
+    "heroSecondaryCta": "Get In Touch",
+    "servicesHeading": "Our Services",
+    "servicesSubheading": "Comprehensive engineering solutions tailored to your needs",
+    "viewAllServices": "View All Services"
+  },
+  "homeAbout": {
+    "title": "About AQTRA",
+    "paragraph1": "AQTRA is a leading engineering and contracting company dedicated to delivering integrated solutions across multiple disciplines. Our commitment to accuracy and quality is reflected in every project we undertake.",
+    "paragraph2": "From smart home automation to sustainable solar energy systems, we combine technical expertise with innovative thinking to create solutions that enhance modern living and business operations.",
+    "paragraph3": "Our comprehensive service portfolio includes HVAC systems, plumbing, electrical installations, and network infrastructure – all designed to meet the evolving needs of our clients.",
+    "listItems": [
+      "Licensed & Certified Engineers",
+      "Comprehensive Project Management",
+      "24/7 Support & Maintenance",
+      "Sustainable & Energy-Efficient Solutions"
+    ],
+    "features": [
+      {
+        "title": "Quality Excellence",
+        "description": "Committed to delivering the highest standards in every project"
+      },
+      {
+        "title": "Expert Team",
+        "description": "Skilled professionals with years of engineering experience"
+      },
+      {
+        "title": "Innovative Solutions",
+        "description": "Cutting-edge technology integrated into practical applications"
+      }
+    ]
+  },
+  "contactPage": {
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you. Get in touch with us today!",
+    "rateUs": "Rate us on Google"
+  },
+  "contact": {
+    "sectionTitle": "Get In Touch",
+    "sectionDescription": "Ready to start your project? Contact us today for a consultation",
+    "contactInformationTitle": "Contact Information",
+    "contactInformationDescription": "Reach out to our team for any inquiries about our services or to discuss your next project.",
+    "phoneTitle": "Phone",
+    "emailTitle": "Email",
+    "locationTitle": "Location",
+    "fullName": "Full Name *",
+    "emailAddress": "Email Address *",
+    "phoneNumber": "Phone Number",
+    "message": "Message *",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "your@email.com",
+    "phonePlaceholder": "+966 XX XXX XXXX",
+    "messagePlaceholder": "Tell us about your project...",
+    "submit": "Send Message",
+    "missingInfoTitle": "Missing Information",
+    "missingInfoDescription": "Please fill in all required fields (Name, Email, Message).",
+    "messageSentTitle": "Message Sent!",
+    "messageSentDescription": "Thank you for contacting AQTRA. We will get back to you soon."
+  },
+  "newsletter": {
+    "title": "Subscribe to our Newsletter",
+    "description": "Stay updated with the latest news and offers from our team.",
+    "placeholder": "Your email address...",
+    "consent": "I agree to AQTRA storing my email information for newsletter subscription.",
+    "missingConsent": "Please provide consent to subscribe to the newsletter.",
+    "thankYou": "Thank you for subscribing to our newsletter!"
+  },
+  "about": {
+    "headerTitle": "AQTRA Company",
+    "headerSubtitle": "Leading Engineering Solutions Provider",
+    "overviewTitle": "AQTRA Company Overview",
+    "overviewDescription": "AQTRA Company is a leading provider of engineering solutions, specializing in HVAC, Electrical, Low-Current Systems, Smart Home & Automation and Solar Energy Solutions. With a commitment to innovation and excellence, we deliver cutting-edge solutions tailored to meet the unique needs of our clients.",
+    "sectorsTitle": "Our Sectors",
+    "sector1Title": "HVAC & Electromechanical Contracting",
+    "sector1Description": "Comprehensive climate control and mechanical solutions for residential, commercial, and industrial projects.",
+    "sector2Title": "Smart Home & Automation Systems",
+    "sector2Description": "Advanced automation solutions for modern living, enhancing convenience, security, and energy efficiency.",
+    "sector3Title": "Electrical & Low-Current Systems",
+    "sector3Description": "Reliable electrical installations and low-current systems for communication, security, and data networks.",
+    "sector4Title": "Solar Energy Systems",
+    "sector4Description": "Sustainable and renewable energy solutions to reduce carbon footprints and achieve energy independence.",
+    "sector5Title": "Embedded Systems & IoT",
+    "sector5Description": "Innovative embedded systems and IoT solutions for smarter devices and connected environments.",
+    "licensesTitle": "Licenses & Certifications",
+    "licensesDescription": "AQTRA Company holds a range of professional licenses and certifications, including Civil Defense approvals, HVAC installation certificates, low-voltage compliance, and safety and quality certifications. These credentials reflect our commitment to excellence and adherence to industry standards.",
+    "experienceTitle": "Our Experience",
+    "experienceDescription": "With over a decade of combined expertise, AQTRA Company has successfully delivered projects across commercial, residential, industrial, and healthcare sectors. Our team is known for its reliability, technical accuracy, engineering quality, and exceptional project management capabilities.",
+    "missionTitle": "Our Mission",
+    "missionDescription": "To provide innovative and sustainable engineering solutions that exceed client expectations, while fostering a culture of excellence and continuous improvement.",
+    "visionTitle": "Our Vision",
+    "visionDescription": "To be a global leader in engineering and technology solutions, driving progress and creating value for our clients and communities.",
+    "valuesTitle": "Our Values",
+    "valuesList": [
+      "Integrity: We uphold the highest standards of honesty and transparency in all our dealings.",
+      "Innovation: We embrace creativity and strive to deliver cutting-edge solutions.",
+      "Excellence: We are committed to delivering quality and exceeding expectations.",
+      "Sustainability: We prioritize environmentally friendly practices and solutions.",
+      "Collaboration: We believe in the power of teamwork and strong partnerships."
+    ]
+  },
+  "servicesPage": {
+    "title": "Our Services",
+    "subtitle": "Explore the wide range of services we offer to meet your needs.",
+    "overviewBadge": "AQTRA {{title}} Service Overview",
+    "mediaComingSoon": "Media coming soon",
+    "moreAbout": "More about {{title}}",
+    "portfolio": "Portfolio",
+    "solutions": "Solutions"
+  },
+  "servicePage": {
+    "subtitle": "Explore our comprehensive solutions.",
+    "notFoundTitle": "Service Not Found",
+    "notFoundSubtitle": "The requested service could not be found.",
+    "notFoundBody": "Sorry, the service you are looking for does not exist.",
+    "backToServices": "Services",
+    "solutionPageAlt": "Solution Page"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Showcasing Our Expertise and Successful Projects",
+    "comingSoonTitle": "Portfolio Coming Soon",
+    "downloadPdf": "Download Portfolio PDF"
+  },
+  "saudiVision": {
+    "title": "Saudi Vision 2030",
+    "subtitle": "A bold blueprint for transforming Saudi Arabia into a global leader in economic, social, and cultural development.",
+    "overviewTitle": "Overview",
+    "overviewText": "Saudi Vision 2030 is a strategic framework launched in 2016 by the Kingdom of Saudi Arabia to reduce its dependence on oil, diversify its economy, and develop public service sectors such as health, education, infrastructure, recreation, and tourism. It aims to position Saudi Arabia as a global investment powerhouse and a hub connecting three continents: Asia, Europe, and Africa.",
+    "pillarsTitle": "The Three Pillars of Vision 2030",
+    "pillarVibrantTitle": "Vibrant Society",
+    "pillarVibrantText": "The goal of a vibrant society is to create a rich and fulfilling life for all citizens and residents. This includes promoting cultural and entertainment opportunities, preserving Saudi heritage, and improving the quality of life through world-class healthcare and education.",
+    "pillarThrivingTitle": "Thriving Economy",
+    "pillarThrivingText": "A thriving economy focuses on diversifying income sources, empowering the private sector, and creating job opportunities for all. It emphasizes innovation, entrepreneurship, and attracting foreign investment to drive sustainable growth.",
+    "pillarAmbitiousTitle": "Ambitious Nation",
+    "pillarAmbitiousText": "An ambitious nation aims to enhance government effectiveness, transparency, and accountability. It seeks to foster a culture of responsibility and volunteerism, ensuring that all citizens contribute to the nation’s progress.",
+    "targetsTitle": "Key Targets & Goals",
+    "targetsList": [
+      "Increase private sector GDP contribution from 40% to 65%.",
+      "Raise foreign direct investment from 3.8% to 5.7% of GDP.",
+      "Grow non-oil revenue from SAR 163 billion to SAR 1 trillion.",
+      "Improve the quality of life index ranking to be among the top 10 globally.",
+      "Increase the number of volunteers from 11,000 to 1 million.",
+      "Enhance e-government services and digital transformation."
+    ],
+    "impactTitle": "Impact & Opportunities",
+    "impactText": "Vision 2030 presents immense opportunities for businesses, society, and the global community. It fosters a dynamic business environment, attracts foreign investment, and drives infrastructure development. The vision also enhances the quality of life for citizens and residents, creating a sustainable and diversified economy for future generations.",
+    "logoAlt": "Saudi Vision 2030 Logo"
+  },
+  "notFound": {
+    "title": "404 Page Not Found",
+    "subtitle": "May something good is going to happen, stay updated.",
+    "heading": "Oops! The page you're looking for doesn't exist.",
+    "description": "Good things are cooking! We're working to bring this page to life. Stay around for updates.",
+    "returnHome": "Return to Home",
+    "footerText": "It seems you've ventured into uncharted territory. Don't worry, let's get you back on track!"
+  },
+  "footer": {
+    "description": "Integrated engineering solutions for modern living and business operations.",
+    "servicesTitle": "Services",
+    "companyTitle": "Company",
+    "contactCta": "Get in Touch",
+    "backToTop": "Back to top",
+    "rights": "All rights reserved.",
+    "inviteText": "It's in the meeting of people that ideas begin to spark. If you have a question, a suggestion, or simply wish to get in touch. Feel free to send us an email. We’ll respond as soon as possible and look forward to hearing from you."
+  },
+  "footerLinks": {
+    "about": "About Us",
+    "contact": "Contact",
+    "projects": "Projects",
+    "careers": "Careers"
+  },
+  "servicesData": {
+    "smart-home-systems": {
+      "title": "Smart Home Systems",
+      "description": "Advanced home automation for modern living",
+      "items": [
+        "Smart Lighting",
+        "Smart Locks",
+        "Voice Control",
+        "Home Theater",
+        "HVAC Automation"
+      ]
+    },
+    "solar-energy": {
+      "title": "Solar Energy",
+      "description": "Sustainable power solutions for your future",
+      "items": [
+        "Solar Panel Installation",
+        "On/Off/Hybrid/Pumping Grid Systems",
+        "Battery Storage",
+        "EPC & Maintenance"
+      ]
+    },
+    "hvac-chiller": {
+      "title": "HVAC & Chiller",
+      "description": "Climate control and air quality solutions",
+      "items": [
+        "Ducting Fabrication",
+        "Chillers",
+        "Air Handling Units",
+        "Maintenance"
+      ]
+    },
+    "plumbing": {
+      "title": "Plumbing",
+      "description": "Complete water and drainage systems",
+      "items": [
+        "Water & Drainage Systems",
+        "Heaters",
+        "Solar Hot Water",
+        "Leak Detection"
+      ]
+    },
+    "fire-fighting": {
+      "title": "Fire Fighting",
+      "description": "Comprehensive fire safety solutions",
+      "items": [
+        "Fire Suppression Systems",
+        "Fire Alarms",
+        "Emergency Lighting",
+        "Sprinkler Systems"
+      ]
+    },
+    "electrical": {
+      "title": "Electrical",
+      "description": "Professional electrical installations",
+      "items": [
+        "Power Distribution",
+        "Panels",
+        "Lighting",
+        "Backup Systems",
+        "Earthing"
+      ]
+    },
+    "network-security": {
+      "title": "Network & Security",
+      "description": "Modern IT infrastructure solutions",
+      "items": [
+        "Structured Cabling",
+        "Wi-Fi",
+        "CCTV",
+        "PAVA Public Addres and Voice Alarm",
+        "Access Control",
+        "Data Rack Setup"
+      ]
+    },
+    "landscape-irrigation": {
+      "title": "Landscape & Irrigation",
+      "description": "Outdoor water management solutions",
+      "items": [
+        "Irrigation Systems",
+        "Landscape Lighting",
+        "Water Features",
+        "Drainage Solutions"
+      ]
+    }
+  }
+}

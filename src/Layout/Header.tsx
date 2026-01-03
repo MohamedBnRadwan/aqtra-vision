@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoHorizontal from '@/assets/logo-horizontal.png';
 
 const Header = () => {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -41,20 +43,20 @@ const Header = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('services'); }}
             className="text-foreground hover:text-primary transition-colors font-medium"
           >
-            Services
+            {t('nav.services')}
           </a>
           <a
             href="#about"
             onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}
             className="text-foreground hover:text-primary transition-colors font-medium"
           >
-            About
+            {t('nav.about')}
           </a>
           <Button 
             onClick={() => scrollToSection('contact')}
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
-            Contact Us
+            {t('nav.contactUs')}
           </Button>
         </div>
 
@@ -75,20 +77,20 @@ const Header = () => {
                 onClick={(e) => { e.preventDefault(); scrollToSection('services'); }}
                 className="text-foreground hover:text-primary transition-colors font-medium py-2"
               >
-                Services
+                {t('nav.services')}
               </a>
               <a
                 href="#about"
                 onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}
                 className="text-foreground hover:text-primary transition-colors font-medium py-2"
               >
-                About
+                {t('nav.about')}
               </a>
               <Button 
                 onClick={() => scrollToSection('contact')}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground w-full"
               >
-                Contact Us
+                {t('nav.contactUs')}
               </Button>
             </div>
           </div>

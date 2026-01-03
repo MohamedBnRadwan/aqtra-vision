@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import * as Brands from '@fortawesome/free-brands-svg-icons';
+import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import logoLight from '@/assets/logo-icon.png';
@@ -17,6 +18,7 @@ declare global {
 }
 
 const CustomHeader: React.FC = () => {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
@@ -95,7 +97,7 @@ const CustomHeader: React.FC = () => {
                 to="/"
                 className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
               >
-                Home
+                {t('nav.home')}
               </Link>
             </li>
             <li className="nav-item">
@@ -103,7 +105,7 @@ const CustomHeader: React.FC = () => {
                 to="/about-us"
                 className={`nav-link ${location.pathname === '/about-us' ? 'active' : ''}`}
               >
-                About
+                {t('nav.about')}
               </Link>
             </li>
             <li className="nav-item">
@@ -111,7 +113,7 @@ const CustomHeader: React.FC = () => {
                 to="services"
                 className={`nav-link ${location.pathname === '/services' ? 'active' : ''}`}
               >
-                Services
+                {t('nav.services')}
               </Link>
             </li>
             <li className="nav-item">
@@ -119,7 +121,7 @@ const CustomHeader: React.FC = () => {
                 to="portfolio"
                 className={`nav-link ${location.pathname === '/portfolio' ? 'active' : ''}`}
               >
-                Portfolio
+                {t('nav.portfolio')}
               </Link>
             </li>
             <li className="nav-item">
@@ -127,7 +129,7 @@ const CustomHeader: React.FC = () => {
                 to="contact"
                 className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
               >
-                Contact
+                {t('nav.contact')}
               </Link>
             </li>
           </ul>

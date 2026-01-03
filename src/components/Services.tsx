@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Wifi, Leaf, AirVent, Droplets, Zap, Network, FireExtinguisher } from 'lucide-react';
-import ScrollImageEffect from './ScrollImageEffect';
+import { useTranslation } from 'react-i18next';
 import servicesData from '@/Data/Services.json';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
@@ -17,6 +17,8 @@ const iconMap = {
 };
 
 const Services = ({ col = "col-10 col-md-6 col-lg-4", showFeaturedOnly = false }) => {
+  const { t } = useTranslation();
+
   useEffect(() => {
     AOS.init();
     AOS.refresh();
@@ -30,6 +32,10 @@ const Services = ({ col = "col-10 col-md-6 col-lg-4", showFeaturedOnly = false }
             .filter(service => (showFeaturedOnly ? service.isHomeFeatured : true))
             .map((service, index) => {
               const Icon = iconMap[service.icon];
+              const title = t(`servicesData.${service.id}.title`, { defaultValue: service.title });
+              const description = t(`servicesData.${service.id}.description`, { defaultValue: service.description });
+              const translatedItems = t(`servicesData.${service.id}.items`, { returnObjects: true }) as string[] | string;
+              const items = Array.isArray(translatedItems) ? translatedItems : service.items;
               return (
                 <div className={col} key={index} data-aos="fade-up" data-aos-delay={index * 100}>
                   <Link to={`/services/${service.id}`} className="text-decoration-none">
@@ -46,11 +52,11 @@ const Services = ({ col = "col-10 col-md-6 col-lg-4", showFeaturedOnly = false }
                       >
                         <Icon className={`fs-2 ${service.color}`} />
                       </div>
-                      <h5 className="card-title text-center">{service.title}</h5>
-                      <p className="card-text text-center text-muted">{service.description}</p>
+                      <h5 className="card-title text-center">{title}</h5>
+                      <p className="card-text text-center text-muted">{description}</p>
 
                       <ul className="list-unstyled mt-3">
-                        {service.items.map((item, i) => (
+                        {items.map((item, i) => (
                           <li key={i} className="d-flex align-items-start">
                             <span className="text-success me-2">•</span>
                             <span className="text-muted">{item}</span>

@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import servicesMedia from '@/Data/ServicesMedia.json';
 import servicesInfo from '@/Data/Services.json';
 import HeaderBanner from '@/components/HeaderBanner';
 import './ServicePage.css';
 
 const ServicePage: React.FC = () => {
+    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const service = servicesMedia.find((service) => service.id === id);
     const serviceInfo = servicesInfo.find((service) => service.id === id);
@@ -19,12 +21,12 @@ const ServicePage: React.FC = () => {
         return (
             <>
                 <HeaderBanner
-                    title="Service Not Found"
-                    subtitle="The requested service could not be found."
+                    title={t('servicePage.notFoundTitle')}
+                    subtitle={t('servicePage.notFoundSubtitle')}
                     backgroundImage="/path-to-default-banner.jpg"
                 />
                 <div className="container py-5">
-                    <p>Sorry, the service you are looking for does not exist.</p>
+                    <p>{t('servicePage.notFoundBody')}</p>
                 </div>
             </>
         );
@@ -49,22 +51,22 @@ const ServicePage: React.FC = () => {
     return (
         <>
             <HeaderBanner
-                title={service.title}
-                subtitle="Explore our comprehensive solutions."
+                title={t(`servicesData.${service.id}.title`, { defaultValue: service.title })}
+                subtitle={t('servicePage.subtitle')}
                 backgroundImage={service.headerImage}
             />
             <div className="container py-5">
-                <Link to="/services" className="btn btn-outline-primary mb-4"><ChevronLeft /> Services</Link>
+                <Link to="/services" className="btn btn-outline-primary mb-4"><ChevronLeft /> {t('servicePage.backToServices')}</Link>
                 {service.solutionPage
                     && <Link to={`${service.solutionPage}`}
                         className="btn btn-outline-light float-end mb-4">
-                        <img src={serviceInfo.logoText} alt="Solution Page" />
+                        <img src={serviceInfo.logoText} alt={t('servicePage.solutionPageAlt')} />
                     </Link>}
                 <h3 className='align-baseline align-items-baseline d-flex'>
-                    <img src={serviceInfo.logoIcon} width='50px' alt="Solution Page" />
-                    {service.title}
+                    <img src={serviceInfo.logoIcon} width='50px' alt={t('servicePage.solutionPageAlt')} />
+                    {t(`servicesData.${service.id}.title`, { defaultValue: service.title })}
                 </h3>
-                <div dangerouslySetInnerHTML={{ __html: service.description }}></div>
+                <div dangerouslySetInnerHTML={{ __html: t(`servicesData.${service.id}.description`, { defaultValue: service.description }) }}></div>
                 {service.videoUrl && (
                     <div className="mt-4">
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 // import AOS from 'aos';
 // import 'aos/dist/aos.css';
 import Services from '@/components/Services';
@@ -10,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faConciergeBell } from '@fortawesome/free-solid-svg-icons';
 
 const Index = () => {
+  const { t } = useTranslation();
   const [heroPadding, setHeroPadding] = useState(0);
 
   // useEffect(() => {
@@ -56,11 +58,11 @@ const Index = () => {
             <div className="section-title">
               <h2>
                 <FontAwesomeIcon icon={faConciergeBell} className="me-2 text-primary" />
-                Our Services
+                {t('home.servicesHeading')}
               </h2>
             </div>
             <p className="text-muted my-2 fs-5">
-              Comprehensive engineering solutions tailored to your needs
+              {t('home.servicesSubheading')}
             </p>
           </div>
         </div>
@@ -69,7 +71,7 @@ const Index = () => {
 
         <div className="text-center mt-4" data-aos="fade-up">
           <Link to="/services" className="btn btn-primary rounded-pill px-4 py-2 ">
-            View All Services
+            {t('home.viewAllServices')}
           </Link>
         </div>
       </section>
