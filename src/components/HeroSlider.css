@@ -13,6 +13,8 @@
   transition: border-radius 0.65s ease, box-shadow 0.65s ease, padding 0.65s ease, margin 0.65s ease;
 }
 
+
+
 .hero-slider--compact {
   --hero-radius: 28px;
   --hero-padding: clamp(1.5rem, 4vw, 3rem);
@@ -271,6 +273,7 @@
     opacity: 0;
     transform: translateY(18px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -290,8 +293,8 @@
 
 @media (max-width: 768px) {
   .hero-slider {
-    /* border-radius: 18px; */
-    min-height: 90vh;
+    min-height: 400px !important; 
+    /* max-height: 600px !important; */
   }
 
   .hero-slide {
@@ -331,7 +334,7 @@
     font-size: 0.485rem;
   }
 
-   .hero-slide__actions a {
+  .hero-slide__actions a {
     font-size: 0.685rem;
   }
 

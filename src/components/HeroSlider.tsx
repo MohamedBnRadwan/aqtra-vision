@@ -21,7 +21,7 @@ type HeroService = {
 };
 
 const services: HeroService[] = [
-       {
+    {
         id: 'landscape-irrigation',
         title: 'Landscape & Irrigation',
         description: 'Sustainable landscape design and smart irrigation systems that conserve water and enhance outdoor spaces.',
@@ -95,7 +95,7 @@ const services: HeroService[] = [
     }
 ];
 
-const SLIDE_DURATION = 7200;
+const SLIDE_DURATION = 3200;
 
 const HeroSlider = () => {
     const { t, i18n } = useTranslation();
@@ -289,8 +289,8 @@ const HeroSlider = () => {
                     className="hero-slider__arrow"
                     onClick={(e) => { e.stopPropagation(); isRtl ? handlePrev() : handleNext(); }}
                     aria-label={isRtl ? t('heroSlider.ariaPrev') ?? 'Previous slide' : t('heroSlider.ariaNext') ?? 'Next slide'}
-                    >
-                        <ChevronRight />
+                >
+                    <ChevronRight />
                 </button>
             </div>
 
