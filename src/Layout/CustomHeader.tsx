@@ -65,9 +65,8 @@ const CustomHeader: React.FC = () => {
     <nav
       className={`navbar navbar-expand-lg fixed-top ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'
         } ${isNavbarVisible ? 'nav-visible' : 'nav-invisible'}`}
-      
     >
-      <div className="container-fluid px-3 px-md-4">
+      <div className="container-fluid px-3 px-md-4 d-flex align-items-center justify-content-between gap-2 flex-nowrap">
         {/* Logo and Website Name */}
         <Link to="/" className="navbar-brand d-flex align-items-center" >
           <img
@@ -85,21 +84,8 @@ const CustomHeader: React.FC = () => {
           />
         </Link>
 
-        {/* Toggler for Mobile */}
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
         {/* Center Navigation */}
-        <div className="collapse w-100 navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse flex-grow-1 justify-content-center" id="navbarNav">
           <ul className="navbar-nav mx-auto">
             <li className="nav-item">
               <Link
@@ -145,7 +131,7 @@ const CustomHeader: React.FC = () => {
         </div>
 
         {/* Right Buttons */}
-        <div className="w-100 justify-content-center d-flex gap-3 align-items-center">
+        <div className="justify-content-center d-none d-lg-flex gap-3 align-items-center ms-auto">
           <button
             type="button"
             className="btn btn-outline-secondary rounded-pill px-3 d-flex align-items-center gap-2"
@@ -184,6 +170,31 @@ const CustomHeader: React.FC = () => {
           >
             <FontAwesomeIcon icon={Brands.faLinkedinIn} size="lg" />
           </a>
+        </div>
+
+        {/* Mobile controls at end */}
+        <div className="d-flex align-items-center gap-2 ms-2 d-lg-none">
+          <button
+            type="button"
+            className="btn btn-outline-secondary rounded-pill px-3 d-flex align-items-center gap-2"
+            onClick={toggleLanguage}
+            aria-label={t('nav.changeLanguage')}
+            disabled={isLangLoading}
+          >
+            <span className="fw-bold">{i18n.language === 'ar' ? 'E' : 'ع'}</span>
+            {isLangLoading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+          </button>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
         </div>
       </div>
     </nav>

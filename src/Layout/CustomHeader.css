@@ -15,6 +15,8 @@
 } 
 .navbar{
     transition: transform 0.3s, opacity 0.3s;
+    padding: 6px 12px;
+    min-height: 56px;
 }
 .navbar.nav-invisible {
     transform: translateY(-100%);
@@ -23,6 +25,21 @@
 .navbar.nav-visible {
     transform: translateY(0);
     opacity: 1;
+}
+
+@media (max-width: 991.98px) {
+    .navbar .navbar-brand {
+        margin-right: 0;
+    }
+
+    .navbar .navbar-collapse {
+        margin-top: 0.5rem;
+    }
+
+    .navbar .container-fluid {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
 }
 
 .vr {
