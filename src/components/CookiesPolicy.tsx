@@ -107,9 +107,19 @@ const CookiesPolicy: React.FC = () => {
                         <ul className='list-unstyled'>
                             {Object.keys(settings).map((key) => (
                                 <li key={key} className="cookie-option">
-                                    <div className="form-check form-switch">
-                                        <input className="form-check-input" onChange={() => toggle(key)} disabled={key === "necessary"} type="checkbox" role="switch" id={`switchCheckDefault-${key}`} checked={settings[key as keyof typeof settings]} />
-                                        <label className="form-check-label" htmlFor={`switchCheckDefault-${key}`}><span>{t(`cookies.categories.${key}`)}</span></label>
+                                    <div className="form-check form-switch w-100">
+                                        <input 
+                                            className="form-check-input" 
+                                            onChange={() => toggle(key)} 
+                                            disabled={key === "necessary"} 
+                                            type="checkbox" 
+                                            role="switch" 
+                                            id={`switchCheckDefault-${key}`} 
+                                            checked={settings[key as keyof typeof settings]} 
+                                        />
+                                        <label className="form-check-label w-100" htmlFor={`switchCheckDefault-${key}`}>
+                                            <span>{t(`cookies.categories.${key}`)}</span>
+                                        </label>
                                     </div>
                                 </li>
                             ))}

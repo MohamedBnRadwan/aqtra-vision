@@ -100,6 +100,14 @@
 .customise:hover {
   background: #f7f7f7;
 }
+.form-check-input {
+    width: 2.5rem !important;
+    height: 1.25rem !important;
+    margin-top: 0.3rem !important;
+    border-radius: 1.25rem !important;
+    cursor: pointer;
+}
+
 .form-check-input:focus {
     border-color: var(--primary) !important;
     box-shadow: 0 0 0 0.25rem #119d6033 !important;
@@ -108,6 +116,11 @@
 .form-check-input:checked {
     background-color: var(--primary-dark) !important;
     border-color: var(--primary-dark) !important;
+}
+
+.form-check-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 [dir="rtl"] .cookie-modal .form-check {
@@ -126,6 +139,7 @@
   margin-right: 0;
   margin-left: 0;
 }
+
 .cookie-option {
     display: flex;
     align-items: center;
@@ -133,8 +147,105 @@
     margin-bottom: 15px;
 }
 
-.form-check-label{
+.form-check-label {
   cursor: pointer;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+[dir="rtl"] .form-check-label {
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+.form-check-label span {
+  display: block;
+  font-size: 14px;
+  color: var(--primary-dark);
+  font-weight: 500;
+}
+
+/* Modal Styling */
+.cookie-modal-backdrop {
+  /* background: rgba(0, 0, 0, 0.5); */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.cookie-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.cookie-modal h2 {
+  margin-bottom: 20px;
+  color: var(--primary-dark);
+}
+
+.cookie-modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.cookie-modal .cookie-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.cookie-modal .form-check {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cookie-modal .form-check-input {
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+.cookie-modal .form-check-label {
+  margin: 0;
+  flex: 1;
+}
+
+[dir="rtl"] .cookie-modal .form-check {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .cookie-modal .form-check-label {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px !important;
+}
+
+.section-title h2 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 @media (max-width: 480px) {
