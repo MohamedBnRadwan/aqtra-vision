@@ -4,7 +4,7 @@
         "title": "Solar Energy",
         "solutionPage": "/solar-solutions",
         "description": "<p>Solar energy is a clean and renewable source of power that harnesses the sun's rays to generate electricity. It is an essential solution for reducing carbon emissions and achieving energy independence.</p>",
-        "videoUrl": "/src/assets/solar/1.mp4",
+        "videoUrl": "/src/assets/solar/v2.mp4",
         "headerImage": "/src/assets/solar/s1.png",
         "images": [
             "/src/assets/solar/1.jpg",
@@ -17,7 +17,7 @@
         "id": "smart-home-systems",
         "title": "Smart Home Systems",
         "description": "<p>Smart home systems provide advanced automation for modern living, including smart lighting, locks, and voice-controlled devices. They enhance convenience, security, and energy efficiency.</p>",
-        "videoUrl": "/src/assets/smart_home/1.mp4",
+        "videoUrl": "",
         "headerImage": "/src/assets/smart_home/s2.png",
         "images": [
             "/src/assets/smart_home/1.jpg",
@@ -50,7 +50,7 @@
         "id": "plumbing",
         "title": "Plumbing",
         "description": "<p>Plumbing systems are essential for water supply and drainage. They include installations for heaters, leak detection, and solar hot water systems, ensuring efficient water management.</p>",
-        "videoUrl": "/src/assets/plumbing/1.mp4",
+        "videoUrl": "",
         "headerImage": "/src/assets/plumbing/s2.png#position=0px,-934px",
         "images": [
             "/src/assets/plumbing/1.jpg",
@@ -71,7 +71,7 @@
         "id": "fire-fighting",
         "title": "Fire Alarm and Fighting",
         "description": "<p>Fire fighting systems provide comprehensive safety solutions, including fire alarms, suppression systems, and emergency lighting to protect lives and property.</p>",
-        "videoUrl": "/src/assets/fire/1.mp4",
+        "videoUrl": "",
         "headerImage": "/src/assets/fire/s3.png#position=0px,-650px",
         "images": [
             "/src/assets/fire/1.jpg",
@@ -89,7 +89,7 @@
         "id": "electrical",
         "title": "Electrical",
         "description": "<p>Electrical installations include power distribution, panels, lighting, and backup systems. They ensure reliable and safe electricity supply for various applications.</p>",
-        "videoUrl": "/src/assets/electrical/1.mp4",
+        "videoUrl": "",
         "headerImage": "/src/assets/electrical/s2.png",
         "images": [
             "/src/assets/electrical/1.jpg",
@@ -117,7 +117,7 @@
         "id": "landscape-irrigation",
         "title": "Landscape & Irrigation",
         "description": "<p>Outdoor water management solutions include irrigation systems, landscape lighting, water features, and drainage solutions to enhance and maintain outdoor spaces.</p>",
-        "videoUrl": "/src/assets/landscape/v1.mp4",
+        "videoUrl": "/src/assets/landscape/v2.mp4",
         "headerImage": "/src/assets/landscape/1-1.png",
         "images": [
             "/src/assets/landscape/1-1.png"
