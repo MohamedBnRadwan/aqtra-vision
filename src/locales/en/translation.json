@@ -476,87 +476,536 @@
   },
   "servicesData": {
     "smart-home-systems": {
-      "title": "Smart Home Systems",
-      "description": "Advanced home automation for modern living",
+      "title": "Smart Home & Automation",
+      "description": "Integrated smart home automation for comfort, security, and energy control.",
+      "shortDescription": "Integrated smart home automation for comfort, security, and energy control.",
+      "fullDescription": "<p>AQTRA designs and implements smart home and building automation systems that unify lighting, HVAC, access, audio/visual, and safety into one reliable platform. Our solutions are engineered for modern villas, apartments, offices, and hospitality environments where usability, stability, and future expansion are critical.</p><p>We deliver end-to-end automation including wiring and low-current infrastructure, controllers and gateways, mobile/voice integration, and centralized monitoring. Typical systems include smart lighting (dimming, scenes), smart locks and access, curtain/shutter control, HVAC scheduling and zoning, energy metering, leak/smoke integrations, home theater and multi-room audio, and remote access with secure user management.</p>",
+      "systemSelectionGuide": {
+        "overview": "The right automation approach depends on building size, finishing stage, reliability expectations, and integration scope.",
+        "options": [
+          {
+            "type": "Wired automation",
+            "bestFor": "New builds and full renovations",
+            "whenToChoose": "When you want maximum reliability, scalable expansion, and clean integration across multiple subsystems.",
+            "notes": "Enables structured cabling, centralized control panels, and stable performance independent of Wi‑Fi coverage."
+          },
+          {
+            "type": "Wireless / hybrid automation",
+            "bestFor": "Retrofits and phased upgrades",
+            "whenToChoose": "When civil works must be minimized while still adding key smart features.",
+            "notes": "A hybrid design keeps critical functions on wired backbone and uses wireless endpoints where practical."
+          }
+        ],
+        "keyFactors": [
+          "Number of zones (lighting/HVAC) and future rooms",
+          "Network quality and power backup requirements",
+          "Integration scope (CCTV, access control, intercom, AV)",
+          "User experience (keypads, app, voice) and guest mode",
+          "Cybersecurity and remote access policy"
+        ],
+        "typicalDeliverables": [
+          "Automation design and device schedule",
+          "Low-current wiring and panel layout",
+          "Commissioning, scenes, and user profiles",
+          "As-built documentation and O&M handover"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "Manufacturer warranty on controllers, actuators, keypads, and smart devices as per brand terms.",
+        "workmanshipGuarantee": "Workmanship guarantee covering installation quality, termination, labeling, and commissioning.",
+        "standardsAndApprovals": [
+          "Low-current and structured cabling best practices",
+          "Local authority requirements where applicable",
+          "Secure network configuration and access control policy"
+        ]
+      },
+      "benefits": [
+        "Improved comfort through zoning, scenes, and scheduling",
+        "Enhanced security with integrated access and monitoring",
+        "Energy optimization via smart control and metering",
+        "Scalable platform for future devices and integrations",
+        "Centralized control with clear, user-friendly interfaces"
+      ],
+      "relatedSolutions": [
+        "smart-home",
+        "bms-integration",
+        "home-cinema"
+      ],
+      "portfolioFilterKey": "smart-home-systems",
       "items": [
-        "Smart Lighting",
-        "Smart Locks",
-        "Voice Control",
-        "Home Theater",
-        "HVAC Automation"
+        "Lighting scenes & dimming",
+        "Smart access & locks",
+        "App & voice control",
+        "Home cinema & AV",
+        "HVAC automation"
       ]
     },
     "solar-energy": {
-      "title": "Solar Energy",
-      "description": "Sustainable power solutions for your future",
+      "title": "Solar Energy Systems",
+      "description": "Engineering, procurement, and installation of high-performance solar PV systems.",
+      "shortDescription": "Engineering, procurement, and installation of high-performance solar PV systems.",
+      "fullDescription": "<p>AQTRA delivers solar photovoltaic (PV) solutions for residential, commercial, and industrial sites—designed to reduce energy cost, stabilize power, and improve sustainability. Our scope covers site assessment, PV sizing, structural and electrical design, procurement, installation, commissioning, and monitoring.</p><p>We implement complete PV systems including modules and mounting structures, string or hybrid inverters, DC/AC protection, earthing and lightning protection, energy meters, monitoring portals, and optional battery storage. For special applications we design solar pumping systems and off-grid solutions with load management.</p>",
+      "systemSelectionGuide": {
+        "overview": "System type should match your consumption profile, grid availability, backup requirements, and space constraints.",
+        "options": [
+          {
+            "type": "On-grid (grid-tied)",
+            "bestFor": "Sites with stable utility grid",
+            "whenToChoose": "When the goal is maximum ROI through net metering/self-consumption and you do not need long backup duration.",
+            "notes": "Typically the most cost-effective per kWp and simplest to maintain."
+          },
+          {
+            "type": "Off-grid",
+            "bestFor": "Remote sites without reliable grid",
+            "whenToChoose": "When utility power is unavailable and autonomy is required.",
+            "notes": "Requires batteries and careful load management; sizing is driven by critical loads and autonomy hours."
+          },
+          {
+            "type": "Hybrid (PV + battery + grid/generator)",
+            "bestFor": "Sites needing backup and peak shaving",
+            "whenToChoose": "When you want solar savings plus power continuity for critical loads.",
+            "notes": "Enables backup, peak demand reduction, and smart energy management."
+          }
+        ],
+        "keyFactors": [
+          "Monthly energy usage and daytime load profile",
+          "Available roof/ground area and shading analysis",
+          "Budget vs desired payback period",
+          "Backup duration and critical load list",
+          "Future expansion (EV chargers, added loads)"
+        ],
+        "typicalDeliverables": [
+          "Energy audit and PV yield estimate",
+          "Single-line diagrams and protection design",
+          "Mounting layout and structural checks",
+          "Commissioning report and monitoring setup"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "PV module performance and product warranties plus inverter warranty per manufacturer terms.",
+        "workmanshipGuarantee": "Installation workmanship guarantee covering mounting, cabling, labeling, and commissioning.",
+        "standardsAndApprovals": [
+          "Electrical safety and protection coordination",
+          "Utility and net-metering requirements where applicable",
+          "Local inspection and documentation for approvals"
+        ]
+      },
+      "benefits": [
+        "Lower electricity bills and reduced peak demand",
+        "High reliability with monitoring and protection",
+        "Scalable capacity expansion as loads grow",
+        "Reduced carbon footprint and sustainability reporting",
+        "Optional backup power with hybrid storage"
+      ],
+      "relatedSolutions": [
+        "solar-solutions",
+        "solar-calculation",
+        "ev-charging"
+      ],
+      "portfolioFilterKey": "solar-energy",
       "items": [
-        "Solar Panel Installation",
-        "On/Off/Hybrid/Pumping Grid Systems",
-        "Battery Storage",
-        "EPC & Maintenance"
+        "PV design & EPC",
+        "On-grid / off-grid / hybrid",
+        "Battery storage",
+        "Monitoring & O&M"
       ]
     },
     "hvac-chiller": {
-      "title": "HVAC & Chiller",
-      "description": "Climate control and air quality solutions",
+      "title": "HVAC & Chiller Systems",
+      "description": "Complete HVAC engineering for thermal comfort, air quality, and energy efficiency.",
+      "shortDescription": "Complete HVAC engineering for thermal comfort, air quality, and energy efficiency.",
+      "fullDescription": "<p>AQTRA provides HVAC solutions that deliver stable indoor comfort and healthy air quality for villas, offices, retail, hospitals, and industrial facilities. Our engineers design and install systems covering cooling/heating capacity, ventilation, filtration, humidity control, acoustics, and energy optimization.</p><p>Scope includes load calculation, equipment selection, ducting fabrication and installation, chilled water piping, AHU/FCU installation, controls and thermostats, commissioning, and testing & balancing (TAB). We integrate HVAC controls with BMS and smart automation where required.</p>",
+      "systemSelectionGuide": {
+        "overview": "Selecting the right HVAC system depends on building size, zoning needs, ceiling height, usage pattern, and lifecycle cost.",
+        "options": [
+          {
+            "type": "Split / ducted split",
+            "bestFor": "Apartments and small-to-medium areas",
+            "whenToChoose": "When budget is tight and zoning is limited.",
+            "notes": "Simple installation and maintenance; efficiency depends on correct sizing and duct design."
+          },
+          {
+            "type": "VRF/VRV",
+            "bestFor": "Multi-zone villas, offices, and hotels",
+            "whenToChoose": "When you need many indoor units with independent control and high part-load efficiency.",
+            "notes": "Excellent zoning and expandability; requires expert design and refrigerant piping practices."
+          },
+          {
+            "type": "Chiller system (air/water cooled)",
+            "bestFor": "Large commercial and industrial projects",
+            "whenToChoose": "When centralized cooling and high capacity are required.",
+            "notes": "Supports AHUs/FCUs; offers strong lifecycle economics when engineered and maintained correctly."
+          }
+        ],
+        "keyFactors": [
+          "Cooling load and diversity factor",
+          "Number of zones and control requirements",
+          "Energy efficiency targets and operating hours",
+          "Space for outdoor units/plant room",
+          "Noise, ventilation, and filtration requirements"
+        ],
+        "typicalDeliverables": [
+          "Heat load calculation and equipment schedule",
+          "Ducting layout and static pressure sizing",
+          "Piping schematic and valve schedules",
+          "TAB and commissioning documentation"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "HVAC equipment warranty per manufacturer terms (compressors, controls, and major components).",
+        "workmanshipGuarantee": "Workmanship guarantee covering duct/piping installation, insulation, drainage, and commissioning.",
+        "standardsAndApprovals": [
+          "Ventilation and indoor air quality practices",
+          "Electrical and mechanical safety compliance",
+          "Documentation suitable for consultant/authority review"
+        ]
+      },
+      "benefits": [
+        "Consistent comfort and improved indoor air quality",
+        "Lower operating cost through efficient selection and controls",
+        "Reliable operation with correct commissioning",
+        "Scalable zoning for future space changes",
+        "Reduced noise and better thermal stability"
+      ],
+      "relatedSolutions": [
+        "hvac-solutions",
+        "ducting",
+        "bms-integration"
+      ],
+      "portfolioFilterKey": "hvac-chiller",
       "items": [
-        "Ducting Fabrication",
-        "Chillers",
-        "Air Handling Units",
-        "Maintenance"
+        "Load calculation & design",
+        "Ducting fabrication",
+        "VRF & chillers",
+        "Commissioning & maintenance"
       ]
     },
     "plumbing": {
-      "title": "Plumbing",
-      "description": "Complete water and drainage systems",
+      "title": "Plumbing Systems",
+      "description": "Water supply, drainage, and pumping solutions engineered for reliability and hygiene.",
+      "shortDescription": "Water supply, drainage, and pumping solutions engineered for reliability and hygiene.",
+      "fullDescription": "<p>AQTRA delivers complete plumbing and water systems for residential and commercial buildings. Our services cover cold and hot water networks, sanitary drainage, stormwater drainage, pumping systems, and water heater solutions—engineered for safety, hygiene, and long-term performance.</p><p>We provide material selection and proper installation methods for piping, valves, insulation, and supports, with careful attention to pressure management, backflow prevention, and leak mitigation. Where required, we integrate leak detection and monitoring to protect property and reduce water loss.</p>",
+      "systemSelectionGuide": {
+        "overview": "The best plumbing design depends on demand, water pressure, fixture count, and the building’s vertical layout.",
+        "options": [
+          {
+            "type": "Gravity drainage vs pumped discharge",
+            "bestFor": "Most buildings vs constrained sites",
+            "whenToChoose": "Use gravity wherever possible; select pumps where elevation or routing constraints exist.",
+            "notes": "Correct venting and slope are critical for odor control and performance."
+          },
+          {
+            "type": "Central vs point-of-use hot water",
+            "bestFor": "Hotels and villas vs apartments",
+            "whenToChoose": "Central systems suit high demand; point-of-use reduces distribution losses for smaller loads.",
+            "notes": "Consider recirculation for long pipe runs to reduce waiting time."
+          }
+        ],
+        "keyFactors": [
+          "Peak demand and pressure availability",
+          "Water quality and material compatibility",
+          "Building height and booster pump needs",
+          "Maintenance access and isolation zoning",
+          "Leak detection and shutoff requirements"
+        ],
+        "typicalDeliverables": [
+          "Plumbing layout, riser diagrams, and valve schedule",
+          "Pump sizing and control logic",
+          "Testing (pressure tests) and commissioning",
+          "As-built drawings and O&M manuals"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "Manufacturer warranty for pumps, heaters, and fixtures per brand terms.",
+        "workmanshipGuarantee": "Workmanship guarantee covering pipe joints, supports, insulation, and leak-free commissioning.",
+        "standardsAndApprovals": [
+          "Local plumbing and hygiene requirements",
+          "Pressure testing and inspection documentation",
+          "Backflow and safety device compliance"
+        ]
+      },
+      "benefits": [
+        "Reliable water distribution and stable pressure",
+        "Reduced leaks through correct materials and testing",
+        "Efficient hot water delivery and energy savings",
+        "Maintainable zoning with clear isolation points",
+        "Protection against water damage with leak monitoring"
+      ],
+      "relatedSolutions": [
+        "water-heaters",
+        "leak-detection",
+        "solar-hot-water"
+      ],
+      "portfolioFilterKey": "plumbing",
       "items": [
-        "Water & Drainage Systems",
-        "Heaters",
-        "Solar Hot Water",
-        "Leak Detection"
+        "Water & drainage networks",
+        "Pumps & boosters",
+        "Water heaters",
+        "Leak detection"
       ]
     },
     "fire-fighting": {
-      "title": "Fire Fighting",
-      "description": "Comprehensive fire safety solutions",
+      "title": "Fire Alarm & Fire Fighting",
+      "description": "Code-compliant fire detection and suppression systems for life safety.",
+      "shortDescription": "Code-compliant fire detection and suppression systems for life safety.",
+      "fullDescription": "<p>AQTRA engineers and installs fire alarm and fire fighting systems that protect people, assets, and operations. Our scope covers detection and notification, suppression design, fire pump rooms, and complete commissioning to meet project requirements.</p><p>We implement systems such as addressable fire alarm, smoke/heat detection, manual call points, horn/strobe notification, sprinkler and standpipe networks, hydrants, fire pumps, and special suppression where required (subject to design). We coordinate drawings, calculations, and site testing with project stakeholders.</p>",
+      "systemSelectionGuide": {
+        "overview": "System selection depends on occupancy type, risk category, authority requirements, and the protected asset value.",
+        "options": [
+          {
+            "type": "Conventional vs addressable fire alarm",
+            "bestFor": "Small buildings vs complex sites",
+            "whenToChoose": "Addressable systems are preferred for larger buildings and precise event location.",
+            "notes": "Addressable panels simplify troubleshooting and reporting."
+          },
+          {
+            "type": "Sprinkler/hydrant vs special suppression",
+            "bestFor": "General areas vs critical rooms",
+            "whenToChoose": "Use sprinklers/hydrants for most occupancies; consider special suppression for server rooms or sensitive equipment.",
+            "notes": "Final selection must align with consultant and authority approvals."
+          }
+        ],
+        "keyFactors": [
+          "Building occupancy and hazard classification",
+          "Authority/consultant design criteria",
+          "Water supply availability and pump sizing",
+          "Interface requirements (BMS, elevators, access control)",
+          "Maintainability and periodic testing needs"
+        ],
+        "typicalDeliverables": [
+          "Shop drawings and calculations",
+          "Cause-and-effect matrix and interfaces",
+          "Testing, commissioning, and training",
+          "As-built documentation and maintenance plan"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "Manufacturer warranty for panels, detectors, and pumps per brand terms.",
+        "workmanshipGuarantee": "Workmanship guarantee covering installation quality, cabling, labeling, and testing.",
+        "standardsAndApprovals": [
+          "NFPA-aligned engineering practices where applicable",
+          "Civil defense / local authority approvals",
+          "Inspection, testing, and acceptance documentation"
+        ]
+      },
+      "benefits": [
+        "Improved life safety through early detection and clear evacuation",
+        "Reduced asset loss with engineered suppression",
+        "Compliance-ready documentation for approvals",
+        "Reliable operation with routine testing and maintenance",
+        "Integrations that reduce false alarms and improve response"
+      ],
+      "relatedSolutions": [
+        "fire-alarm",
+        "sprinkler-systems",
+        "emergency-lighting"
+      ],
+      "portfolioFilterKey": "fire-fighting",
       "items": [
-        "Fire Suppression Systems",
-        "Fire Alarms",
-        "Emergency Lighting",
-        "Sprinkler Systems"
+        "Fire detection & alarm",
+        "Sprinklers & hydrants",
+        "Fire pumps",
+        "Testing & approvals"
       ]
     },
     "electrical": {
-      "title": "Electrical",
-      "description": "Professional electrical installations",
+      "title": "Electrical Systems",
+      "description": "Low-voltage power distribution, lighting, and protection systems built to code.",
+      "shortDescription": "Low-voltage power distribution, lighting, and protection systems built to code.",
+      "fullDescription": "<p>AQTRA delivers electrical engineering and installation for residential, commercial, and industrial projects. Our scope covers LV power distribution, panel boards, lighting, earthing, surge protection, backup systems, and testing/commissioning.</p><p>We design circuits and protection coordination, implement high-quality cable management and termination, and provide clear labeling and documentation. Where required, we integrate low-current systems (CCTV, access control, networking) and coordinate interfaces with automation and fire alarm.</p>",
+      "systemSelectionGuide": {
+        "overview": "Electrical design should be planned around load profile, safety, expansion capacity, and operational continuity.",
+        "options": [
+          {
+            "type": "Power systems (LV distribution)",
+            "bestFor": "All buildings",
+            "whenToChoose": "Required for safe energy distribution and protection.",
+            "notes": "Includes MDB/SMDB/DBs, breakers, cables, earthing, and surge protection."
+          },
+          {
+            "type": "Low-current systems",
+            "bestFor": "Security, communications, automation",
+            "whenToChoose": "When you need structured data cabling, CCTV, access control, intercom, and system integrations.",
+            "notes": "Often implemented alongside power works for optimal routing and coordination."
+          }
+        ],
+        "keyFactors": [
+          "Connected load, demand factor, and diversity",
+          "Critical loads requiring UPS/generator backup",
+          "Space for electrical rooms and panel locations",
+          "Safety requirements (earthing, bonding, protection)",
+          "Future expansion capacity and spare ways"
+        ],
+        "typicalDeliverables": [
+          "Load schedule and single-line diagrams",
+          "Panel schedules and cable sizing",
+          "Testing (IR, continuity, earth resistance)",
+          "As-built drawings and commissioning reports"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "Manufacturer warranty for switchgear, breakers, luminaires, and equipment per brand terms.",
+        "workmanshipGuarantee": "Workmanship guarantee covering cable installation, terminations, labeling, and testing.",
+        "standardsAndApprovals": [
+          "Local electrical regulations and inspection requirements",
+          "Protection coordination and safety testing",
+          "Documentation suitable for consultant/authority review"
+        ]
+      },
+      "benefits": [
+        "Safe and reliable power distribution",
+        "Reduced downtime with proper protection and backup planning",
+        "Energy efficiency through optimized lighting and controls",
+        "Scalable infrastructure with spare capacity",
+        "Clean documentation for operations and maintenance"
+      ],
+      "relatedSolutions": [
+        "lighting-control",
+        "ups-generator",
+        "surge-protection"
+      ],
+      "portfolioFilterKey": "electrical",
       "items": [
-        "Power Distribution",
-        "Panels",
-        "Lighting",
-        "Backup Systems",
-        "Earthing"
+        "Power distribution",
+        "Panels & breakers",
+        "Lighting systems",
+        "Earthing & surge protection",
+        "Backup solutions"
       ]
     },
     "network-security": {
-      "title": "Network & Security",
-      "description": "Modern IT infrastructure solutions",
+      "title": "IT / Network Systems",
+      "description": "Structured cabling and enterprise networking designed for performance and security.",
+      "shortDescription": "Structured cabling and enterprise networking designed for performance and security.",
+      "fullDescription": "<p>AQTRA delivers IT and network infrastructure for homes, offices, retail, hospitality, and industrial sites. We design and implement the physical layer (structured cabling) and the active layer (switching, routing, Wi‑Fi) to ensure stable performance, coverage, and security.</p><p>Our scope includes rack and patch panel installation, copper/fiber termination, labeling, network design, Wi‑Fi heatmap planning, CCTV and access control network integration, and structured handover documentation. We follow best practices for segmentation, secure remote access, and expansion readiness.</p>",
+      "systemSelectionGuide": {
+        "overview": "Start with a clear separation between passive infrastructure (cabling) and active equipment (switches/routers/Wi‑Fi).",
+        "options": [
+          {
+            "type": "Structured cabling (passive)",
+            "bestFor": "New builds and long-term reliability",
+            "whenToChoose": "Always recommended as a backbone for data, CCTV, VoIP, and automation.",
+            "notes": "Correct pathway planning, labeling, and testing are essential."
+          },
+          {
+            "type": "Active networking (switching/routing/Wi‑Fi)",
+            "bestFor": "Performance and security control",
+            "whenToChoose": "When you need VLAN segmentation, PoE powering, managed Wi‑Fi, and scalable expansion.",
+            "notes": "Design should account for coverage, bandwidth, redundancy, and future devices."
+          }
+        ],
+        "keyFactors": [
+          "Number of endpoints (CCTV, APs, phones, IoT)",
+          "Coverage needs and building materials",
+          "Security policy (VLANs, firewall, guest isolation)",
+          "PoE budget and UPS runtime",
+          "Future expansion and rack capacity"
+        ],
+        "typicalDeliverables": [
+          "Cabling layouts, labeling scheme, and test results",
+          "Rack elevations and patching plan",
+          "Wi‑Fi design and AP placement",
+          "Network documentation and handover"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "Manufacturer warranty for network equipment per brand terms; cabling system warranty as applicable.",
+        "workmanshipGuarantee": "Workmanship guarantee covering termination, labeling, configuration baseline, and testing.",
+        "standardsAndApprovals": [
+          "Structured cabling best practices and certification",
+          "Secure configuration and access control policy",
+          "Documentation aligned with client/consultant requirements"
+        ]
+      },
+      "benefits": [
+        "Reliable connectivity and consistent Wi‑Fi coverage",
+        "Security through segmentation and controlled access",
+        "Scalable capacity for future devices and services",
+        "Reduced troubleshooting time with proper labeling",
+        "Improved uptime with UPS and redundancy planning"
+      ],
+      "relatedSolutions": [
+        "network-solutions",
+        "cctv",
+        "access-control"
+      ],
+      "portfolioFilterKey": "network-security",
       "items": [
-        "Structured Cabling",
-        "Wi-Fi",
-        "CCTV",
-        "PAVA Public Addres and Voice Alarm",
-        "Access Control",
-        "Data Rack Setup"
+        "Structured cabling",
+        "Managed Wi‑Fi",
+        "CCTV integration",
+        "Access control",
+        "Data rack setup"
       ]
     },
     "landscape-irrigation": {
-      "title": "Landscape & Irrigation",
-      "description": "Outdoor water management solutions",
+      "title": "Landscaping & Smart Irrigation",
+      "description": "Outdoor landscaping with efficient irrigation, lighting, and drainage engineering.",
+      "shortDescription": "Outdoor landscaping with efficient irrigation, lighting, and drainage engineering.",
+      "fullDescription": "<p>AQTRA provides landscaping and irrigation solutions that combine aesthetics with engineering performance. We deliver softscape and hardscape works, smart irrigation design, landscape lighting, and drainage for villas, compounds, commercial facilities, and public spaces.</p><p>Our irrigation designs include drip and sprinkler networks, pressure regulation, valves and controllers, pump and filtration arrangements, and water-efficient scheduling. We coordinate planting selection and soil preparation with hydraulic zoning to ensure healthy growth and minimum water waste.</p>",
+      "systemSelectionGuide": {
+        "overview": "A successful outdoor project balances design intent, site conditions, water availability, and maintenance capacity.",
+        "options": [
+          {
+            "type": "Softscape",
+            "bestFor": "Planting, lawns, and soil improvements",
+            "whenToChoose": "When the focus is greenery, shading, and natural aesthetics.",
+            "notes": "Requires irrigation zoning and soil preparation matched to plant types."
+          },
+          {
+            "type": "Hardscape",
+            "bestFor": "Pathways, patios, walls, and outdoor structures",
+            "whenToChoose": "When you need durable outdoor circulation and functional areas.",
+            "notes": "Drainage and sub-base preparation are critical for longevity."
+          },
+          {
+            "type": "Smart irrigation",
+            "bestFor": "Water efficiency and predictable maintenance",
+            "whenToChoose": "When you want optimized watering schedules and remote control.",
+            "notes": "Controllers, sensors, and pressure regulation reduce waste and improve plant health."
+          }
+        ],
+        "keyFactors": [
+          "Site grading and drainage requirements",
+          "Water pressure/flow and irrigation zoning",
+          "Plant types, sun exposure, and soil conditions",
+          "Budget and maintenance capability",
+          "Future expansion and seasonal adjustments"
+        ],
+        "typicalDeliverables": [
+          "Landscape concept and detailed drawings",
+          "Irrigation layout and valve zoning",
+          "Lighting layout and cable routing",
+          "Commissioning and seasonal maintenance guidance"
+        ]
+      },
+      "warrantyAndGuarantee": {
+        "systemWarranty": "Manufacturer warranty for controllers, pumps, valves, and lighting fixtures per brand terms.",
+        "workmanshipGuarantee": "Workmanship guarantee covering installation quality, alignment, and irrigation performance tests.",
+        "standardsAndApprovals": [
+          "Electrical safety for outdoor lighting",
+          "Water-efficient design practices",
+          "Site drainage coordination with civil works"
+        ]
+      },
+      "benefits": [
+        "Improved curb appeal and usable outdoor spaces",
+        "Reduced water consumption through smart scheduling",
+        "Healthier planting with correct zoning and filtration",
+        "Lower maintenance issues through proper drainage",
+        "Expandable design for future outdoor additions"
+      ],
+      "relatedSolutions": [
+        "landscape-solutions",
+        "irrigation",
+        "outdoor-lighting"
+      ],
+      "portfolioFilterKey": "landscape-irrigation",
       "items": [
-        "Irrigation Systems",
-        "Landscape Lighting",
-        "Water Features",
-        "Drainage Solutions"
+        "Softscape & hardscape",
+        "Smart irrigation",
+        "Landscape lighting",
+        "Drainage solutions"
       ]
     }
   }
