@@ -45,12 +45,6 @@ const Index = () => {
         <HeroSlider />
       </section>
 
-      {/* About Section */}
-      <section>
-
-        <About />
-      </section>
-
       {/* Services Section */}
       <section id="services" className="py-5 bg-light">
         <div className='container'>
@@ -74,6 +68,11 @@ const Index = () => {
             {t('home.viewAllServices')}
           </Link>
         </div>
+      </section>
+
+      {/* About Section */}
+      <section>
+        <About />
       </section>
 
       {/* <ParallaxImageSection imageUrl={ParallaxImage} heading="Your Text Here" summary={'Your summary here'} /> */}
