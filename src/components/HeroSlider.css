@@ -149,11 +149,12 @@
 .hero-slide__calculator {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: .55rem;
   min-width: 50%;
+  color: var(--primary);
   justify-content: space-between;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.16);
+  background: #ffffff87;
 }
 
 .hero-slide__calculator img {
@@ -293,7 +294,7 @@
 
 @media (max-width: 768px) {
   .hero-slider {
-    min-height: 400px !important; 
+    min-height: 400px !important;
     /* max-height: 600px !important; */
   }
 
