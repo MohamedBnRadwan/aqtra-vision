@@ -6,6 +6,7 @@ import Services from '@/components/Services';
 import About from '@/components/About';
 import NewsletterSection from '@/components/NewsletterSection';
 import HeroSlider from '@/components/HeroSlider';
+import Clients from '@/components/Clients';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faConciergeBell } from '@fortawesome/free-solid-svg-icons';
@@ -74,6 +75,9 @@ const Index = () => {
       <section>
         <About />
       </section>
+
+      {/* Clients Section */}
+      <Clients />
 
       {/* <ParallaxImageSection imageUrl={ParallaxImage} heading="Your Text Here" summary={'Your summary here'} /> */}
       {/* <ParallaxVideoSection videoUrl={ParallaxVideo} text='asasas' /> */}
