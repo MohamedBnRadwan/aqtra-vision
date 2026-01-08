@@ -292,10 +292,10 @@ const SolarApplicationForm: React.FC = () => {
                 <div className="alert alert-warning mt-2 mb-0 py-2">
                   <div className="fw-semibold">{t('solarCalc.highBillFocus')}</div>
                   <ul className="mb-0 ps-3">
-                    <li>⚡ {t('solarCalc.hugeBillTip1')}</li>
-                    <li>💡 {t('solarCalc.hugeBillTip2')}</li>
-                    <li>📊 {t('solarCalc.hugeBillTip3')}</li>
-                    <li>💰 {t('solarCalc.hugeBillTip4')}</li>
+                    <li>{t('solarCalc.hugeBillTip1')}</li>
+                    <li>{t('solarCalc.hugeBillTip2')}</li>
+                    <li>{t('solarCalc.hugeBillTip3')}</li>
+                    <li>{t('solarCalc.hugeBillTip4')}</li>
                   </ul>
                 </div>
               )}
