@@ -1,9 +1,8 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logoVerticalLight from '@/assets/AQTRA-LOGO-TEXT-COLORD.png';
-import * as Brands from "@fortawesome/free-brands-svg-icons";
 import { Link } from 'react-router-dom';
-import { SocialLinks } from '@/Data/CompanyInfo.json';
+import { socialLinks } from '@/Data/CompanyInfo';
 import './Footer.css';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
@@ -113,7 +112,7 @@ const Footer = () => {
               <p className="mb-0">&copy; {currentYear} AQTRA. {t('footer.rights')}</p>
             </div>
             <div className="col-md-6 d-flex flex-row justify-content-center justify-content-md-end my-2 text-end">
-              {SocialLinks[0].map((social, index) => (
+              {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
@@ -122,7 +121,7 @@ const Footer = () => {
                   className="btn btn-outline-light d-flex align-items-center justify-content-center rounded-circle mx-2"
                   style={{ width: '40px', height: '40px' }}
                 >
-                  <FontAwesomeIcon icon={Brands[social.icon]} />
+                  <FontAwesomeIcon icon={social.icon} />
                 </a>
               ))}
             </div>

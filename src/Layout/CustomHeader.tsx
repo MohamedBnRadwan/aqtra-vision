@@ -4,7 +4,7 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import * as Brands from '@fortawesome/free-brands-svg-icons';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
+import { socialLinks, phoneLink, contactPhone, whatsappLink, whatsAppNumber } from '@/Data/CompanyInfo';
 import logoLight from '@/assets/logo-icon.png';
 import LogoText from '@/assets/AQTRA-LOGO-TEXT.png';
 import { Link, useLocation } from 'react-router-dom';
@@ -26,6 +26,9 @@ const CustomHeader: React.FC = () => {
 
   const [isLangLoading, setIsLangLoading] = useState(false);
 
+  const instagram = socialLinks.find(link => link.title === "Instagram");
+  const linkedin = socialLinks.find(link => link.title === "LinkedIn");
+
   const toggleLanguage = () => {
     if (isLangLoading) return;
     const nextLang = i18n.language === 'ar' ? 'en' : 'ar';
@@ -38,13 +41,13 @@ const CustomHeader: React.FC = () => {
     if (navbarCollapse?.classList.contains('show')) {
       const bsCollapse = window.bootstrap?.Collapse.getInstance(navbarCollapse);
       if (bsCollapse) {
-      bsCollapse.hide();
+        bsCollapse.hide();
       } else {
-      navbarCollapse.classList.remove('show');
+        navbarCollapse.classList.remove('show');
       }
     }
-  },[location.pathname]);
-  
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPosition = window.scrollY;
@@ -60,7 +63,10 @@ const CustomHeader: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollPosition]);
-//style={{ transition: 'visibility 0.3s, opacity 0.3s', opacity: isNavbarVisible ? 1 : 0 }}
+
+  // get data form CompanyInfo.json
+
+  //style={{ transition: 'visibility 0.3s, opacity 0.3s', opacity: isNavbarVisible ? 1 : 0 }}
   return (
     <nav
       className={`navbar navbar-expand-lg fixed-top ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'
@@ -146,30 +152,32 @@ const CustomHeader: React.FC = () => {
             {t('nav.freeQuote')}
           </Link>
           <div className='d-none d-xl-flex'>
-            <a href="tel:+966562405666" className="d-flex text-decoration-none text-primary align-items-center gap-2">
-              <FontAwesomeIcon icon={faPhone} size="lg" /> +966 (056) 240 5666
+            <a href={phoneLink} className="d-flex text-decoration-none text-primary align-items-center gap-2">
+              <FontAwesomeIcon icon={faPhone} size="lg" /> {contactPhone}
             </a>
           </div>
-          <a href="tel:+966562405666" style={{width: '40px'}} title='+966 (056) 240 5666' className="d-xl-none text-decoration-none btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center">
+          <a href={phoneLink} style={{ width: '40px' }} title={contactPhone} className="d-xl-none text-decoration-none btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center">
             <FontAwesomeIcon icon={faPhone} size='sm' />
           </a>
           <span className="vr"></span>
-          <a href="https://wa.me/966562405666" target="_blank" rel="noopener noreferrer" className="btn btn-success rounded-circle d-flex align-items-center justify-content-center"
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn btn-success rounded-circle d-flex align-items-center justify-content-center"
             style={{ width: '40px', height: '40px' }}>
             <FontAwesomeIcon icon={Brands.faWhatsapp} size="lg" />
           </a>
-          <a
-            href="https://www.instagram.com/aqtra.co/" target="_blank" rel="noopener noreferrer"
-            className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: '40px', height: '40px' }}          >
-            <FontAwesomeIcon icon={Brands.faInstagram} size="lg" />
-          </a>
-          <a href="https://www.linkedin.com/company/aqtraco/" target="_blank" rel="noopener noreferrer"
-            className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: '40px', height: '40px' }}
-          >
-            <FontAwesomeIcon icon={Brands.faLinkedinIn} size="lg" />
-          </a>
+          {instagram &&
+            <a
+              href={instagram.href} target="_blank" rel="noopener noreferrer"
+              className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
+              style={{ width: '40px', height: '40px' }}          >
+              <FontAwesomeIcon icon={instagram.icon} size="lg" />
+            </a>}
+          {linkedin &&
+            <a href={linkedin.href} target="_blank" rel="noopener noreferrer"
+              className="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
+              style={{ width: '40px', height: '40px' }}
+            >
+              <FontAwesomeIcon icon={linkedin.icon} size="lg" />
+            </a>}
         </div>
 
         {/* Mobile controls at end */}
@@ -190,7 +198,7 @@ const CustomHeader: React.FC = () => {
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
             aria-controls="navbarNav"
-            aria-expanded="false"
+            aria-expanded="false" 
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
