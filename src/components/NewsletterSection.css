@@ -106,8 +106,9 @@
 }
 
 [dir="rtl"] .newsletter-section .consent {
-    flex-direction: row-reverse;
-    text-align: right;
+       /* flex-direction: row-reverse; */
+    text-align: center;
+    justify-content: center;
 }
 
 [dir="rtl"] .newsletter-section .consent input {
