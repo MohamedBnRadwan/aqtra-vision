@@ -151,7 +151,7 @@ const CustomHeader: React.FC = () => {
           <Link to="/contact" className="btn btn-primary rounded-pill px-3" aria-label={t('nav.freeQuote')}>
             {t('nav.freeQuote')}
           </Link>
-          <div className='d-none d-xl-flex'>
+          <div className='d-none dir-ltr d-xl-flex'>
             <a href={phoneLink} className="d-flex text-decoration-none text-primary align-items-center gap-2">
               <FontAwesomeIcon icon={faPhone} size="lg" /> {contactPhone}
             </a>
