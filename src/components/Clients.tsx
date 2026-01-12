@@ -25,7 +25,7 @@ const Clients: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="clients" className="clients-section py-5">
+    <div id="clients" className="clients-section py-5">
       <div className="container">
         <div className="text-center mb-4">
           <p className="clients-kicker mb-2" aria-label="Trusted clients">
@@ -47,7 +47,7 @@ const Clients: React.FC = () => {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
