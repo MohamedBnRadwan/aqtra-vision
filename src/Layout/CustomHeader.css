@@ -115,3 +115,10 @@
     }
 }
 /* Logo intro animation */
+
+
+@media (max-width: 991.98px) { 
+    ul.navbar-nav .nav-link {
+        text-align: center;
+    }
+}
