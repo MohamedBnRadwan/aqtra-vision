@@ -87,7 +87,7 @@
   font-weight: 600;
   color: var(--primary-foreground, #ffffff);
   background: rgba(17, 157, 96, 0.18);
-  border: 1px solid rgba(17, 157, 96, 0.35);
+  border: 1px solid #119d6059;
   border-radius: 999px;
   padding: 0.35rem 0.85rem;
   width: fit-content;
