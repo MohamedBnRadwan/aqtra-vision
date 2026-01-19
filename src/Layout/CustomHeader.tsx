@@ -156,7 +156,7 @@ const CustomHeader: React.FC = () => {
               <FontAwesomeIcon icon={faPhone} size="lg" /> {contactPhone}
             </a>
           </div>
-          <a href={phoneLink} style={{ width: '40px' }} title={contactPhone} className="d-xl-none text-decoration-none btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center">
+          <a href={phoneLink} style={{ width: '40px', height: '40px' }} title={contactPhone} className="d-xl-none text-decoration-none btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center">
             <FontAwesomeIcon icon={faPhone} size='sm' />
           </a>
           <span className="vr"></span>
