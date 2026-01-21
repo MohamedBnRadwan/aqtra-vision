@@ -84,7 +84,7 @@ const Solutions = () => {
                                     <div className="card-body">
                                         <div className="d-flex justify-content-between align-items-center">
                                             <img
-                                                src="/src/assets/fire/fire-logo-icon.png"
+                                                src="/src/assets/hvac/hvac-logo-icon.png"
                                                 width={80}
                                                 alt="Solution Page"
                                                 style={{ marginBottom: '12px' }}
@@ -93,7 +93,7 @@ const Solutions = () => {
                                                 {t('solutionsPage.cards.hvac')}
                                             </h3>
                                             <img
-                                                src="/src/assets/fire/fire-logo-txt.png"
+                                                src="/src/assets/hvac/hvac-logo-txt.png"
                                                 width={80}
                                                 alt="Solution Page"
                                             />
@@ -183,6 +183,37 @@ const Solutions = () => {
                                             </h3>
                                             <img
                                                 src="/src/assets/network/network-logo-txt.png"
+                                                width={80}
+                                                alt="Solution Page"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+
+                        <div className="col-12"></div>
+
+                        <div
+                            className={'col-md-9 mb-4'}
+                            data-aos="fade-up"
+                            data-aos-delay={200}
+                        >
+                            <Link to={`/services/`} className="text-decoration-none">
+                                <div className="card rounded-pill border-0 shadow-sm h-100">
+                                    <div className="card-body">
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <img
+                                                src="/src/assets/landscape/landscape-logo-icon.png"
+                                                width={80}
+                                                alt="Solution Page"
+                                                style={{ marginBottom: '12px' }}
+                                            />
+                                            <h3 className="display-5 text-truncate m-0">
+                                                {t('solutionsPage.cards.landscape')}
+                                            </h3>
+                                            <img
+                                                src="/src/assets/landscape/landscape-logo-txt.png"
                                                 width={80}
                                                 alt="Solution Page"
                                             />
