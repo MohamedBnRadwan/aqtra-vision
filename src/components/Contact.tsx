@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageCircle, Send } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useToast } from './ui/use-toast';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Contact.css';
 import AOS from 'aos';
+import { contactInfo } from '../Data/CompanyInfo';
 
 
 const Contact = () => {
@@ -43,26 +44,12 @@ const Contact = () => {
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
 
-  const contactInfo = [
-    {
-      icon: Phone,
-      title: t('contact.phoneTitle'),
-      content: '+966 056 240 5666',
-      link: 'tel:+9660562405666',
-    },
-    {
-      icon: Mail,
-      title: t('contact.emailTitle'),
-      content: 'info@aqtraco.com',
-      link: 'mailto:info@aqtraco.com',
-    },
-    {
-      icon: MapPin,
-      title: t('contact.locationTitle'),
-      content: '8060 Prince Muhammad St., Al Khobar Al Shamalia, Al Khobar 34425, Saudi Arabia',
-      link: 'https://maps.app.goo.gl/1bKxda2cTEAoHvv57',
-    },
-  ];
+  const iconMap = {
+    Mail,
+    Phone,
+    MapPin,
+    WhatsApp: MessageCircle,
+  } as const;
 
   return (
     <section id="contact" className="py-5 position-relative overflow-hidden">
@@ -102,7 +89,7 @@ const Contact = () => {
 
             <ul className="list-unstyled">
               {contactInfo.map((info, index) => {
-                const Icon = info.icon;
+                const Icon = iconMap[info.icon as keyof typeof iconMap] || MapPin;
                 return (
                   <li key={index} className="custom-list-item mb-3">
                     <a href={info.link} target='_blank' rel="noopener noreferrer" className="d-flex align-items-start text-muted text-decoration-none">

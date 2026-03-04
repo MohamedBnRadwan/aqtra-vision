@@ -6,7 +6,7 @@ export const linkedinLink = "https://www.linkedin.com/company/aqtraco";
 export const xLink = "https://x.com/AQTRACO";
 export const whatsAppNumber = "966565210897";
 
-export const contactEmail = "info@aqtra.co";
+export const contactEmail = "info@aqtraco.com";
 export const contactPhone = "+966 (056) 521 0897";
 export const whatsappLink = `https://wa.me/${whatsAppNumber}`;
 export const phoneLink = `tel:${contactPhone.replace(/[^0-9+]/g, "")}`;
