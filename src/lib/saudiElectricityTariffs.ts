@@ -197,9 +197,9 @@ export type PanelTierKey = 'economy' | 'standard' | 'premium';
 export type SystemType = 'onGrid' | 'hybrid' | 'offGrid';
 
 export const PANEL_PRICING: Record<PanelTierKey, { label: string; areaPerPanelM2: number; costPerPanel: number; efficiency: number; wattage: number; note: string }> = {
-  economy: { label: 'Economy', areaPerPanelM2: 3, costPerPanel: 450, efficiency: 0.8, wattage: 555, note: 'Lower cost, shorter lifespan' },
-  standard: { label: 'Standard', areaPerPanelM2: 4.2, costPerPanel: 550, efficiency: 1.0, wattage: 600, note: 'Balanced price/performance' },
-  premium: { label: 'Premium', areaPerPanelM2: 5, costPerPanel: 650, efficiency: 1.2, wattage: 730, note: 'Higher efficiency, longer lifespan' },
+  economy: { label: 'Economy', areaPerPanelM2: 5.1, costPerPanel: 450, efficiency: 0.8, wattage: 490, note: 'Lower cost, shorter lifespan' },
+  standard: { label: 'Standard', areaPerPanelM2: 5, costPerPanel: 550, efficiency: 1.0, wattage: 590, note: 'Balanced price/performance' },
+  premium: { label: 'Premium', areaPerPanelM2: 4.9, costPerPanel: 650, efficiency: 1.2, wattage: 635, note: 'Higher efficiency, longer lifespan' },
 };
 
 const SIZE_PRICING_TIERS: Record<number, number> = {
