@@ -480,7 +480,7 @@ const SolarApplicationForm: React.FC = () => {
     if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
       navigator.clipboard.writeText(msg).catch(() => { });
     }
-    const url = `https://wa.me/966562405666?text=${encodeURIComponent(msg)}`;
+    const url = `https://wa.me/966565210897?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank', 'noopener');
   };
 
@@ -1118,13 +1118,13 @@ const SolarApplicationForm: React.FC = () => {
                                     primary === 'industry' ? faIndustry : faSolarPanel;
                           return (
                                     <tr key={entry.id} className="align-middle" style={{ cursor: 'pointer' }} onClick={() => handleSelectHistory(entry)} title={t('solarCalc.table.selectRow')}>
-                              <td><FontAwesomeIcon icon={useIcon} className='text-primary' /></td>
-                              <td>{formatSystemType(data.systemType)}</td>
-                              <td>{formatNumber(data.systemKw, 1)}</td>
-                              <td>{formatNumber(data.panels, 0)}</td>
-                              <td>{formatNumber(data.totalSystemCost, 0)}</td>
-                              <td>{data.batteryKwhNeeded ? formatNumber(data.batteryKwhNeeded, 1) : '-'}</td>
-                              <td className="d-flex gap-2">
+                                    <td><FontAwesomeIcon icon={useIcon} className='text-primary' /></td>
+                                    <td>{formatSystemType(data.systemType)}</td>
+                                    <td>{formatNumber(data.systemKw, 1)}</td>
+                                    <td>{formatNumber(data.panels, 0)}</td>
+                                    <td>{formatNumber(data.totalSystemCost, 0)}</td>
+                                    <td>{data.batteryKwhNeeded ? formatNumber(data.batteryKwhNeeded, 1) : '-'}</td>
+                                    <td className="d-flex gap-2">
                                         <button type="button" className="btn btn-sm btn-outline-danger" onClick={(e) => { e.stopPropagation(); handleRemoveHistory(entry.id); }} title={t('solarCalc.table.remove')}>
                                   <FontAwesomeIcon icon={faTrash} />
                                 </button>

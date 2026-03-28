@@ -196,20 +196,20 @@ export function effectivePriceForMonthlyKwh(monthlyKwh: number, primaryUse: stri
 export type PanelTierKey = 'economy' | 'standard' | 'premium';
 export type SystemType = 'onGrid' | 'hybrid' | 'offGrid';
 
-export const PANEL_PRICING: Record<PanelTierKey, { label: string; costPerPanel: number; efficiency: number; wattage: number; note: string }> = {
-  economy: { label: 'Economy', costPerPanel: 320, efficiency: 0.8, wattage: 350, note: 'Lower cost, shorter lifespan' },
-  standard: { label: 'Standard', costPerPanel: 420, efficiency: 1.0, wattage: 400, note: 'Balanced price/performance' },
-  premium: { label: 'Premium', costPerPanel: 800, efficiency: 1.2, wattage: 450, note: 'Higher efficiency, longer lifespan' },
+export const PANEL_PRICING: Record<PanelTierKey, { label: string; areaPerPanelM2: number; costPerPanel: number; efficiency: number; wattage: number; note: string }> = {
+  economy: { label: 'Economy', areaPerPanelM2: 3, costPerPanel: 450, efficiency: 0.8, wattage: 555, note: 'Lower cost, shorter lifespan' },
+  standard: { label: 'Standard', areaPerPanelM2: 4.2, costPerPanel: 550, efficiency: 1.0, wattage: 600, note: 'Balanced price/performance' },
+  premium: { label: 'Premium', areaPerPanelM2: 5, costPerPanel: 650, efficiency: 1.2, wattage: 730, note: 'Higher efficiency, longer lifespan' },
 };
 
 const SIZE_PRICING_TIERS: Record<number, number> = {
   // Per-kW rate is capped at ~3,500 SAR for small systems and floors at ~2,800 SAR for large systems up to 500 kW.
-  10: 35073,   // 3,500 SAR/kW
-  15: 50073,   // 3,600 SAR/kW
-  20: 60073,   // 3,500 SAR/kW
-  30: 85073,  // 3,500 SAR/kW
-  50: 145073,  // 3,000 SAR/kW
-  100: 290073, // 2,900 SAR/kW
+  10: 35073 * 1.2,   // 3,500 SAR/kW
+  15: 50073 * 1.2,   // 3,600 SAR/kW
+  20: 60073 * 1.2,   // 3,500 SAR/kW
+  30: 85073 * 1.2,  // 3,500 SAR/kW
+  50: 145073 * 1.2,  // 3,000 SAR/kW
+  100: 290073 * 1.2, // 2,900 SAR/kW
 };
 
 const LOSSES = 0.85; // design losses accounted when sizing kW
@@ -326,7 +326,7 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
   const systemKw = requiredKw / LOSSES;
   const adjustedPanelWatt = selectedPanel.wattage * selectedPanel.efficiency;
   const panels = Math.ceil((systemKw * 1000) / adjustedPanelWatt);
-  const areaNeeded = round(panels * AREA_PER_PANEL_M2);
+  const areaNeeded = round(panels * (selectedPanel.areaPerPanelM2 || AREA_PER_PANEL_M2));
 
   const { totalSar: monthlyBillComputedTariff, avgSarPerKwh: effectiveKwhPriceTariff } = billFromMonthlyKwh(monthlyBase, tariff);
   const effectiveKwhPrice = input.overrideEffectiveKwhPrice ?? effectiveKwhPriceTariff;
