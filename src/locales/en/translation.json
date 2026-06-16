@@ -348,6 +348,10 @@
     "calc": {
       "title": "Get Recommendation",
       "desc": "Answer a few questions to find the right system and estimated area."
+    },
+    "wizard": {
+      "title": "Smart Sizing Wizard",
+      "desc": "Step-by-step interactive sizing tool to estimate batteries, space constraints and export PDF."
     }
   },
   "hvacSolutions": {

@@ -18,6 +18,7 @@ import OffGrid from "./pages/solutions/solar-solutions/OffGrid";
 import Hybrid from "./pages/solutions/solar-solutions/Hybrid";
 import Pump from "./pages/solutions/solar-solutions/Pump";
 import SolarApplicationForm from "./pages/solutions/solar-solutions/SolarApplicationForm";
+import SolarWizard from "./pages/solutions/solar-solutions/SolarWizard";
 import AboutUs from "./pages/AboutUs";
 import SaudiVision2030 from "./pages/SaudiVision2030";
 import PageLoader from "./pages/PageLoader";
@@ -70,6 +71,7 @@ const App = () => {
               <Route path="/solar/hybrid" element={<Hybrid />} />
               <Route path="/solar/pump" element={<Pump />} />
               <Route path="/solar-calculation" element={<SolarApplicationForm />} />
+              <Route path="/solar-wizard" element={<SolarWizard />} />
               <Route path="/saudi-vision-2030" element={<SaudiVision2030 />} />
               <Route path="/src/assets/*" element={null} />
               <Route path="*" element={<NotFound />} />

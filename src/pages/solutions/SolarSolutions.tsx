@@ -91,17 +91,34 @@ const SolarSolutions: React.FC = () => {
                                 </Link>
                             </div>
                             <div className="col-12"></div>
-                            <div className="col-12 col-sm-8 col-md-6 col-lg-4">
+                            <div className="col-12 col-md-6 col-lg-5">
                                 <Link to="/solar-calculation" className="text-decoration-none solar-system-card text-dark">
                                     <div className="card h-100 shadow-sm border-0 text-center p-3">
                                         <div className="d-flex justify-content-center mb-3">
                                             <picture>
-                                                <img src={calculatorSVG} width={196} height={196} alt="Get Recommendation Solar Solution" />
+                                                <img src={calculatorSVG} width={150} height={150} alt="Get Recommendation Solar Solution" />
                                             </picture>
-                                            <div  className='vr solar-system-calculator-vr' />
-                                            <div className='d-flex justify-content-center flex-column'>
-                                                <h5 className="card-title">{t('solarSolutions.calc.title')}</h5>
+                                            <div className='vr solar-system-calculator-vr' />
+                                            <div className='d-flex justify-content-center flex-column text-start ps-3'>
+                                                <h5 className="card-title fw-bold">{t('solarSolutions.calc.title')}</h5>
                                                 <p className="card-text text-muted small">{t('solarSolutions.calc.desc')}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+
+                            <div className="col-12 col-md-6 col-lg-5">
+                                <Link to="/solar-wizard" className="text-decoration-none solar-system-card text-dark">
+                                    <div className="card h-100 shadow-sm border-0 text-center p-3">
+                                        <div className="d-flex justify-content-center mb-3">
+                                            <picture>
+                                                <img src={calculatorSVG} width={150} height={150} alt="Smart Solar Sizing Assistant" style={{ filter: 'hue-rotate(45deg)' }} />
+                                            </picture>
+                                            <div className='vr solar-system-calculator-vr' />
+                                            <div className='d-flex justify-content-center flex-column text-start ps-3'>
+                                                <h5 className="card-title fw-bold">{t('solarSolutions.wizard.title')}</h5>
+                                                <p className="card-text text-muted small">{t('solarSolutions.wizard.desc')}</p>
                                             </div>
                                         </div>
                                     </div>

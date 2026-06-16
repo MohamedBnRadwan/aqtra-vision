@@ -210,6 +210,13 @@ const SIZE_PRICING_TIERS: Record<number, number> = {
   30: 85073 * 1.2,  // 3,500 SAR/kW
   50: 145073 * 1.2,  // 3,000 SAR/kW
   100: 290073 * 1.2, // 2,900 SAR/kW
+  200: 575073 * 1.2, // 2,875 SAR/kW
+  300: 859573 * 1.2, // 2,865 SAR/kW
+  500: 1430073 * 1.2, // 2,860 SAR/kW
+  1000: 2860073 * 1.2, // 2,860 SAR/kW
+  2000: 5720073 * 1.2, // 2,860 SAR/kW
+  5000: 14300073 * 1.2, // 2,860 SAR/kW
+  10000: 27650073 * 1.2, // 2,765 SAR/kW
 };
 
 const LOSSES = 0.85; // design losses accounted when sizing kW
@@ -243,7 +250,7 @@ export type SolarEstimateInput = {
 };
 
 export type SolarEstimateResult =
-  | { ok: true; message: string;data: SolarEstimateData }
+  | { ok: true; message: string; data: SolarEstimateData }
   | { ok: false; message: string };
 
 export type SolarEstimateData = {
