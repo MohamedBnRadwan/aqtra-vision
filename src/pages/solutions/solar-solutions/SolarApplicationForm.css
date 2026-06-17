@@ -89,3 +89,126 @@
     opacity: 1;
     max-height: 120px;
 }
+
+/* Printable system comparison cards at the bottom */
+.print-system-cards {
+    margin-top: 24px;
+}
+
+.system-compare-card {
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    background-color: #ffffff;
+    height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.system-compare-card.selected {
+    border-color: #198754 !important; /* success green */
+    background-color: #f8fff9 !important; /* extremely soft green */
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.12);
+}
+
+.system-compare-card .card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+.system-compare-card.selected .card-title {
+    color: #198754;
+}
+
+.system-compare-card .system-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.system-compare-card.selected .system-icon-wrapper {
+    background-color: #198754;
+    color: #ffffff;
+}
+
+.system-compare-card .badge-selected {
+    font-size: 0.62rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background-color: #198754;
+    color: #ffffff;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.system-compare-card .badge-details {
+    font-size: 0.62rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background-color: #e9ecef;
+    color: #495057;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+@media print {
+    body.solar-calculator-page .print-system-cards {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        margin-top: 24px !important;
+        gap: 8px !important;
+    }
+    body.solar-calculator-page .print-system-cards > div {
+        flex: 1 1 25% !important;
+        max-width: 25% !important;
+    }
+    body.solar-calculator-page .system-compare-card {
+        page-break-inside: avoid;
+        border: 2px solid #e9ecef !important;
+        background-color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    body.solar-calculator-page .system-compare-card.selected {
+        border-color: #198754 !important;
+        background-color: #f8fff9 !important;
+    }
+    body.solar-calculator-page .system-compare-card.selected .system-icon-wrapper {
+        background-color: #198754 !important;
+        color: #ffffff !important;
+    }
+    body.solar-calculator-page .system-compare-card .badge-selected {
+        background-color: #198754 !important;
+        color: #ffffff !important;
+    }
+    body.solar-calculator-page .system-compare-card .badge-details {
+        background-color: #e9ecef !important;
+        color: #495057 !important;
+    }
+    body.solar-calculator-page .print-boq-section {
+        margin-top: 16px !important;
+        page-break-inside: avoid !important;
+    }
+    body.solar-calculator-page .table {
+        border-collapse: collapse !important;
+    }
+    body.solar-calculator-page .table th,
+    body.solar-calculator-page .table td {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #dee2e6 !important;
+    }
+    body.solar-calculator-page .table-light th {
+        background-color: #f8f9fa !important;
+    }
+}
