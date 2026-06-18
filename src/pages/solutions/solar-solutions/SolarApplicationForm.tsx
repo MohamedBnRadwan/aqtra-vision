@@ -54,6 +54,13 @@ const SolarApplicationForm: React.FC = () => {
   const [syncBill, setSyncBill] = useState<boolean>(false);
   const [splitMeters, setSplitMeters] = useState<boolean>(false);
   const [metersCount, setMetersCount] = useState<number>(1);
+  const [clientCompany, setClientCompany] = useState<string>('');
+  const [clientContact, setClientContact] = useState<string>('');
+  const [clientPhone, setClientPhone] = useState<string>('');
+  const [clientEmail, setClientEmail] = useState<string>('');
+  const [quoteRef, setQuoteRef] = useState<string>('');
+  const [quoteDate, setQuoteDate] = useState<string>('');
+  const [quoteValidUntil, setQuoteValidUntil] = useState<string>('');
   const pageUrl = typeof window !== 'undefined' && window.location ? window.location.href : '';
 
   function round(val: number, decimals = 1) {
@@ -127,6 +134,10 @@ const SolarApplicationForm: React.FC = () => {
     params.set('connType', connectionType);
     params.set('split', String(splitMeters ? 1 : 0));
     params.set('mcount', String(metersCount));
+    if (clientCompany) params.set('ccomp', clientCompany);
+    if (clientContact) params.set('ccont', clientContact);
+    if (clientPhone) params.set('cphone', clientPhone);
+    if (clientEmail) params.set('cmail', clientEmail);
     url.search = params.toString();
     return url.toString();
   }
@@ -190,6 +201,10 @@ const SolarApplicationForm: React.FC = () => {
       generatorShare?: number;
       splitMeters?: boolean;
       metersCount?: number;
+      clientCompany?: string;
+      clientContact?: string;
+      clientPhone?: string;
+      clientEmail?: string;
     };
     result: SolarEstimateResult;
   };
@@ -207,6 +222,33 @@ const SolarApplicationForm: React.FC = () => {
       console.error('Failed to parse history', e);
     }
   }, []);
+
+  useEffect(() => {
+    const d = new Date();
+    const yy = String(d.getFullYear()).slice(-2);
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const random = Math.floor(100 + Math.random() * 900);
+    setQuoteRef(prev => prev || `AQ-SOL-${yy}${mm}${dd}-${random}`);
+
+    // Format quote date
+    const dateStr = d.toLocaleDateString(lang === 'ar' ? 'ar-SA' : 'en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    setQuoteDate(dateStr);
+
+    // Format valid date (30 days later)
+    const validDate = new Date();
+    validDate.setDate(validDate.getDate() + 30);
+    const validStr = validDate.toLocaleDateString(lang === 'ar' ? 'ar-SA' : 'en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    setQuoteValidUntil(validStr);
+  }, [lang]);
 
   useEffect(() => {
     document.body.classList.add('solar-calculator-page');
@@ -240,6 +282,10 @@ const SolarApplicationForm: React.FC = () => {
     const connType = params.get('connType');
     const split = params.get('split');
     const mcount = params.get('mcount');
+    const ccomp = params.get('ccomp');
+    const ccont = params.get('ccont');
+    const cphone = params.get('cphone');
+    const cmail = params.get('cmail');
 
     if (cmeth && (['consumption', 'systemSize', 'equipmentLoad'] as const).includes(cmeth as any)) setCalcMethod(cmeth as any);
     if (tskw !== null && !Number.isNaN(Number(tskw))) setTargetSystemKw(Number(tskw));
@@ -260,6 +306,10 @@ const SolarApplicationForm: React.FC = () => {
     if (adv !== null) setShowAdvanced(parseBool(adv));
     if (split !== null) setSplitMeters(parseBool(split));
     if (mcount !== null && !Number.isNaN(Number(mcount))) setMetersCount(Number(mcount));
+    if (ccomp !== null) setClientCompany(ccomp);
+    if (ccont !== null) setClientContact(ccont);
+    if (cphone !== null) setClientPhone(cphone);
+    if (cmail !== null) setClientEmail(cmail);
 
     const resolvedGrid = grid !== null ? parseBool(grid) : true;
     const resolvedBackup = backup !== null ? parseBool(backup) : false;
@@ -892,6 +942,10 @@ const SolarApplicationForm: React.FC = () => {
       generatorShare,
       splitMeters: payload?.splitMeters !== undefined ? payload.splitMeters : splitMeters,
       metersCount: payload?.metersCount !== undefined ? payload.metersCount : metersCount,
+      clientCompany: payload?.clientCompany !== undefined ? payload.clientCompany : clientCompany,
+      clientContact: payload?.clientContact !== undefined ? payload.clientContact : clientContact,
+      clientPhone: payload?.clientPhone !== undefined ? payload.clientPhone : clientPhone,
+      clientEmail: payload?.clientEmail !== undefined ? payload.clientEmail : clientEmail,
       ...payload,
     };
 
@@ -1020,6 +1074,73 @@ const SolarApplicationForm: React.FC = () => {
     setHistory(prev => [entry, ...prev].slice(0, 25));
   };
 
+  const checkDataAnomalies = (): { type: 'danger' | 'warning' | 'info'; messageEn: string; messageAr: string }[] => {
+    const anomalies: { type: 'danger' | 'warning' | 'info'; messageEn: string; messageAr: string }[] = [];
+    
+    // 1. Low Bill / High kWh Anomaly
+    if (calcMethod === 'consumption' && typeof monthlyKWh === 'number' && monthlyKWh > 0 && typeof monthlyBill === 'number' && monthlyBill > 0) {
+      const impliedRate = monthlyBill / monthlyKWh;
+      const isAgri = primaryUse === 'agricultural';
+      const minRateThreshold = isAgri ? 0.09 : 0.15;
+      
+      if (impliedRate < minRateThreshold) {
+        anomalies.push({
+          type: 'warning',
+          messageEn: `Very low electricity rate: The effective rate is ${impliedRate.toFixed(3)} SAR/kWh. The standard KSA residential tariff starts at 0.18 SAR/kWh (0.207 with VAT). Please double check your bill amount or consumption (kWh) inputs.`,
+          messageAr: `تعرفة كهرباء منخفضة جداً: التعرفة الفعلية المحسوبة هي ${impliedRate.toFixed(3)} ريال/ك.و.س. تبدأ التعرفة السكنية القياسية في السعودية من 0.18 ريال/ك.و.س (0.207 مع الضريبة). يرجى التحقق من قيم الفاتورة أو الاستهلاك.`
+        });
+      } else if (impliedRate > 0.42) {
+        anomalies.push({
+          type: 'warning',
+          messageEn: `Very high electricity rate: The effective rate is ${impliedRate.toFixed(3)} SAR/kWh, which exceeds standard KSA utility tariffs (max residential is 0.30 SAR/kWh, commercial is 0.36 SAR/kWh, before VAT). Please verify if your input includes other non-electricity fees.`,
+          messageAr: `تعرفة كهرباء مرتفعة جداً: التعرفة الفعلية المحسوبة هي ${impliedRate.toFixed(3)} ريال/ك.و.س، وهي تتجاوز التعرفة القياسية في السعودية (الحد الأقصى السكني 0.30 ريال، والتجاري 0.36 ريال قبل الضريبة). يرجى التحقق مما إذا كانت الفاتورة تشمل رسومًا أخرى غير الكهرباء.`
+        });
+      }
+    }
+
+    // 2. Extreme Load Anomaly
+    const currentSystemKw = calculatedData?.systemKw || 0;
+    if (currentSystemKw > 200 || (calcMethod === 'equipmentLoad' && typeof equipmentLoadKw === 'number' && equipmentLoadKw > 200)) {
+      anomalies.push({
+        type: 'info',
+        messageEn: `Commercial scale system (${formatNumber(currentSystemKw || (equipmentLoadKw as number), 1)} kW): Systems above 200 kW are subject to special grid-connection regulations with SEC, medium-voltage design reviews, and require a formal custom engineering audit.`,
+        messageAr: `نظام بمقياس تجاري ضخم (${formatNumber(currentSystemKw || (equipmentLoadKw as number), 1)} كيلوواط): الأنظمة التي تتجاوز 200 كيلوواط تخضع للوائح ربط خاصة مع شركة الكهرباء SEC، وتتطلب مراجعة مخططات الجهد المتوسط ودراسة هندسية متكاملة.`
+      });
+    }
+
+    // 3. Batteries sizing warnings (skip for pumping / on-grid)
+    if (connectionType !== 'onGrid' && connectionType !== 'pumping' && calculatedData) {
+      const activeBatteryKwh = calculatedData.batteryKwhNeeded;
+      if (activeBatteryKwh > 0 && currentSystemKw > 0) {
+        const ratio = activeBatteryKwh / currentSystemKw;
+        if (ratio < 0.2) {
+          anomalies.push({
+            type: 'danger',
+            messageEn: `Under-sized battery bank: Your selected battery storage (${activeBatteryKwh.toFixed(1)} kWh) is extremely small relative to the solar system size (${currentSystemKw.toFixed(1)} kW). The battery may deplete too quickly and can shut down during peak loads. We recommend at least 1.0x to 2.0x of the PV capacity (i.e. ${currentSystemKw.toFixed(1)} to ${(currentSystemKw * 2).toFixed(1)} kWh).`,
+            messageAr: `سعة بطارية غير كافية: بنك البطاريات المختار (${activeBatteryKwh.toFixed(1)} ك.و.س) صغير جداً مقارنة بحجم الألواح (${currentSystemKw.toFixed(1)} ك.و). قد تفرغ البطارية بسرعة كبيرة أو تتعطل نتيجة السحب المفاجئ للأحمال. نوصي بسعة لا تقل عن 1.0x إلى 2.0x من قدرة الألواح (أي من ${currentSystemKw.toFixed(1)} إلى ${(currentSystemKw * 2).toFixed(1)} ك.و.س).`
+          });
+        } else if (ratio > 5.0) {
+          anomalies.push({
+            type: 'warning',
+            messageEn: `Over-sized battery bank: Your selected battery capacity (${activeBatteryKwh.toFixed(1)} kWh) is very large compared to the solar system size (${currentSystemKw.toFixed(1)} kW). The solar PV array will not generate enough daily excess energy to fully recharge this battery bank. Consider increasing the solar system capacity or reducing the battery storage size.`,
+            messageAr: `سعة بطارية ضخمة جداً: سعة البطارية المحددة (${activeBatteryKwh.toFixed(1)} ك.و.س) كبيرة للغاية مقارنة بحجم نظام الألواح (${currentSystemKw.toFixed(1)} ك.و). لن تتمكن الألواح من إنتاج طاقة فائضة كافية لإعادة شحن البطارية بالكامل يومياً. ننصح بزيادة الألواح أو تقليل سعة البطاريات.`
+          });
+        }
+      }
+    }
+
+    // 4. Pumping Run Hours daylight limit warning
+    if (connectionType === 'pumping' && calcMethod === 'equipmentLoad' && typeof equipmentRunHours === 'number' && equipmentRunHours > 8) {
+      anomalies.push({
+        type: 'warning',
+        messageEn: `Direct pumping daylight limit: Solar pumping systems run directly on solar power without battery backup. Continuous daylight operation is limited to 6–8 hours max. Operating for ${equipmentRunHours} hours daily requires an auxiliary grid connection, battery storage, or a hybrid generator.`,
+        messageAr: `محدودية التشغيل النهاري للضخ: تعمل أنظمة الضخ المباشر بالطاقة الشمسية بدون بطاريات. يقتصر التشغيل المستقر على 6 إلى 8 ساعات نهارية كحد أقصى. التشغيل لـ ${equipmentRunHours} ساعة يتطلب ربطاً بالشبكة، أو بطاريات احتياطية، أو مولد طاقة هجين.`
+      });
+    }
+
+    return anomalies;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     runCalculation();
@@ -1062,6 +1183,10 @@ const SolarApplicationForm: React.FC = () => {
     if (typeof inp.generatorShare === 'number') setGeneratorShare(inp.generatorShare);
     setSplitMeters(inp.splitMeters !== undefined ? inp.splitMeters : false);
     setMetersCount(inp.metersCount !== undefined ? inp.metersCount : 1);
+    setClientCompany(inp.clientCompany || '');
+    setClientContact(inp.clientContact || '');
+    setClientPhone(inp.clientPhone || '');
+    setClientEmail(inp.clientEmail || '');
     runCalculation(inp, true);
   };
 
@@ -1081,7 +1206,7 @@ const SolarApplicationForm: React.FC = () => {
     if (!validInput) return;
     runCalculation({}, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calcMethod, targetSystemKw, equipmentLoadKw, equipmentRunHours, monthlyKWh, monthlyBill, availableArea, hasGrid, wantBackup, hugeBill, primaryUse, industryConnection, industryFuelCompBand, panelTier, peakSunHours, powerSupplyType, generatorCostPerKwh, generatorShare, connectionType, customBatteryKwh, isBatteryOverridden, splitMeters, metersCount]);
+  }, [calcMethod, targetSystemKw, equipmentLoadKw, equipmentRunHours, monthlyKWh, monthlyBill, availableArea, hasGrid, wantBackup, hugeBill, primaryUse, industryConnection, industryFuelCompBand, panelTier, peakSunHours, powerSupplyType, generatorCostPerKwh, generatorShare, connectionType, customBatteryKwh, isBatteryOverridden, splitMeters, metersCount, clientCompany, clientContact, clientPhone, clientEmail]);
 
   useEffect(() => {
     let validInput = false;
@@ -1441,6 +1566,66 @@ const SolarApplicationForm: React.FC = () => {
                                 <FontAwesomeIcon icon={faIndustry} className='fa-2x m-1' />
                                 <span>{t('solarCalc.siteIndustrial')}</span>
                               </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Client Info Card for Quotation Generation */}
+                      <div className="col-md-12 mb-3">
+                        <h3 className="display-1 fs-4">
+                          <FontAwesomeIcon icon={faSave} className="text-primary me-2" />
+                          {lang === 'ar' ? 'بيانات العميل (لإعداد عرض السعر)' : 'Client Information (For Quotation)'}
+                        </h3>
+                        <div className="card p-3">
+                          <div className="row g-3">
+                            <div className="col-md-6">
+                              <label className="form-label small fw-semibold">
+                                {lang === 'ar' ? 'اسم العميل / الشركة' : 'Company / Client Name'}
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                value={clientCompany}
+                                onChange={e => setClientCompany(e.target.value)}
+                                placeholder={lang === 'ar' ? 'مثال: شركة أعمال المقاولات' : 'e.g. Acme Contracting Corp'}
+                              />
+                            </div>
+                            <div className="col-md-6">
+                              <label className="form-label small fw-semibold">
+                                {lang === 'ar' ? 'الشخص المسؤول' : 'Contact Person'}
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                value={clientContact}
+                                onChange={e => setClientContact(e.target.value)}
+                                placeholder={lang === 'ar' ? 'مثال: محمد بن علوان' : 'e.g. John Doe'}
+                              />
+                            </div>
+                            <div className="col-md-6">
+                              <label className="form-label small fw-semibold">
+                                {lang === 'ar' ? 'رقم الجوال' : 'Phone / Mobile'}
+                              </label>
+                              <input
+                                type="tel"
+                                className="form-control"
+                                value={clientPhone}
+                                onChange={e => setClientPhone(e.target.value)}
+                                placeholder={lang === 'ar' ? 'مثال: 050XXXXXXX' : 'e.g. +966500000000'}
+                              />
+                            </div>
+                            <div className="col-md-6">
+                              <label className="form-label small fw-semibold">
+                                {lang === 'ar' ? 'البريد الإلكتروني' : 'Email Address'}
+                              </label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                value={clientEmail}
+                                onChange={e => setClientEmail(e.target.value)}
+                                placeholder={lang === 'ar' ? 'مثال: info@client.com' : 'e.g. contact@client.com'}
+                              />
                             </div>
                           </div>
                         </div>
@@ -1851,16 +2036,119 @@ const SolarApplicationForm: React.FC = () => {
               <div className="col-md-5">
                 <div className="card card-form-holder p-4" id="recommendationPrint">
                   <div className="mt-4">
-                    <div className="print-only print-brand">
-                      <img src="/src/assets/solar/solar-logo-icon.png" alt="AQTRACO" />
-                      <img src="/src/assets/solar/solar-logo-txt.png" alt="AQTRACO" />
-                    </div>
-                    <h4 className='display-6 text-center mb-4'>
-                      <FontAwesomeIcon icon={faHandHoldingUsd} className='text-primary me-2' />
-                      {t('solarCalc.recommendation')}
-                    </h4>
+                    {!result && (
+                      <h4 className='display-6 text-center mb-4'>
+                        <FontAwesomeIcon icon={faHandHoldingUsd} className='text-primary me-2' />
+                        {t('solarCalc.recommendation')}
+                      </h4>
+                    )}
                     {result && (
                       <>
+                        {/* Quotation Header Banner */}
+                        <div className="quotation-print-header mb-4">
+                          <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 pb-3 mb-3 border-bottom border-secondary border-opacity-25">
+                            <div className="d-flex align-items-center gap-3">
+                              <div className="d-flex align-items-center gap-2">
+                                <img src="/src/assets/solar/solar-logo-icon.png" alt="AQTRACO Logo" style={{ height: '42px', width: 'auto' }} onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }} />
+                                <img src="/src/assets/solar/solar-logo-txt.png" alt="AQTRACO Text" style={{ height: '32px', width: 'auto' }} onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }} />
+                              </div>
+                              <div className="border-start ps-3" style={{ borderColor: '#dee2e6' }}>
+                                <h5 className="fw-bold mb-0 text-success" style={{ fontSize: '1.15rem', lineHeight: '1.2' }}>
+                                  {lang === 'ar' ? 'مؤسسة أكترا للتجارة والمقاولات' : 'AQTRA Contracting & Trading'}
+                                </h5>
+                                <span className="text-muted d-block" style={{ fontSize: '0.75rem' }}>
+                                  {lang === 'ar' ? 'سجل تجاري: ١٠١٠٦٢٩٦٦٨ | الرياض، المملكة العربية السعودية' : 'C.R. 1010629668 | Riyadh, Saudi Arabia'}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="text-end">
+                              <h4 className="fw-bold text-primary mb-1" style={{ fontSize: '1.25rem' }}>
+                                {lang === 'ar' ? 'عرض سعر ومواصفات فنية' : 'TECHNICAL PRICE QUOTATION'}
+                              </h4>
+                              <div className="small text-muted" style={{ fontSize: '0.75rem', lineHeight: '1.4' }}>
+                                <div><strong>{lang === 'ar' ? 'المرجع:' : 'Ref:'}</strong> <span className="font-monospace text-dark fw-semibold">{quoteRef}</span></div>
+                                <div><strong>{lang === 'ar' ? 'التاريخ:' : 'Date:'}</strong> {quoteDate}</div>
+                                <div><strong>{lang === 'ar' ? 'صلاحية العرض:' : 'Validity:'}</strong> {quoteValidUntil}</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Client Info & Technical Parameters side-by-side cards */}
+                        <div className="row g-3 mb-4 quotation-client-details">
+                          <div className="col-md-6 col-sm-12">
+                            <div className="card h-100 border border-success-subtle bg-success bg-opacity-10 p-3 rounded-3 shadow-xs">
+                              <h6 className="fw-bold text-success border-bottom pb-1 mb-2" style={{ fontSize: '0.9rem' }}>
+                                {lang === 'ar' ? 'بيانات العميل' : 'Client Information'}
+                              </h6>
+                              <div className="small text-dark" style={{ lineHeight: '1.6', fontSize: '0.8rem' }}>
+                                <div><strong>{lang === 'ar' ? 'العميل / الشركة:' : 'Client / Company:'}</strong> {clientCompany || (lang === 'ar' ? 'غير محدد' : 'Not Specified')}</div>
+                                <div><strong>{lang === 'ar' ? 'الشخص المسؤول:' : 'Contact Person:'}</strong> {clientContact || '—'}</div>
+                                <div><strong>{lang === 'ar' ? 'رقم الجوال:' : 'Phone / Mobile:'}</strong> {clientPhone || '—'}</div>
+                                <div><strong>{lang === 'ar' ? 'البريد الإلكتروني:' : 'Email Address:'}</strong> {clientEmail || '—'}</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-6 col-sm-12">
+                            <div className="card h-100 border border-primary-subtle bg-primary bg-opacity-10 p-3 rounded-3 shadow-xs">
+                              <h6 className="fw-bold text-primary border-bottom pb-1 mb-2" style={{ fontSize: '0.9rem' }}>
+                                {lang === 'ar' ? 'محددات التصميم الفني' : 'Technical Design Parameters'}
+                              </h6>
+                              <div className="small text-dark" style={{ lineHeight: '1.6', fontSize: '0.8rem' }}>
+                                <div>
+                                  <strong>{lang === 'ar' ? 'طريقة الحساب:' : 'Sizing Basis:'}</strong>{' '}
+                                  {calcMethod === 'consumption'
+                                    ? (lang === 'ar' ? 'الاستهلاك الشهري / الفاتورة' : 'Monthly Consumption / Bill')
+                                    : calcMethod === 'systemSize'
+                                    ? (lang === 'ar' ? 'حجم نظام مستهدف' : 'Target System Size')
+                                    : (lang === 'ar' ? 'أحمال الأجهزة وساعات التشغيل' : 'Equipment Load & Runtime')}
+                                </div>
+                                <div><strong>{lang === 'ar' ? 'نوع الموقع:' : 'Site Type:'}</strong> {formatPrimaryUseLabel(primaryUse)}</div>
+                                <div><strong>{lang === 'ar' ? 'نوع الاتصال الموصى به:' : 'Recommended Connection:'}</strong> {formatSystemType(connectionType)}</div>
+                                {calculatedData && (
+                                  <div>
+                                    <strong>{lang === 'ar' ? 'سعة النظام المقدرة:' : 'Estimated System Size:'}</strong>{' '}
+                                    {formatNumber(calculatedData.systemKw, 1)} kW ({calculatedData.panels} {lang === 'ar' ? 'لوح' : 'panels'})
+                                  </div>
+                                )}
+                                {splitMeters && metersCount > 1 && (
+                                  <div className="text-warning-emphasis fw-semibold">
+                                    ⚠️ {lang === 'ar' ? `مقسم على: ${metersCount} عدادات كهربائية` : `Split across: ${metersCount} electric meters`}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Sanity Anomalies warning section */}
+                        {(() => {
+                          const anomalies = checkDataAnomalies();
+                          if (anomalies.length === 0) return null;
+                          return (
+                            <div className="card border-warning bg-warning bg-opacity-10 text-warning-emphasis p-3 rounded-3 shadow-sm mb-4">
+                              <h6 className="fw-bold mb-2 d-flex align-items-center text-warning-emphasis" style={{ fontSize: '0.9rem' }}>
+                                <FontAwesomeIcon icon={faExclamationTriangle} className="text-warning me-2" />
+                                {lang === 'ar' ? 'تنبيهات مراجعة المنطق وصحة البيانات:' : 'Sanity & Input Validation Alerts:'}
+                              </h6>
+                              <ul className="mb-0 ps-3" style={{ fontSize: '0.78rem' }}>
+                                {anomalies.map((a, idx) => (
+                                  <li key={idx} className="mb-1">
+                                    <strong>[{a.type === 'danger' ? (lang === 'ar' ? 'حرِج' : 'CRITICAL') : a.type === 'warning' ? (lang === 'ar' ? 'تنبيه' : 'WARNING') : (lang === 'ar' ? 'إرشاد' : 'ADVISORY')}]:</strong>{' '}
+                                    {lang === 'ar' ? a.messageAr : a.messageEn}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        })()}
+
                         <div className='container' style={{ whiteSpace: 'pre-wrap' }}>
                           {result}
                         </div>
