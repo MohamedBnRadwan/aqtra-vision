@@ -223,7 +223,7 @@ const LOSSES = 0.85; // design losses accounted when sizing kW
 const DERATE = 0.8; // production derate for soiling/temp
 const SYSTEM_LIFETIME_YEARS = 25;
 const INSTALL_MARKUP = 0.35; // inverter + installation as % of panels cost
-const AREA_PER_PANEL_M2 = 2.1; // average footprint per module including spacing (m²)
+const AREA_PER_PANEL_M2 = 2.19; // average footprint per module including spacing (m²)
 const BATTERY_DOD = 0.8; // usable depth of discharge
 const BATTERY_COST_PER_KWH: Record<SystemType, number> = {
   onGrid: 0,
