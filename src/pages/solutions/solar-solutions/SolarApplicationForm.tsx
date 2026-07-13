@@ -43,6 +43,21 @@ const SolarApplicationForm: React.FC = () => {
   const [industryConnection, setIndustryConnection] = useState<IndustryConnection>('grid');
   const [industryFuelCompBand, setIndustryFuelCompBand] = useState<IndustryFuelCompBand>('standard');
   const [panelTier, setPanelTier] = useState<PanelTierKey>('standard');
+  const [economyFirstYearDrop, setEconomyFirstYearDrop] = useState<number>(PANEL_PRICING.economy.firstYearDrop * 100);
+  const [economyDegradation, setEconomyDegradation] = useState<number>(PANEL_PRICING.economy.degradationRate * 100);
+  const [standardFirstYearDrop, setStandardFirstYearDrop] = useState<number>(PANEL_PRICING.standard.firstYearDrop * 100);
+  const [standardDegradation, setStandardDegradation] = useState<number>(PANEL_PRICING.standard.degradationRate * 100);
+  const [premiumFirstYearDrop, setPremiumFirstYearDrop] = useState<number>(PANEL_PRICING.premium.firstYearDrop * 100);
+  const [premiumDegradation, setPremiumDegradation] = useState<number>(PANEL_PRICING.premium.degradationRate * 100);
+  const [fullDayCoverage, setFullDayCoverage] = useState<boolean>(true);
+
+  const getPanelDegradationText = (key: PanelTierKey) => {
+    const fyd = key === 'economy' ? economyFirstYearDrop : key === 'standard' ? standardFirstYearDrop : premiumFirstYearDrop;
+    const deg = key === 'economy' ? economyDegradation : key === 'standard' ? standardDegradation : premiumDegradation;
+    return lang === 'ar'
+      ? `الهبوط الأولي: ${fyd}% | التدهور السنوي: ${deg}%`
+      : `LID/PID: ${fyd}% | Annual Degradation: ${deg}%`;
+  };
   const [result, setResult] = useState<React.ReactNode>(null);
   const [peakSunHours, setPeakSunHours] = useState<number>(5); // Default to 5
   const [history, setHistory] = useState<SolarCalcHistoryEntry[]>([]);
@@ -126,7 +141,14 @@ const SolarApplicationForm: React.FC = () => {
     params.set('conn', industryConnection);
     params.set('fuel', industryFuelCompBand);
     params.set('panel', panelTier);
+    params.set('efyd', String(economyFirstYearDrop));
+    params.set('edeg', String(economyDegradation));
+    params.set('sfyd', String(standardFirstYearDrop));
+    params.set('sdeg', String(standardDegradation));
+    params.set('pfyd', String(premiumFirstYearDrop));
+    params.set('pdeg', String(premiumDegradation));
     params.set('psh', String(peakSunHours));
+    params.set('fdc', String(fullDayCoverage ? 1 : 0));
     params.set('supply', powerSupplyType);
     params.set('gcost', String(generatorCostPerKwh));
     params.set('gshare', String(generatorShare));
@@ -299,7 +321,21 @@ const SolarApplicationForm: React.FC = () => {
     if (conn) setIndustryConnection(conn as IndustryConnection);
     if (fuel) setIndustryFuelCompBand(fuel as IndustryFuelCompBand);
     if (panel && (['economy', 'standard', 'premium'] as const).includes(panel as any)) setPanelTier(panel as PanelTierKey);
+    const efyd = params.get('efyd');
+    const edeg = params.get('edeg');
+    const sfyd = params.get('sfyd');
+    const sdeg = params.get('sdeg');
+    const pfyd = params.get('pfyd');
+    const pdeg = params.get('pdeg');
+    if (efyd !== null && !Number.isNaN(Number(efyd))) setEconomyFirstYearDrop(Number(efyd));
+    if (edeg !== null && !Number.isNaN(Number(edeg))) setEconomyDegradation(Number(edeg));
+    if (sfyd !== null && !Number.isNaN(Number(sfyd))) setStandardFirstYearDrop(Number(sfyd));
+    if (sdeg !== null && !Number.isNaN(Number(sdeg))) setStandardDegradation(Number(sdeg));
+    if (pfyd !== null && !Number.isNaN(Number(pfyd))) setPremiumFirstYearDrop(Number(pfyd));
+    if (pdeg !== null && !Number.isNaN(Number(pdeg))) setPremiumDegradation(Number(pdeg));
     if (psh !== null && !Number.isNaN(Number(psh))) setPeakSunHours(Number(psh));
+    const fdc = params.get('fdc');
+    if (fdc !== null) setFullDayCoverage(parseBool(fdc));
     if (supply && (['grid', 'generator', 'mixed', 'none'] as const).includes(supply as any)) setPowerSupplyType(supply as any);
     if (gcost !== null && !Number.isNaN(Number(gcost))) setGeneratorCostPerKwh(Number(gcost));
     if (gshare !== null && !Number.isNaN(Number(gshare))) setGeneratorShare(Number(gshare));
@@ -341,15 +377,19 @@ const SolarApplicationForm: React.FC = () => {
     if (connectionType === 'onGrid') {
       setHasGrid(true);
       setWantBackup(false);
+      setFullDayCoverage(true);
     } else if (connectionType === 'offGrid') {
       setHasGrid(false);
       setWantBackup(false);
+      setFullDayCoverage(true);
     } else if (connectionType === 'hybrid') {
       setHasGrid(true);
       setWantBackup(true);
+      setFullDayCoverage(true);
     } else if (connectionType === 'pumping') {
       setHasGrid(false);
       setWantBackup(false);
+      setFullDayCoverage(false);
     }
   }, [connectionType]);
 
@@ -472,10 +512,142 @@ const SolarApplicationForm: React.FC = () => {
                 <ul className="mb-0">
                   <li>{t('solarCalc.solarProdAnnual', { value: formatNumber(data.annualProdKwh, 0) })}</li>
                   <li>{t('solarCalc.solarProdSavings', { value: formatNumber(data.annualSavingsSar, 0) })}</li>
-                  <li>{t('solarCalc.solarProdPayback', { value: data.paybackYears === Infinity ? t('solarCalc.na') : `${formatNumber(data.paybackYears, 2)}` })}</li>
+                  <li className="text-success fw-bold">{t('solarCalc.solarProdPayback', { value: data.paybackYears === Infinity ? t('solarCalc.na') : `${formatNumber(data.paybackYears, 2)}` })}</li>
                   <li>{t('solarCalc.solarProdGross', { value: formatNumber(data.lifetimeGrossSavings, 0) })}</li>
                   <li>{t('solarCalc.solarProdNet', { value: formatNumber(data.lifetimeNetSavings, 0) })}</li>
+                  <li className="text-muted small mt-1">
+                    {lang === 'ar'
+                      ? `الحساب يتضمن هبوطاً أولياً بنسبة ${formatNumber(data.firstYearDrop * 100, 1)}% وتدهوراً سنوياً بنسبة ${formatNumber(data.degradationRate * 100, 2)}%`
+                      : `Includes ${formatNumber(data.firstYearDrop * 100, 1)}% initial drop and ${formatNumber(data.degradationRate * 100, 2)}% annual degradation`
+                    }
+                  </li>
                 </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-12">
+            <div className="card h-100 shadow-sm border-0 bg-light-subtle">
+              <div className="card-body">
+                <h6 className="card-title d-flex align-items-center gap-2 mb-3 fw-bold">
+                  <FontAwesomeIcon icon={faSun} className='text-warning animate-pulse' />
+                  {lang === 'ar' ? 'ساعات التغطية وتدفق الطاقة اليومي' : 'System Coverage Hours & Daily Energy Flow'}
+                </h6>
+                
+                <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+                  <span className="badge bg-warning text-dark px-2.5 py-1.5 fw-semibold" style={{ fontSize: '0.8rem' }}>
+                    {lang === 'ar' ? 'فترة الإنتاج القصوى' : 'Peak Production Window'}
+                  </span>
+                  <strong className="text-secondary small">
+                    {lang === 'ar' 
+                      ? `~ ${formatNumber(peakSunHours, 1)} ساعات ذروة الشمس يومياً` 
+                      : `~ ${formatNumber(peakSunHours, 1)} peak sun hours per day`
+                    }
+                  </strong>
+                </div>
+                
+                <p className="small text-muted mb-3" style={{ lineHeight: '1.5' }}>
+                  {lang === 'ar'
+                    ? `ينتج النظام الشمسي كامل قدرته الاسمية البالغة (~${formatNumber(data.systemKw, 1)} كيلوواط) خلال ساعات النهار فقط. إليك كيف تغطي هذه الطاقة استهلاكك طوال الـ 24 ساعة:`
+                    : `The solar system generates full nominal capacity (~${formatNumber(data.systemKw, 1)} kW) during daylight hours. Here is how this covers your 24-hour cycle:`
+                  }
+                </p>
+                
+                <div className="p-3 bg-white rounded-3 border">
+                  {connectionType === 'onGrid' && (
+                    <div>
+                      <h6 className="fw-bold text-primary mb-2" style={{ fontSize: '0.9rem' }}>
+                        {lang === 'ar' ? '🔗 نظام مربوط بالشبكة (بدون بطاريات)' : '🔗 On-Grid System (No Batteries)'}
+                      </h6>
+                      <ul className="mb-0 small text-muted ps-3" style={{ lineHeight: '1.6' }}>
+                        <li className="mb-2">
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال النهار (ساعات الشمس):' : 'During Day (Sunlight Hours):'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? 'تغذي الطاقة الشمسية الأحمال في موقعك مباشرة، ويتم تصدير أي فائض إنتاج زائد عن استهلاكك تلقائياً وبشكل لحظي للشبكة الكهربائية.' 
+                            : 'Solar power directly runs your loads. Any excess production is automatically and instantaneously exported to the grid.'}
+                        </li>
+                        <li>
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال الليل والغيوم:' : 'During Night / Cloudy Hours:'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? 'تستمد الكهرباء من الشبكة العامة كالمعتاد. الشبكة تعمل هنا كـ "بطارية افتراضية" تخزن فائض النهار وتوفره لك ليلاً، ليتوازن الاستهلاك طوال اليوم بفواتير منخفضة.' 
+                            : 'You draw power normally from the grid. The utility grid acts as a "virtual battery" that absorbs your daytime surplus and returns it at night to balance your 24-hour bills.'}
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+
+                  {connectionType === 'offGrid' && (
+                    <div>
+                      <h6 className="fw-bold text-success mb-2" style={{ fontSize: '0.9rem' }}>
+                        {lang === 'ar' ? '🔋 نظام منفصل تماماً عن الشبكة (مع بطاريات)' : '🔋 Off-Grid System (With Batteries)'}
+                      </h6>
+                      <ul className="mb-0 small text-muted ps-3" style={{ lineHeight: '1.6' }}>
+                        <li className="mb-2">
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال النهار (ساعات الشمس):' : 'During Day (Sunlight Hours):'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? 'تغذي الألواح الأحمال مباشرة وتقوم في نفس الوقت بشحن البطاريات بالكامل لتخزين الطاقة.' 
+                            : 'Solar panels power your site directly while simultaneously charging the batteries to full capacity.'}
+                        </li>
+                        <li>
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال الليل والغيوم (ساعات التغطية):' : 'During Night / Cloudy Hours (Coverage):'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? `تعتمد بالكامل على طاقة البطاريات المخزنة، وهي مصممة لتوفر للموقع تغطية تشغيلية تقديرية تصل إلى ~${formatNumber((data as any).autonomyHours, 1)} ساعة من الاستهلاك بدون شمس.` 
+                            : `You rely entirely on battery storage, which is designed to support your loads for approximately ${formatNumber((data as any).autonomyHours, 1)} hours of autonomous runtime.`}
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+
+                  {connectionType === 'hybrid' && (
+                    <div>
+                      <h6 className="fw-bold text-info mb-2" style={{ fontSize: '0.9rem' }}>
+                        {lang === 'ar' ? '⚡ نظام هجين ذكي (شبكة + بطاريات طوارئ)' : '⚡ Hybrid System (Grid + Backup Batteries)'}
+                      </h6>
+                      <ul className="mb-0 small text-muted ps-3" style={{ lineHeight: '1.6' }}>
+                        <li className="mb-2">
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال النهار (ساعات الشمس):' : 'During Day (Sunlight Hours):'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? 'تغذي الألواح الموقع مباشرة وتشحن البطاريات أولاً. عند اكتمال شحن البطاريات، يتم تصدير أي فائض إنتاج إضافي للشبكة الكهربائية.' 
+                            : 'Solar power runs your loads and prioritizes charging the batteries. Once full, any remaining surplus is exported to the grid.'}
+                        </li>
+                        <li className="mb-2">
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال الليل والغيوم:' : 'During Night / Cloudy Hours:'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? 'يتم تغذية الموقع من الشبكة العامة، مع بقاء البطاريات مشحونة وجاهزة للطوارئ.' 
+                            : 'You draw power normally from the grid, keeping the battery capacity fully reserved and ready for emergencies.'}
+                        </li>
+                        <li>
+                          <strong className="text-dark">{lang === 'ar' ? 'دعم الطوارئ (عند انقطاع الشبكة):' : 'Emergency Backup Runtime:'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? `عند انقطاع التيار الكهربائي من الشبكة، تقوم البطاريات بتغطية الأحمال الهامة فورياً وتلقائياً لفترة تقديرية تصل إلى ~${formatNumber((data as any).autonomyHours, 1)} ساعة.` 
+                            : `If a grid blackout occurs, the batteries automatically take over to run critical loads for approximately ${formatNumber((data as any).autonomyHours, 1)} backup hours.`}
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+
+                  {connectionType === 'pumping' && (
+                    <div>
+                      <h6 className="fw-bold text-warning mb-2" style={{ fontSize: '0.9rem' }}>
+                        {lang === 'ar' ? '🚜 نظام ضخ زراعي مباشر (بدون بطاريات)' : '🚜 Direct Agricultural Pumping (No Batteries)'}
+                      </h6>
+                      <ul className="mb-0 small text-muted ps-3" style={{ lineHeight: '1.6' }}>
+                        <li className="mb-2">
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال النهار (ساعات الشمس):' : 'During Day (Sunlight Hours):'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? `يعمل النظام بكامل إنتاجه لـ ~${formatNumber(peakSunHours, 1)} ساعات لتشغيل مضخات المياه مباشرة بكفاءة عالية.` 
+                            : `The system operates directly to run the water pumps during the ~${formatNumber(peakSunHours, 1)} daily peak sun hours.`}
+                        </li>
+                        <li>
+                          <strong className="text-dark">{lang === 'ar' ? 'خلال الليل والغيوم:' : 'During Night / Cloudy Hours:'}</strong>{' '}
+                          {lang === 'ar' 
+                            ? 'يتوقف ضخ المياه لعدم وجود بطاريات تخزين أو شبكة. يُنصح بتخزين المياه في خزانات تجميعية مرتفعة خلال النهار لاستخدامها ليلاً بالجاذبية.' 
+                            : 'Pumping stops due to the lack of battery storage or grid connection. Storing water in elevated tanks during the day for gravity-fed night use is highly recommended.'}
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -818,6 +990,9 @@ const SolarApplicationForm: React.FC = () => {
       }
     }
 
+    const activeFirstYearDrop = nextInput.panelTier === 'economy' ? economyFirstYearDrop : nextInput.panelTier === 'standard' ? standardFirstYearDrop : premiumFirstYearDrop;
+    const activeDegradation = nextInput.panelTier === 'economy' ? economyDegradation : nextInput.panelTier === 'standard' ? standardDegradation : premiumDegradation;
+
     const calc: SolarEstimateResult = computeSolarEstimate({
       monthlyKWh: derivedMonthlyKWh,
       monthlyBill: nextInput.monthlyBill,
@@ -828,6 +1003,9 @@ const SolarApplicationForm: React.FC = () => {
       hasGrid: nextInput.hasGrid,
       wantBackup: nextInput.wantBackup,
       availableArea: nextInput.availableArea,
+      firstYearDrop: activeFirstYearDrop / 100,
+      degradationRate: activeDegradation / 100,
+      fullDayCoverage: connectionType === 'pumping' ? false : fullDayCoverage,
     });
 
     const supplyLabel = powerSupplyType === 'grid'
@@ -1001,6 +1179,9 @@ const SolarApplicationForm: React.FC = () => {
       }
     }
 
+    const activeFirstYearDrop = nextInput.panelTier === 'economy' ? economyFirstYearDrop : nextInput.panelTier === 'standard' ? standardFirstYearDrop : premiumFirstYearDrop;
+    const activeDegradation = nextInput.panelTier === 'economy' ? economyDegradation : nextInput.panelTier === 'standard' ? standardDegradation : premiumDegradation;
+
     const calc: SolarEstimateResult = computeSolarEstimate({
       monthlyKWh: nextInput.monthlyKWh,
       monthlyBill: nextInput.monthlyBill,
@@ -1012,6 +1193,9 @@ const SolarApplicationForm: React.FC = () => {
       wantBackup: nextInput.wantBackup,
       availableArea: nextInput.availableArea,
       overrideEffectiveKwhPrice,
+      firstYearDrop: activeFirstYearDrop / 100,
+      degradationRate: activeDegradation / 100,
+      fullDayCoverage: connectionType === 'pumping' ? false : fullDayCoverage,
     });
 
     if (!calc.ok || (!calc.data && (calc as any).message)) {
@@ -1206,7 +1390,7 @@ const SolarApplicationForm: React.FC = () => {
     if (!validInput) return;
     runCalculation({}, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calcMethod, targetSystemKw, equipmentLoadKw, equipmentRunHours, monthlyKWh, monthlyBill, availableArea, hasGrid, wantBackup, hugeBill, primaryUse, industryConnection, industryFuelCompBand, panelTier, peakSunHours, powerSupplyType, generatorCostPerKwh, generatorShare, connectionType, customBatteryKwh, isBatteryOverridden, splitMeters, metersCount, clientCompany, clientContact, clientPhone, clientEmail]);
+  }, [calcMethod, targetSystemKw, equipmentLoadKw, equipmentRunHours, monthlyKWh, monthlyBill, availableArea, hasGrid, wantBackup, hugeBill, primaryUse, industryConnection, industryFuelCompBand, panelTier, peakSunHours, powerSupplyType, generatorCostPerKwh, generatorShare, connectionType, customBatteryKwh, isBatteryOverridden, splitMeters, metersCount, clientCompany, clientContact, clientPhone, clientEmail, economyFirstYearDrop, economyDegradation, standardFirstYearDrop, standardDegradation, premiumFirstYearDrop, premiumDegradation, fullDayCoverage]);
 
   useEffect(() => {
     let validInput = false;
@@ -1939,18 +2123,148 @@ const SolarApplicationForm: React.FC = () => {
                             <div className="d-flex flex-wrap gap-2 flex-column">
                               {(['economy', 'standard', 'premium'] as const).map(key => (
                                 <div key={key} className='form-check form-check-inline border rounded px-3 py-2'>
-                                  <input className="form-check-input" type="radio" name="panelTier" id={`panel-${key}`} value={key} checked={panelTier === key} onChange={e => setPanelTier(e.target.value as PanelTierKey)} />
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="panelTier"
+                                    id={`panel-${key}`}
+                                    value={key}
+                                    checked={panelTier === key}
+                                    onChange={e => {
+                                      const nextTier = e.target.value as PanelTierKey;
+                                      setPanelTier(nextTier);
+                                      // Reset all panel tiers to default values on change
+                                      setEconomyFirstYearDrop(PANEL_PRICING.economy.firstYearDrop * 100);
+                                      setEconomyDegradation(PANEL_PRICING.economy.degradationRate * 100);
+                                      setStandardFirstYearDrop(PANEL_PRICING.standard.firstYearDrop * 100);
+                                      setStandardDegradation(PANEL_PRICING.standard.degradationRate * 100);
+                                      setPremiumFirstYearDrop(PANEL_PRICING.premium.firstYearDrop * 100);
+                                      setPremiumDegradation(PANEL_PRICING.premium.degradationRate * 100);
+                                    }}
+                                  />
                                   <label className="form-check-label" htmlFor={`panel-${key}`}>
                                     <span className='fw-bold text-capitalize'>{t(`solarCalc.panelTier.${key}.label`)}</span>
-                                    <span className='d-block small text-muted'>{t('solarCalc.panelTierCostLine', { cost: PANEL_PRICING[key].costPerPanel, note: t(`solarCalc.panelTier.${key}.note`) })}</span>
+                                    <span className='d-block small text-muted'>
+                                      {t('solarCalc.panelTierCostLine', { cost: PANEL_PRICING[key].costPerPanel, note: t(`solarCalc.panelTier.${key}.note`) })}
+                                      <span className="d-block mt-1 text-primary-emphasis fw-semibold" style={{ fontSize: '0.8rem' }}>
+                                        {getPanelDegradationText(key)}
+                                      </span>
+                                    </span>
                                   </label>
                                 </div>
                               ))}
+                            </div>
+
+                            {/* Annual Degradation adjustment fields */}
+                            <div className="card p-3 bg-light border-0 rounded-3 mt-3">
+                              <label className="form-label fw-bold small d-flex align-items-center mb-2 gap-2 text-dark">
+                                <FontAwesomeIcon icon={faSun} className='text-warning' />
+                                {t('solarCalc.adjustDegradationRate')}
+                              </label>
+                              <div className="row g-3">
+                                {(['economy', 'standard', 'premium'] as const).filter(key => key === panelTier).map(key => {
+                                  const fydVal = key === 'economy' ? economyFirstYearDrop : key === 'standard' ? standardFirstYearDrop : premiumFirstYearDrop;
+                                  const degVal = key === 'economy' ? economyDegradation : key === 'standard' ? standardDegradation : premiumDegradation;
+                                  return (
+                                    <div key={key} className="col-12 border-0 pb-0" style={{ borderBottomStyle: 'none' }}>
+                                      <span className="fw-semibold small text-muted text-capitalize mb-2 d-block">
+                                        {t(`solarCalc.panelTier.${key}.label`)}
+                                      </span>
+                                      <div className="row g-2">
+                                        <div className="col-6">
+                                          <label className="small text-muted mb-1 d-block" style={{ fontSize: '0.75rem' }}>
+                                            {lang === 'ar' ? 'الهبوط الأولي (LID/PID)' : 'First Year Drop (LID/PID)'}
+                                          </label>
+                                          <div className="input-group input-group-sm">
+                                            <input
+                                              type="number"
+                                              step="0.1"
+                                              min="0"
+                                              max="10"
+                                              className="form-control text-center text-dark fw-bold"
+                                              value={fydVal}
+                                              onChange={(e) => {
+                                                const val = e.target.value === '' ? 0 : Number(e.target.value);
+                                                if (key === 'economy') setEconomyFirstYearDrop(val);
+                                                else if (key === 'standard') setStandardFirstYearDrop(val);
+                                                else setPremiumFirstYearDrop(val);
+                                              }}
+                                            />
+                                            <span className="input-group-text">%</span>
+                                          </div>
+                                        </div>
+                                        <div className="col-6">
+                                          <label className="small text-muted mb-1 d-block" style={{ fontSize: '0.75rem' }}>
+                                            {lang === 'ar' ? 'معدل التدهور السنوي' : 'Annual Degradation'}
+                                          </label>
+                                          <div className="input-group input-group-sm">
+                                            <input
+                                              type="number"
+                                              step="0.05"
+                                              min="0"
+                                              max="5"
+                                              className="form-control text-center text-dark fw-bold"
+                                              value={degVal}
+                                              onChange={(e) => {
+                                                const val = e.target.value === '' ? 0 : Number(e.target.value);
+                                                if (key === 'economy') setEconomyDegradation(val);
+                                                else if (key === 'standard') setStandardDegradation(val);
+                                                else setPremiumDegradation(val);
+                                              }}
+                                            />
+                                            <span className="input-group-text">%</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              <small className="form-text text-muted mt-2 d-block" style={{ fontSize: '0.75rem' }}>
+                                {t('solarCalc.degradationHelper')}
+                              </small>
                             </div>
                           </div>
                         </div>
 
                         <div className='col-md-6'>
+                          <div className="mb-3">
+                            <label className="form-label fw-bold d-flex align-items-center mb-2">
+                              <FontAwesomeIcon icon={faTachometerAlt} className='text-primary me-2' />
+                              {lang === 'ar' ? 'هدف تغطية النظام الشمسي' : 'System Sizing Coverage Goal'}
+                            </label>
+                            <div className="card p-3 bg-light border-0 rounded-3">
+                              <div className="form-check form-switch mb-1">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id="fullDayCoverage"
+                                  checked={fullDayCoverage}
+                                  disabled={connectionType === 'pumping'}
+                                  onChange={(e) => setFullDayCoverage(e.target.checked)}
+                                />
+                                <label className="form-check-label fw-semibold small" htmlFor="fullDayCoverage">
+                                  {lang === 'ar' ? 'تغطية كامل اليوم (24 ساعة)' : 'Full Day Coverage (24 Hours)'}
+                                </label>
+                              </div>
+                              <small className="form-text text-muted d-block" style={{ fontSize: '0.75rem', lineHeight: '1.3' }}>
+                                {connectionType === 'pumping'
+                                  ? (lang === 'ar'
+                                    ? 'نظام الضخ المباشر يعمل نهاراً فقط تحت أشعة الشمس تلقائياً.'
+                                    : 'Direct solar pumping operates exclusively during daylight sunlight hours.')
+                                  : (fullDayCoverage
+                                    ? (lang === 'ar'
+                                      ? 'يتم تكبير النظام لتوليد ما يكفي لتغطية استهلاك الـ 24 ساعة بالكامل (وتخزين الفائض بالبطاريات أو تصديره للشبكة).'
+                                      : 'Sizes the system to cover your total 24h consumption (storing surplus in batteries or exporting to grid).')
+                                    : (lang === 'ar'
+                                      ? 'يتم تصميم النظام لتغطية الاستهلاك النهاري المباشر فقط (حوالي 35% من الحمل الكلي) لتجنب الفائض الضخم.'
+                                      : 'Sizes the system for direct daylight usage only (approx. 35% of total load) to avoid heavy daytime grid exports.'))
+                                }
+                              </small>
+                            </div>
+                          </div>
+
                           <div className="mb-3">
                             <label className="form-label fw-bold d-flex align-items-center mb-2">
                               <FontAwesomeIcon icon={faNetworkWired} className='text-primary me-2' />

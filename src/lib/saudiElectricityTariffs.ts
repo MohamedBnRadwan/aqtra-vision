@@ -196,10 +196,10 @@ export function effectivePriceForMonthlyKwh(monthlyKwh: number, primaryUse: stri
 export type PanelTierKey = 'economy' | 'standard' | 'premium';
 export type SystemType = 'onGrid' | 'hybrid' | 'offGrid';
 
-export const PANEL_PRICING: Record<PanelTierKey, { label: string; areaPerPanelM2: number; costPerPanel: number; efficiency: number; wattage: number; note: string }> = {
-  economy: { label: 'Economy', areaPerPanelM2: 5.1, costPerPanel: 450, efficiency: 0.8, wattage: 490, note: 'Lower cost, shorter lifespan' },
-  standard: { label: 'Standard', areaPerPanelM2: 5, costPerPanel: 550, efficiency: 1.0, wattage: 590, note: 'Balanced price/performance' },
-  premium: { label: 'Premium', areaPerPanelM2: 4.9, costPerPanel: 650, efficiency: 1.2, wattage: 635, note: 'Higher efficiency, longer lifespan' },
+export const PANEL_PRICING: Record<PanelTierKey, { label: string; areaPerPanelM2: number; costPerPanel: number; efficiency: number; wattage: number; note: string; firstYearDrop: number; degradationRate: number }> = {
+  economy: { label: 'Economy', areaPerPanelM2: 5.1, costPerPanel: 450, efficiency: 0.8, wattage: 490, note: 'Lower cost, shorter lifespan', firstYearDrop: 0.025, degradationRate: 0.0065 },
+  standard: { label: 'Standard', areaPerPanelM2: 5, costPerPanel: 550, efficiency: 1.0, wattage: 590, note: 'Balanced price/performance', firstYearDrop: 0.015, degradationRate: 0.0050 },
+  premium: { label: 'Premium', areaPerPanelM2: 4.9, costPerPanel: 650, efficiency: 1.2, wattage: 635, note: 'Higher efficiency, longer lifespan', firstYearDrop: 0.010, degradationRate: 0.0040 },
 };
 
 const SIZE_PRICING_TIERS: Record<number, number> = {
@@ -247,6 +247,9 @@ export type SolarEstimateInput = {
   wantBackup: boolean;
   availableArea?: number;
   overrideEffectiveKwhPrice?: number;
+  firstYearDrop?: number;
+  degradationRate?: number;
+  fullDayCoverage?: boolean;
 };
 
 export type SolarEstimateResult =
@@ -274,6 +277,9 @@ export type SolarEstimateData = {
   totalSystemCost: number;
   systemType: SystemType;
   selectedPanel: (typeof PANEL_PRICING)[PanelTierKey];
+  firstYearDrop: number;
+  degradationRate: number;
+  fullDayCoverage: boolean;
 };
 
 function round(val: number, decimals = 1) {
@@ -328,7 +334,16 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
 
   const selectedPanel = PANEL_PRICING[input.panelTier];
 
-  const dailyKWh = monthlyBase / 30;
+  const fullDayCoverage = input.fullDayCoverage ?? true;
+  let dailyKWh = monthlyBase / 30;
+  
+  // If daylight-only coverage is selected, we size the system for direct daylight usage (~35% of 24h load),
+  // EXCEPT for agricultural pumping systems (pumping connection type) which run entirely on daylight.
+  const isAgriculturalPumping = input.primaryUse === 'agricultural' && !input.hasGrid;
+  if (!fullDayCoverage && !isAgriculturalPumping) {
+    dailyKWh = dailyKWh * 0.35;
+  }
+
   const requiredKw = dailyKWh / input.peakSunHours;
   const systemKw = requiredKw / LOSSES;
   const adjustedPanelWatt = selectedPanel.wattage * selectedPanel.efficiency;
@@ -363,8 +378,19 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
 
   const totalSystemCost = packagePriceSar + batteryCost + inverterUpgradeAdder;
 
+  const firstYearDrop = input.firstYearDrop ?? selectedPanel.firstYearDrop;
+  const degradationRate = input.degradationRate ?? selectedPanel.degradationRate;
+
   const paybackYears = annualSavingsSar > 0 ? totalSystemCost / annualSavingsSar : Infinity;
-  const lifetimeGrossSavings = annualSavingsSar * SYSTEM_LIFETIME_YEARS;
+  
+  let lifetimeGrossSavings = 0;
+  for (let year = 1; year <= SYSTEM_LIFETIME_YEARS; year++) {
+    const factor = (1 - firstYearDrop) * Math.pow(1 - degradationRate, year - 1);
+    const annualProdKwhYear = annualProdKwh * factor;
+    const annualOffsetYear = Math.min(annualProdKwhYear, annualLoadKwh);
+    lifetimeGrossSavings += annualOffsetYear * effectiveKwhPrice;
+  }
+  
   const lifetimeNetSavings = lifetimeGrossSavings - totalSystemCost;
 
   return {
@@ -391,6 +417,9 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
       totalSystemCost,
       systemType,
       selectedPanel,
+      firstYearDrop,
+      degradationRate,
+      fullDayCoverage,
     },
   };
 }

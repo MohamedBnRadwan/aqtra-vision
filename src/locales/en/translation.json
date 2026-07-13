@@ -69,7 +69,7 @@
     "electricityCosts": "Electricity Costs (with VAT)",
     "solarProduction": "Solar Production & Savings",
     "systemCost": "System Cost Estimate — {{tier}}",
-    "consumption": "Consumption",
+    "consumption": "Monthly Consumption (kWh)",
     "bill": "Bill",
     "powerSupply": "Power supply",
     "area": "Area",
@@ -166,6 +166,8 @@
       "standard": { "label": "Standard", "note": "Balanced price/performance" },
       "premium": { "label": "Premium", "note": "Higher efficiency, longer lifespan" }
     },
+    "adjustDegradationRate": "Adjust Annual Degradation & Initial Drop (%)",
+    "degradationHelper": "Sets the initial (first year) output drop and the annual degradation rate. These affect long-term cumulative savings over the system's 25-year lifetime.",
     "showAdvanced": "Show advanced options",
     "shareLinkHelp": "Copy or share a link with your current inputs",
     "shareLink": "Share link",

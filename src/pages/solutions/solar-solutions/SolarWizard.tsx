@@ -521,7 +521,18 @@ const SolarWizard: React.FC = () => {
     const annualSavingsSar = Math.round(annualOffset * effectiveKwhPrice);
 
     const paybackYears = annualSavingsSar > 0 ? Number((totalSystemCost / annualSavingsSar).toFixed(1)) : Infinity;
-    const lifetimeGrossSavings = annualSavingsSar * systemLifetimeYears;
+    
+    let lifetimeGrossSavings = 0;
+    const firstYearDrop = selectedPanel.firstYearDrop || 0;
+    const degradationRate = selectedPanel.degradationRate || 0;
+    for (let year = 1; year <= systemLifetimeYears; year++) {
+      const factor = (1 - firstYearDrop) * Math.pow(1 - degradationRate, year - 1);
+      const annualProdKwhYear = annualProdKwh * factor;
+      const annualOffsetYear = Math.min(annualProdKwhYear, annualLoadKwh);
+      lifetimeGrossSavings += annualOffsetYear * effectiveKwhPrice;
+    }
+    lifetimeGrossSavings = Math.round(lifetimeGrossSavings);
+
     const lifetimeNetSavings = lifetimeGrossSavings - totalSystemCost;
 
     // Inverter split calculations
