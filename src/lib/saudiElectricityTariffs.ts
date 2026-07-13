@@ -197,16 +197,16 @@ export type PanelTierKey = 'economy' | 'standard' | 'premium';
 export type SystemType = 'onGrid' | 'hybrid' | 'offGrid';
 
 export const PANEL_PRICING: Record<PanelTierKey, { label: string; areaPerPanelM2: number; costPerPanel: number; efficiency: number; wattage: number; note: string; firstYearDrop: number; degradationRate: number }> = {
-  economy: { label: 'Economy', areaPerPanelM2: 5.1, costPerPanel: 450, efficiency: 0.8, wattage: 490, note: 'Lower cost, shorter lifespan', firstYearDrop: 0.025, degradationRate: 0.0065 },
-  standard: { label: 'Standard', areaPerPanelM2: 5, costPerPanel: 550, efficiency: 1.0, wattage: 590, note: 'Balanced price/performance', firstYearDrop: 0.015, degradationRate: 0.0050 },
-  premium: { label: 'Premium', areaPerPanelM2: 4.9, costPerPanel: 650, efficiency: 1.2, wattage: 635, note: 'Higher efficiency, longer lifespan', firstYearDrop: 0.010, degradationRate: 0.0040 },
+  economy: { label: 'Economy', areaPerPanelM2: 4.2, costPerPanel: 450, efficiency: 0.8, wattage: 490, note: 'Lower cost, shorter lifespan', firstYearDrop: 0.025, degradationRate: 0.0065 },
+  standard: { label: 'Standard', areaPerPanelM2: 4, costPerPanel: 550, efficiency: 1.0, wattage: 590, note: 'Balanced price/performance', firstYearDrop: 0.015, degradationRate: 0.0050 },
+  premium: { label: 'Premium', areaPerPanelM2: 3.8, costPerPanel: 650, efficiency: 1.2, wattage: 635, note: 'Higher efficiency, longer lifespan', firstYearDrop: 0.010, degradationRate: 0.0040 },
 };
 
 const SIZE_PRICING_TIERS: Record<number, number> = {
   // Per-kW rate is capped at ~3,500 SAR for small systems and floors at ~2,800 SAR for large systems up to 500 kW.
   10: 35073 * 1.2,   // 3,500 SAR/kW
-  15: 50073 * 1.2,   // 3,600 SAR/kW
-  20: 60073 * 1.2,   // 3,500 SAR/kW
+  15: 45073 * 1.2,   // 3,600 SAR/kW
+  20: 55073 * 1.2,   // 3,500 SAR/kW
   30: 85073 * 1.2,  // 3,500 SAR/kW
   50: 145073 * 1.2,  // 3,000 SAR/kW
   100: 290073 * 1.2, // 2,900 SAR/kW
@@ -336,7 +336,7 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
 
   const fullDayCoverage = input.fullDayCoverage ?? true;
   let dailyKWh = monthlyBase / 30;
-  
+
   // If daylight-only coverage is selected, we size the system for direct daylight usage (~35% of 24h load),
   // EXCEPT for agricultural pumping systems (pumping connection type) which run entirely on daylight.
   const isAgriculturalPumping = input.primaryUse === 'agricultural' && !input.hasGrid;
@@ -382,7 +382,7 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
   const degradationRate = input.degradationRate ?? selectedPanel.degradationRate;
 
   const paybackYears = annualSavingsSar > 0 ? totalSystemCost / annualSavingsSar : Infinity;
-  
+
   let lifetimeGrossSavings = 0;
   for (let year = 1; year <= SYSTEM_LIFETIME_YEARS; year++) {
     const factor = (1 - firstYearDrop) * Math.pow(1 - degradationRate, year - 1);
@@ -390,7 +390,7 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
     const annualOffsetYear = Math.min(annualProdKwhYear, annualLoadKwh);
     lifetimeGrossSavings += annualOffsetYear * effectiveKwhPrice;
   }
-  
+
   const lifetimeNetSavings = lifetimeGrossSavings - totalSystemCost;
 
   return {

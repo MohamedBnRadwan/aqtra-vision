@@ -2245,7 +2245,7 @@ const SolarApplicationForm: React.FC = () => {
                                   onChange={(e) => setFullDayCoverage(e.target.checked)}
                                 />
                                 <label className="form-check-label fw-semibold small" htmlFor="fullDayCoverage">
-                                  {lang === 'ar' ? 'تغطية كامل اليوم (24 ساعة)' : 'Full Day Coverage (24 Hours)'}
+                                  {lang === 'ar' ? 'نظام تصفير الفاتورة السنوية (Net Zero)' : 'Net Zero System'}
                                 </label>
                               </div>
                               <small className="form-text text-muted d-block" style={{ fontSize: '0.75rem', lineHeight: '1.3' }}>
