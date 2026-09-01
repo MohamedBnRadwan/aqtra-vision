@@ -132,62 +132,122 @@ export function tariffForPrimaryUse(primaryUse: string, industry?: IndustryOptio
   }
 }
 
-export function billFromMonthlyKwh(monthlyKwh: number, tariff: Tariff, vatRate = VAT_RATE) {
+export function billFromMonthlyKwh(
+  monthlyKwh: number,
+  tariff: Tariff,
+  vatRate = VAT_RATE,
+  billingDays = 30,
+  meterFeeSar = 15
+) {
   const kwh = Math.max(0, monthlyKwh);
+  const days = Math.max(1, billingDays || 30);
+  const meterFee = Math.max(0, meterFeeSar ?? 15);
+
   if (!kwh) {
     return {
       subtotalSar: 0,
       vatSar: 0,
       totalSar: 0,
       avgSarPerKwh: 0,
+      electricitySubtotalSar: 0,
+      meterFeeSar: 0,
+      tier1Kwh: 0,
+      tier2Kwh: 0,
+      tier1CostSar: 0,
+      tier2CostSar: 0,
     };
   }
 
-  let subtotalSar = 0;
+  let electricitySubtotalSar = 0;
+  let tier1Kwh = 0;
+  let tier2Kwh = 0;
+  let tier1CostSar = 0;
+  let tier2CostSar = 0;
 
   if (tariff.type === 'flat') {
-    subtotalSar = kwh * halalasToSar(tariff.halalasPerKwh);
+    electricitySubtotalSar = kwh * halalasToSar(tariff.halalasPerKwh);
+    tier1Kwh = kwh;
+    tier1CostSar = electricitySubtotalSar;
   } else {
-    const tier1Kwh = Math.min(kwh, tariff.tier1LimitKwh);
-    const tier2Kwh = Math.max(kwh - tariff.tier1LimitKwh, 0);
-    subtotalSar =
-      tier1Kwh * halalasToSar(tariff.tier1HalalasPerKwh) + tier2Kwh * halalasToSar(tariff.tier2HalalasPerKwh);
+    // SEC standard: tier 1 limit scales proportionally with billing days (200 kWh / day)
+    const scaledTier1Limit = tariff.tier1LimitKwh * (days / 30);
+    tier1Kwh = Math.min(kwh, scaledTier1Limit);
+    tier2Kwh = Math.max(kwh - scaledTier1Limit, 0);
+
+    tier1CostSar = tier1Kwh * halalasToSar(tariff.tier1HalalasPerKwh);
+    tier2CostSar = tier2Kwh * halalasToSar(tariff.tier2HalalasPerKwh);
+    electricitySubtotalSar = tier1CostSar + tier2CostSar;
   }
 
+  const subtotalSar = electricitySubtotalSar + meterFee;
   const vatSar = subtotalSar * vatRate;
   const totalSar = subtotalSar + vatSar;
   const avgSarPerKwh = totalSar / kwh;
 
-  return { subtotalSar, vatSar, totalSar, avgSarPerKwh };
+  return {
+    subtotalSar,
+    vatSar,
+    totalSar,
+    avgSarPerKwh,
+    electricitySubtotalSar,
+    meterFeeSar: meterFee,
+    tier1Kwh,
+    tier2Kwh,
+    tier1CostSar,
+    tier2CostSar,
+  };
 }
 
-export function monthlyKwhFromBill(totalBillSar: number, tariff: Tariff, vatRate = VAT_RATE) {
+export function monthlyKwhFromBill(
+  totalBillSar: number,
+  tariff: Tariff,
+  vatRate = VAT_RATE,
+  billingDays = 30,
+  meterFeeSar = 15
+) {
   const total = Math.max(0, totalBillSar);
   if (!total) return 0;
 
-  const subtotalSar = total / (1 + vatRate);
+  const days = Math.max(1, billingDays || 30);
+  const meterFee = Math.max(0, meterFeeSar ?? 15);
+
+  const taxableSubtotal = total / (1 + vatRate);
+  const electricitySubtotalSar = Math.max(0, taxableSubtotal - meterFee);
+
+  let periodKwh = 0;
 
   if (tariff.type === 'flat') {
     const rateSar = halalasToSar(tariff.halalasPerKwh);
-    return Math.round(subtotalSar / rateSar);
+    periodKwh = rateSar > 0 ? electricitySubtotalSar / rateSar : 0;
+  } else {
+    const scaledTier1Limit = tariff.tier1LimitKwh * (days / 30);
+    const tier1RateSar = halalasToSar(tariff.tier1HalalasPerKwh);
+    const tier2RateSar = halalasToSar(tariff.tier2HalalasPerKwh);
+    const tier1BillLimitSar = scaledTier1Limit * tier1RateSar;
+
+    if (electricitySubtotalSar <= tier1BillLimitSar) {
+      periodKwh = tier1RateSar > 0 ? electricitySubtotalSar / tier1RateSar : 0;
+    } else {
+      const tier2BillSar = electricitySubtotalSar - tier1BillLimitSar;
+      const tier2Kwh = tier2RateSar > 0 ? tier2BillSar / tier2RateSar : 0;
+      periodKwh = scaledTier1Limit + tier2Kwh;
+    }
   }
 
-  const tier1RateSar = halalasToSar(tariff.tier1HalalasPerKwh);
-  const tier2RateSar = halalasToSar(tariff.tier2HalalasPerKwh);
-  const tier1BillLimitSar = tariff.tier1LimitKwh * tier1RateSar;
-
-  if (subtotalSar <= tier1BillLimitSar) {
-    return Math.round(subtotalSar / tier1RateSar);
-  }
-
-  const tier2BillSar = subtotalSar - tier1BillLimitSar;
-  const tier2Kwh = tier2BillSar / tier2RateSar;
-  return Math.round(tariff.tier1LimitKwh + tier2Kwh);
+  // Convert to standard 30-day monthly equivalent if billing days differs
+  const normalizedMonthlyKwh = days === 30 ? periodKwh : periodKwh * (30 / days);
+  return Math.round(normalizedMonthlyKwh);
 }
 
-export function effectivePriceForMonthlyKwh(monthlyKwh: number, primaryUse: string, industryOptions?: IndustryOptions) {
+export function effectivePriceForMonthlyKwh(
+  monthlyKwh: number,
+  primaryUse: string,
+  industryOptions?: IndustryOptions,
+  billingDays = 30,
+  meterFeeSar = 15
+) {
   const tariff = tariffForPrimaryUse(primaryUse, industryOptions);
-  const { avgSarPerKwh } = billFromMonthlyKwh(monthlyKwh, tariff);
+  const { avgSarPerKwh } = billFromMonthlyKwh(monthlyKwh, tariff, VAT_RATE, billingDays, meterFeeSar);
   return avgSarPerKwh;
 }
 
@@ -238,6 +298,7 @@ const INVERTER_UPGRADE_FACTOR: Record<SystemType, number> = {
 
 export type SolarEstimateInput = {
   monthlyKWh?: number;
+  dailyKWh?: number;
   monthlyBill?: number;
   primaryUse: string;
   industryOptions?: IndustryOptions;
@@ -250,6 +311,9 @@ export type SolarEstimateInput = {
   firstYearDrop?: number;
   degradationRate?: number;
   fullDayCoverage?: boolean;
+  coveragePercent?: 100 | 75 | 50 | number;
+  billingDays?: number;
+  meterFeeSar?: number;
 };
 
 export type SolarEstimateResult =
@@ -258,8 +322,12 @@ export type SolarEstimateResult =
 
 export type SolarEstimateData = {
   monthly: number;
+  dailyKWh: number;
+  billingDays: number;
+  meterFeeSar: number;
   monthlyBillComputed: number;
   effectiveKwhPrice: number;
+  billBreakdown: ReturnType<typeof billFromMonthlyKwh>;
   systemKw: number;
   panels: number;
   areaNeeded: number;
@@ -280,6 +348,7 @@ export type SolarEstimateData = {
   firstYearDrop: number;
   degradationRate: number;
   fullDayCoverage: boolean;
+  coveragePercent: number;
 };
 
 function round(val: number, decimals = 1) {
@@ -320,28 +389,36 @@ function systemTypeFromFlags(hasGrid: boolean, wantBackup: boolean): SystemType 
 }
 
 export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateResult {
+  const billingDays = input.billingDays ?? 30;
+  const meterFeeSar = input.meterFeeSar ?? 15;
   const tariff = tariffForPrimaryUse(input.primaryUse, input.industryOptions);
 
-  const monthlyBase = typeof input.monthlyKWh === 'number' && input.monthlyKWh > 0
-    ? input.monthlyKWh
-    : typeof input.monthlyBill === 'number' && input.monthlyBill > 0
-      ? monthlyKwhFromBill(input.monthlyBill, tariff)
+  const monthlyBase =
+    typeof input.dailyKWh === 'number' && input.dailyKWh > 0
+      ? input.dailyKWh * 30
+      : typeof input.monthlyKWh === 'number' && input.monthlyKWh > 0
+      ? input.monthlyKWh
+      : typeof input.monthlyBill === 'number' && input.monthlyBill > 0
+      ? monthlyKwhFromBill(input.monthlyBill, tariff, VAT_RATE, billingDays, meterFeeSar)
       : 0;
 
   if (!monthlyBase) {
-    return { ok: false, message: 'Please provide a valid average monthly energy consumption or monthly bill amount.' };
+    return { ok: false, message: 'Please provide a valid average monthly/daily energy consumption or monthly bill amount.' };
   }
 
   const selectedPanel = PANEL_PRICING[input.panelTier];
 
   const fullDayCoverage = input.fullDayCoverage ?? true;
-  let dailyKWh = monthlyBase / 30;
+  const coveragePercent = typeof input.coveragePercent === 'number'
+    ? input.coveragePercent
+    : fullDayCoverage ? 100 : 50;
 
-  // If daylight-only coverage is selected, we size the system for direct daylight usage (~35% of 24h load),
-  // EXCEPT for agricultural pumping systems (pumping connection type) which run entirely on daylight.
+  const dailyKWhBase = monthlyBase / 30;
+  let dailyKWh = dailyKWhBase;
+
   const isAgriculturalPumping = input.primaryUse === 'agricultural' && !input.hasGrid;
-  if (!fullDayCoverage && !isAgriculturalPumping) {
-    dailyKWh = dailyKWh * 0.35;
+  if (!isAgriculturalPumping) {
+    dailyKWh = dailyKWhBase * (coveragePercent / 100);
   }
 
   const requiredKw = dailyKWh / input.peakSunHours;
@@ -350,9 +427,11 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
   const panels = Math.ceil((systemKw * 1000) / adjustedPanelWatt);
   const areaNeeded = round(panels * (selectedPanel.areaPerPanelM2 || AREA_PER_PANEL_M2));
 
-  const { totalSar: monthlyBillComputedTariff, avgSarPerKwh: effectiveKwhPriceTariff } = billFromMonthlyKwh(monthlyBase, tariff);
-  const effectiveKwhPrice = input.overrideEffectiveKwhPrice ?? effectiveKwhPriceTariff;
-  const monthlyBillComputed = input.overrideEffectiveKwhPrice ? monthlyBase * input.overrideEffectiveKwhPrice : monthlyBillComputedTariff;
+  const billBreakdown = billFromMonthlyKwh(monthlyBase, tariff, VAT_RATE, billingDays, meterFeeSar);
+  const effectiveKwhPrice = input.overrideEffectiveKwhPrice ?? billBreakdown.avgSarPerKwh;
+  const monthlyBillComputed = input.overrideEffectiveKwhPrice
+    ? monthlyBase * input.overrideEffectiveKwhPrice
+    : billBreakdown.totalSar;
 
   const annualProdKwh = systemKw * input.peakSunHours * 365 * DERATE * selectedPanel.efficiency;
   const annualLoadKwh = monthlyBase * 12;
@@ -398,8 +477,12 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
     message: 'Solar estimate computed successfully.',
     data: {
       monthly: monthlyBase,
+      dailyKWh: dailyKWhBase,
+      billingDays,
+      meterFeeSar,
       monthlyBillComputed,
       effectiveKwhPrice,
+      billBreakdown,
       systemKw,
       panels,
       areaNeeded,
@@ -420,6 +503,7 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
       firstYearDrop,
       degradationRate,
       fullDayCoverage,
+      coveragePercent,
     },
   };
 }

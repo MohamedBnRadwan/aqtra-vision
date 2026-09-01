@@ -21,6 +21,11 @@ import {
   faCoins,
   faWrench,
   faFilePdf,
+  faSave,
+  faTrash,
+  faCog,
+  faCalendarAlt,
+  faTachometerAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   computeSolarEstimate,
@@ -88,10 +93,10 @@ const WIZARD_TRANSLATIONS = {
     panelAreaLabel: 'المساحة المطلوبة لكل لوح (م² - حسب زاوية التركيب والتباعد)',
     panelAreaHelper: 'تتضمن المساحة الممرات والتباعد لمنع التظليل. القيمة القياسية هي 5 م² للوح.',
 
-    premiumRecTitle: '⚠️ المساحة المتاحة صغيرة بالنسبة للألواح القياسية!',
+    premiumRecTitle: 'المساحة المتاحة صغيرة بالنسبة للألواح القياسية!',
     premiumRecBody: 'مساحة السطح المتوفرة ({{avail}} م²) لا تتسع للألواح القياسية المطلوبة (المساحة اللازمة {{needed}} م²). لقد قمنا بترشيح الألواح عالية الكفاءة (Premium - 635 واط) وإعادة الحساب لتناسب المساحة المتاحة.',
-    premiumFitSuccess: '✅ تم بنجاح ملاءمة النظام لمساحة السطح باستخدام الألواح عالية الكفاءة بمساحة إجمالية {{needed}} م².',
-    premiumStillBig: '⚠️ حتى مع الألواح عالية الكفاءة، المساحة المتاحة غير كافية بالكامل. يُنصح بتقليص سعة النظام أو استخدام مساحات أرضية إضافية.',
+    premiumFitSuccess: 'تم بنجاح ملاءمة النظام لمساحة السطح باستخدام الألواح عالية الكفاءة بمساحة إجمالية {{needed}} م².',
+    premiumStillBig: 'حتى مع الألواح عالية الكفاءة، المساحة المتاحة غير كافية بالكامل. يُنصح بتقليص سعة النظام أو استخدام مساحات أرضية إضافية.',
 
     quoteTitle: 'عرض السعر المبدئي والمكونات المقترحة',
     quoteCompanyTitle: 'بيانات الشركة والعميل لتصدير العرض الرسمي:',
@@ -205,10 +210,10 @@ const WIZARD_TRANSLATIONS = {
     panelAreaLabel: 'Required footprint area per panel (m² - including tilt spacing)',
     panelAreaHelper: 'Includes maintenance walkways and tilt shading clearances. Default is 5 m² per panel.',
 
-    premiumRecTitle: '⚠️ Available roof space is small for standard panels!',
+    premiumRecTitle: 'Available roof space is small for standard panels!',
     premiumRecBody: 'Your available space ({{avail}} m²) is less than standard panels requirement ({{needed}} m²). We have recommended high-efficiency panels (Premium - 635W) and recalculated to fit.',
-    premiumFitSuccess: '✅ System successfully optimized to fit your space using high-efficiency panels. Total area: {{needed}} m².',
-    premiumStillBig: '⚠️ Even with premium high-efficiency panels, the available area is insufficient. Consider reducing kW capacity or utilizing ground mounts.',
+    premiumFitSuccess: 'System successfully optimized to fit your space using high-efficiency panels. Total area: {{needed}} m².',
+    premiumStillBig: 'Even with premium high-efficiency panels, the available area is insufficient. Consider reducing kW capacity or utilizing ground mounts.',
 
     quoteTitle: 'Preliminary Price Quote & Proposed BOQ',
     quoteCompanyTitle: 'Enter Company & Client Details to Export Official PDF Offer:',
@@ -291,7 +296,9 @@ const SolarWizard: React.FC = () => {
 
   // Step 2
   const [inputType, setInputType] = useState<'kwh' | 'bill'>('kwh');
+  const [consumptionPeriod, setConsumptionPeriod] = useState<'monthly' | 'daily'>('monthly');
   const [monthlyKwhInput, setMonthlyKwhInput] = useState<number | ''>('');
+  const [dailyKwhInput, setDailyKwhInput] = useState<number | ''>('');
   const [monthlyBillInput, setMonthlyBillInput] = useState<number | ''>('');
   const [tariffType, setTariffType] = useState<'residential' | 'commercial' | 'agricultural' | 'industrial' | 'custom'>('residential');
   const [customTariffPrice, setCustomTariffPrice] = useState<number | ''>('');
@@ -386,14 +393,20 @@ const SolarWizard: React.FC = () => {
     }
 
     if (sizingBasis === 'energy') {
-      if (inputType === 'kwh' && typeof monthlyKwhInput === 'number' && monthlyKwhInput > 0) {
-        resolvedMonthlyKwh = monthlyKwhInput;
-        if (tariffType === 'custom' && typeof customTariffPrice === 'number') {
-          effectiveKwhPrice = customTariffPrice;
-        } else {
-          // Calculate average tariff price
-          const billDetails = billFromMonthlyKwhLocal(resolvedMonthlyKwh, tariffObj);
-          effectiveKwhPrice = billDetails.avgSarPerKwh;
+      if (inputType === 'kwh') {
+        if (consumptionPeriod === 'daily' && typeof dailyKwhInput === 'number' && dailyKwhInput > 0) {
+          resolvedMonthlyKwh = dailyKwhInput * 30;
+        } else if (typeof monthlyKwhInput === 'number' && monthlyKwhInput > 0) {
+          resolvedMonthlyKwh = monthlyKwhInput;
+        }
+        if (resolvedMonthlyKwh > 0) {
+          if (tariffType === 'custom' && typeof customTariffPrice === 'number') {
+            effectiveKwhPrice = customTariffPrice;
+          } else {
+            // Calculate average tariff price
+            const billDetails = billFromMonthlyKwhLocal(resolvedMonthlyKwh, tariffObj);
+            effectiveKwhPrice = billDetails.avgSarPerKwh;
+          }
         }
       } else if (inputType === 'bill' && typeof monthlyBillInput === 'number' && monthlyBillInput > 0) {
         if (tariffType === 'custom' && typeof customTariffPrice === 'number' && customTariffPrice > 0) {
@@ -577,7 +590,9 @@ const SolarWizard: React.FC = () => {
     sizingBasis,
     directKw,
     inputType,
+    consumptionPeriod,
     monthlyKwhInput,
+    dailyKwhInput,
     monthlyBillInput,
     tariffType,
     customTariffPrice,
@@ -639,7 +654,7 @@ const SolarWizard: React.FC = () => {
       currentStep,
     };
     localStorage.setItem('solar_wizard_saved_choices', JSON.stringify(config));
-    alert(lang === 'ar' ? '✅ تم حفظ الخيارات بنجاح! يمكنك الآن الرجوع وتعديلها أو طباعتها في أي وقت.' : '✅ Choices saved successfully! You can reload, edit, or reprint them at any time.');
+    alert(lang === 'ar' ? 'تم حفظ الخيارات بنجاح! يمكنك الآن الرجوع وتعديلها أو طباعتها في أي وقت.' : 'Choices saved successfully! You can reload, edit, or reprint them at any time.');
   };
 
   const handleClearConfiguration = () => {
@@ -670,46 +685,60 @@ const SolarWizard: React.FC = () => {
   };
 
   // Local calculation formulas that don't depend on DOM window
-  function billFromMonthlyKwhLocal(kwh: number, tariff: any) {
+  function billFromMonthlyKwhLocal(kwh: number, tariff: any, billingDays = 30, meterFeeSar = 15) {
     const vatRate = VAT_RATE;
-    let subtotalSar = 0;
+    const days = Math.max(1, billingDays || 30);
+    const meterFee = Math.max(0, meterFeeSar ?? 15);
+    let electricitySubtotalSar = 0;
 
     if (tariff.type === 'flat') {
-      subtotalSar = kwh * (tariff.halalasPerKwh / 100);
+      electricitySubtotalSar = kwh * (tariff.halalasPerKwh / 100);
     } else {
-      const tier1Kwh = Math.min(kwh, tariff.tier1LimitKwh);
-      const tier2Kwh = Math.max(kwh - tariff.tier1LimitKwh, 0);
-      subtotalSar =
+      const scaledTier1Limit = tariff.tier1LimitKwh * (days / 30);
+      const tier1Kwh = Math.min(kwh, scaledTier1Limit);
+      const tier2Kwh = Math.max(kwh - scaledTier1Limit, 0);
+      electricitySubtotalSar =
         tier1Kwh * (tariff.tier1HalalasPerKwh / 100) + tier2Kwh * (tariff.tier2HalalasPerKwh / 100);
     }
 
+    const subtotalSar = electricitySubtotalSar + meterFee;
     const vatSar = subtotalSar * vatRate;
     const totalSar = subtotalSar + vatSar;
     const avgSarPerKwh = totalSar / kwh;
 
-    return { subtotalSar, vatSar, totalSar, avgSarPerKwh };
+    return { subtotalSar, vatSar, totalSar, avgSarPerKwh, electricitySubtotalSar, meterFeeSar: meterFee };
   }
 
-  function monthlyKwhFromBillLocal(totalBillSar: number, tariff: any) {
+  function monthlyKwhFromBillLocal(totalBillSar: number, tariff: any, billingDays = 30, meterFeeSar = 15) {
     const vatRate = VAT_RATE;
-    const subtotalSar = totalBillSar / (1 + vatRate);
+    const days = Math.max(1, billingDays || 30);
+    const meterFee = Math.max(0, meterFeeSar ?? 15);
+
+    const taxableSubtotal = totalBillSar / (1 + vatRate);
+    const electricitySubtotalSar = Math.max(0, taxableSubtotal - meterFee);
+
+    let periodKwh = 0;
 
     if (tariff.type === 'flat') {
       const rateSar = tariff.halalasPerKwh / 100;
-      return Math.round(subtotalSar / rateSar);
+      periodKwh = rateSar > 0 ? electricitySubtotalSar / rateSar : 0;
+    } else {
+      const scaledTier1Limit = tariff.tier1LimitKwh * (days / 30);
+      const tier1RateSar = tariff.tier1HalalasPerKwh / 100;
+      const tier2RateSar = tariff.tier2HalalasPerKwh / 100;
+      const tier1BillLimitSar = scaledTier1Limit * tier1RateSar;
+
+      if (electricitySubtotalSar <= tier1BillLimitSar) {
+        periodKwh = tier1RateSar > 0 ? electricitySubtotalSar / tier1RateSar : 0;
+      } else {
+        const tier2BillSar = electricitySubtotalSar - tier1BillLimitSar;
+        const tier2Kwh = tier2RateSar > 0 ? tier2BillSar / tier2RateSar : 0;
+        periodKwh = scaledTier1Limit + tier2Kwh;
+      }
     }
 
-    const tier1RateSar = tariff.tier1HalalasPerKwh / 100;
-    const tier2RateSar = tariff.tier2HalalasPerKwh / 100;
-    const tier1BillLimitSar = tariff.tier1LimitKwh * tier1RateSar;
-
-    if (subtotalSar <= tier1BillLimitSar) {
-      return Math.round(subtotalSar / tier1RateSar);
-    }
-
-    const tier2BillSar = subtotalSar - tier1BillLimitSar;
-    const tier2Kwh = tier2BillSar / tier2RateSar;
-    return Math.round(tariff.tier1LimitKwh + tier2Kwh);
+    const normalizedMonthlyKwh = days === 30 ? periodKwh : periodKwh * (30 / days);
+    return Math.round(normalizedMonthlyKwh);
   }
 
   const SIZE_PRICING_TIERS_LOCAL: Record<number, number> = {
@@ -778,7 +807,7 @@ const SolarWizard: React.FC = () => {
                 key={step}
                 className={`solar-wizard-step-node ${step === currentStep ? 'active' : ''} ${step < currentStep ? 'completed' : ''}`}
               >
-                {step < currentStep ? '✓' : step}
+                {step < currentStep ? <FontAwesomeIcon icon={faCheckCircle} /> : step}
               </div>
             ))}
           </div>
@@ -804,7 +833,9 @@ const SolarWizard: React.FC = () => {
                           className={`solar-option-card ${sizingBasis === 'energy' ? 'selected' : ''}`}
                           onClick={() => setSizingBasis('energy')}
                         >
-                          <div className="solar-option-icon">⚡</div>
+                          <div className="solar-option-icon">
+                            <FontAwesomeIcon icon={faBolt} />
+                          </div>
                           <h5 className="fw-bold">{tW('basisOptProd')}</h5>
                           <p className="text-muted small mt-2">{tW('basisOptProdDesc')}</p>
                         </div>
@@ -815,7 +846,9 @@ const SolarWizard: React.FC = () => {
                           className={`solar-option-card ${sizingBasis === 'capacity' ? 'selected' : ''}`}
                           onClick={() => setSizingBasis('capacity')}
                         >
-                          <div className="solar-option-icon">⚙️</div>
+                          <div className="solar-option-icon">
+                            <FontAwesomeIcon icon={faCog} />
+                          </div>
                           <h5 className="fw-bold">{tW('basisOptSize')}</h5>
                           <p className="text-muted small mt-2">{tW('basisOptSizeDesc')}</p>
                         </div>
@@ -867,23 +900,94 @@ const SolarWizard: React.FC = () => {
                         <div className="row justify-content-center">
                           <div className="col-md-8">
                             <div className="mb-4">
-                              <label className="form-label fw-semibold">
-                                {inputType === 'kwh' ? tW('kwhLabel') : tW('billLabel')}
-                              </label>
-                              <input
-                                type="number"
-                                className="form-control solar-form-input"
-                                value={inputType === 'kwh' ? monthlyKwhInput : monthlyBillInput}
-                                onChange={(e) => {
-                                  const val = e.target.value === '' ? '' : Number(e.target.value);
-                                  if (inputType === 'kwh') {
-                                    setMonthlyKwhInput(val);
-                                  } else {
-                                    setMonthlyBillInput(val);
-                                  }
-                                }}
-                                min={1}
-                              />
+                              {inputType === 'kwh' ? (
+                                <>
+                                  <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <label className="form-label fw-semibold mb-0">
+                                      {consumptionPeriod === 'monthly'
+                                        ? (lang === 'ar' ? 'الاستهلاك الشهري (ك.و.س / شهر)' : 'Monthly Consumption (kWh/month)')
+                                        : (lang === 'ar' ? 'الاستهلاك اليومي (ك.و.س / يوم)' : 'Daily Consumption (kWh/day)')}
+                                    </label>
+                                    <div className="btn-group btn-group-sm" role="group">
+                                      <button
+                                        type="button"
+                                        className={`btn btn-sm ${consumptionPeriod === 'monthly' ? 'btn-success text-white' : 'btn-outline-secondary'}`}
+                                        style={{ fontSize: '0.8rem', padding: '2px 10px' }}
+                                        onClick={() => setConsumptionPeriod('monthly')}
+                                      >
+                                        {lang === 'ar' ? 'شهري' : 'Monthly'}
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className={`btn btn-sm ${consumptionPeriod === 'daily' ? 'btn-success text-white' : 'btn-outline-secondary'}`}
+                                        style={{ fontSize: '0.8rem', padding: '2px 10px' }}
+                                        onClick={() => setConsumptionPeriod('daily')}
+                                      >
+                                        {lang === 'ar' ? 'يومي' : 'Daily'}
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  {consumptionPeriod === 'monthly' ? (
+                                    <>
+                                      <input
+                                        type="number"
+                                        className="form-control solar-form-input text-center fw-bold"
+                                        value={monthlyKwhInput}
+                                        onChange={(e) => {
+                                          const val = e.target.value === '' ? '' : Number(e.target.value);
+                                          setMonthlyKwhInput(val);
+                                          setDailyKwhInput(typeof val === 'number' ? Number((val / 30).toFixed(2)) : '');
+                                        }}
+                                        placeholder={lang === 'ar' ? 'مثال: 6000' : 'e.g. 6000'}
+                                        min={1}
+                                      />
+                                      {typeof monthlyKwhInput === 'number' && monthlyKwhInput > 0 && (
+                                        <div className="text-center text-muted small mt-2">
+                                          <FontAwesomeIcon icon={faBolt} className="me-1 text-warning" />
+                                          {lang === 'ar' ? `المعادل اليومي: ~${(monthlyKwhInput / 30).toFixed(1)} ك.و.س / يوم` : `Daily equivalent: ~${(monthlyKwhInput / 30).toFixed(1)} kWh / day`}
+                                        </div>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <>
+                                      <input
+                                        type="number"
+                                        className="form-control solar-form-input text-center fw-bold"
+                                        value={dailyKwhInput}
+                                        onChange={(e) => {
+                                          const val = e.target.value === '' ? '' : Number(e.target.value);
+                                          setDailyKwhInput(val);
+                                          setMonthlyKwhInput(typeof val === 'number' ? Number((val * 30).toFixed(0)) : '');
+                                        }}
+                                        placeholder={lang === 'ar' ? 'مثال: 200' : 'e.g. 200'}
+                                        min={0.1}
+                                        step={0.1}
+                                      />
+                                      {typeof dailyKwhInput === 'number' && dailyKwhInput > 0 && (
+                                        <div className="text-center text-muted small mt-2">
+                                          <FontAwesomeIcon icon={faCalendarAlt} className="me-1 text-success" />
+                                          {lang === 'ar' ? `المعادل الشهري (30 يوم): ~${(dailyKwhInput * 30).toFixed(0)} ك.و.س / شهر` : `Monthly equivalent (30 days): ~${(dailyKwhInput * 30).toFixed(0)} kWh / month`}
+                                        </div>
+                                      )}
+                                    </>
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  <label className="form-label fw-semibold">
+                                    {lang === 'ar' ? 'قيمة الفاتورة الكهربائية الشهرية (دائماً شهرياً - ريال سعودي)' : 'Monthly Electricity Bill (Always Monthly - SAR)'}
+                                  </label>
+                                  <input
+                                    type="number"
+                                    className="form-control solar-form-input text-center fw-bold"
+                                    value={monthlyBillInput}
+                                    onChange={(e) => setMonthlyBillInput(e.target.value === '' ? '' : Number(e.target.value))}
+                                    placeholder={lang === 'ar' ? 'مثال: 1200' : 'e.g. 1200'}
+                                    min={1}
+                                  />
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -978,7 +1082,9 @@ const SolarWizard: React.FC = () => {
                           className={`solar-option-card ${connectionType === 'onGrid' ? 'selected' : ''}`}
                           onClick={() => setConnectionType('onGrid')}
                         >
-                          <div className="solar-option-icon">🌐</div>
+                          <div className="solar-option-icon">
+                            <FontAwesomeIcon icon={faTachometerAlt} />
+                          </div>
                           <h5 className="fw-bold">{tW('connOptOnGrid')}</h5>
                           <p className="text-muted small mt-2">{tW('connOptOnGridDesc')}</p>
                         </div>
@@ -989,7 +1095,9 @@ const SolarWizard: React.FC = () => {
                           className={`solar-option-card ${connectionType === 'hybrid' ? 'selected' : ''}`}
                           onClick={() => setConnectionType('hybrid')}
                         >
-                          <div className="solar-option-icon">🔋</div>
+                          <div className="solar-option-icon">
+                            <FontAwesomeIcon icon={faCarBattery} />
+                          </div>
                           <h5 className="fw-bold">{tW('connOptHybrid')}</h5>
                           <p className="text-muted small mt-2">{tW('connOptHybridDesc')}</p>
                         </div>
@@ -1532,7 +1640,7 @@ const SolarWizard: React.FC = () => {
                           type="button"
                           style={{ fontSize: '0.9rem', borderRadius: '8px' }}
                         >
-                          <span>💾</span>
+                          <FontAwesomeIcon icon={faSave} />
                           <span>{lang === 'ar' ? 'حفظ الخيارات' : 'Save Choices'}</span>
                         </button>
                         <button 
@@ -1542,7 +1650,7 @@ const SolarWizard: React.FC = () => {
                           title={lang === 'ar' ? 'مسح المدخلات' : 'Reset Inputs'}
                           style={{ borderRadius: '8px', padding: '0 10px' }}
                         >
-                          <span>🗑️</span>
+                          <FontAwesomeIcon icon={faTrash} />
                         </button>
                       </div>
                     </div>
