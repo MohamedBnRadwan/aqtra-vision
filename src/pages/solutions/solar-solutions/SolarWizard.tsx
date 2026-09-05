@@ -26,6 +26,8 @@ import {
   faCog,
   faCalendarAlt,
   faTachometerAlt,
+  faRulerCombined,
+  faSun,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   computeSolarEstimate,
@@ -50,8 +52,17 @@ const WIZARD_TRANSLATIONS = {
     basisQ: 'كيف ترغب في حساب مقاس نظامك الشمسي؟',
     basisOptProd: 'حساب بناءً على الاستهلاك أو قيمة الفاتورة الشهرية',
     basisOptProdDesc: 'مناسب لتقدير النظام الأمثل لتغطية أحمالك وتوفير التكلفة.',
+    basisOptArea: 'حساب بناءً على المساحة المتوفرة للتركيب (م²)',
+    basisOptAreaDesc: 'لمعرفة أقصى سعة شمسية وإنتاجية تستوعبها مساحة سطحك ونسبة تغطيتها لاستهلاكك.',
     basisOptSize: 'تحديد سعة النظام مباشرة بالكيلوواط (kWp)',
     basisOptSizeDesc: 'إذا كنت تعرف السعة المطلوبة بالفعل وترغب في حساب التكلفة والمكونات مباشرة.',
+
+    areaStepTitle: 'تحديد المساحة المتوفرة واستهلاكك:',
+    areaInputLabel: 'مساحة السطح أو الأرض المتوفرة (م²)',
+    areaInputHelper: 'احسب كمية الألواح التي تستوعبها المساحة ونسبة التغطية.',
+    coverageBoxTitle: 'نسبة تغطية الاستهلاك من الطاقة الشمسية',
+    monthlyCoverageLabel: 'تغطية الاستهلاك الشهري: {{percent}}٪',
+    yearlyCoverageLabel: 'تغطية الاستهلاك السنوي: {{percent}}٪',
 
     sysKwLabel: 'سعة النظام المطلوبة (كيلوواط ذروة - kWp)',
     sysKwPlaceholder: 'مثال: 15',
@@ -153,6 +164,8 @@ const WIZARD_TRANSLATIONS = {
     sidebarCost: 'التكلفة شاملة الضريبة',
     sidebarPayback: 'فترة الاسترداد',
     sidebarSavings: 'التوفير السنوي',
+    sidebarMonthlyCoverage: 'تغطية الاستهلاك الشهري',
+    sidebarYearlyCoverage: 'تغطية الاستهلاك السنوي',
     sidebarNoData: 'أكمل إدخال البيانات لعرض الحسابات الحية هنا.',
   },
   en: {
@@ -167,8 +180,17 @@ const WIZARD_TRANSLATIONS = {
     basisQ: 'How would you like to estimate your solar system size?',
     basisOptProd: 'Calculate based on monthly consumption or electricity bill',
     basisOptProdDesc: 'Recommended to design the optimal system to cover your load and maximize savings.',
+    basisOptArea: 'Calculate based on available roof / land area (m²)',
+    basisOptAreaDesc: 'Ideal to calculate the maximum solar capacity that fits in your space and consumption coverage %.',
     basisOptSize: 'Specify system capacity directly in kilowatts (kWp)',
     basisOptSizeDesc: 'If you already know the required DC solar capacity and want to compute cost and components.',
+
+    areaStepTitle: 'Specify Available Space and Usage:',
+    areaInputLabel: 'Available Roof or Ground Area (m²)',
+    areaInputHelper: 'Calculate how many panels fit and your exact coverage percentage.',
+    coverageBoxTitle: 'Solar Consumption Coverage Ratio',
+    monthlyCoverageLabel: 'Monthly Consumption Coverage: {{percent}}%',
+    yearlyCoverageLabel: 'Yearly Consumption Coverage: {{percent}}%',
 
     sysKwLabel: 'Target System Capacity (kWp)',
     sysKwPlaceholder: 'Example: 15',
@@ -270,6 +292,8 @@ const WIZARD_TRANSLATIONS = {
     sidebarCost: 'Cost (incl. VAT)',
     sidebarPayback: 'Payback Period',
     sidebarSavings: 'Annual Savings',
+    sidebarMonthlyCoverage: 'Monthly Coverage',
+    sidebarYearlyCoverage: 'Yearly Coverage',
     sidebarNoData: 'Complete step inputs to view live estimates here.',
   }
 };
@@ -291,7 +315,7 @@ const SolarWizard: React.FC = () => {
 
   // State Management
   const [currentStep, setCurrentStep] = useState(1);
-  const [sizingBasis, setSizingBasis] = useState<'energy' | 'capacity'>('energy');
+  const [sizingBasis, setSizingBasis] = useState<'energy' | 'capacity' | 'area'>('energy');
   const [directKw, setDirectKw] = useState<number | ''>('');
 
   // Step 2
@@ -392,6 +416,11 @@ const SolarWizard: React.FC = () => {
       tariffObj.halalasPerKwh = SAUDI_ELECTRICITY_TARIFFS_HALALAS.industrial.standardGrid;
     }
 
+    const peakSunHours = 5;
+    const losses = 0.85;
+    const derate = 0.8;
+    const systemLifetimeYears = 25;
+
     if (sizingBasis === 'energy') {
       if (inputType === 'kwh') {
         if (consumptionPeriod === 'daily' && typeof dailyKwhInput === 'number' && dailyKwhInput > 0) {
@@ -403,7 +432,6 @@ const SolarWizard: React.FC = () => {
           if (tariffType === 'custom' && typeof customTariffPrice === 'number') {
             effectiveKwhPrice = customTariffPrice;
           } else {
-            // Calculate average tariff price
             const billDetails = billFromMonthlyKwhLocal(resolvedMonthlyKwh, tariffObj);
             effectiveKwhPrice = billDetails.avgSarPerKwh;
           }
@@ -418,10 +446,33 @@ const SolarWizard: React.FC = () => {
           effectiveKwhPrice = billDetails.avgSarPerKwh;
         }
       }
+    } else if (sizingBasis === 'area') {
+      // Area-based calculation
+      const area = typeof availableArea === 'number' && availableArea > 0 ? availableArea : 0;
+      const initialPanelTier = 'standard';
+      const selPanel = PANEL_PRICING[initialPanelTier];
+      const panelWattEst = selPanel.wattage * selPanel.efficiency;
+      const panelsEst = Math.max(1, Math.floor(area / panelAreaM2));
+      const estKw = (panelsEst * panelWattEst) / 1000;
+      const estMonthlyGen = Math.round(estKw * peakSunHours * 30 * derate * selPanel.efficiency);
+
+      if (inputType === 'kwh' && typeof monthlyKwhInput === 'number' && monthlyKwhInput > 0) {
+        resolvedMonthlyKwh = monthlyKwhInput;
+      } else if (inputType === 'bill' && typeof monthlyBillInput === 'number' && monthlyBillInput > 0) {
+        resolvedMonthlyKwh = monthlyKwhFromBillLocal(monthlyBillInput, tariffObj);
+      } else {
+        resolvedMonthlyKwh = estMonthlyGen || 1000;
+      }
+
+      if (tariffType === 'custom' && typeof customTariffPrice === 'number') {
+        effectiveKwhPrice = customTariffPrice;
+      } else if (resolvedMonthlyKwh > 0) {
+        const billDetails = billFromMonthlyKwhLocal(resolvedMonthlyKwh, tariffObj);
+        effectiveKwhPrice = billDetails.avgSarPerKwh;
+      }
     } else {
       // Direct capacity input
       if (typeof directKw === 'number' && directKw > 0) {
-        // Estimate average monthly energy: kW * peakSunHours (5) * 30 days * losses (0.85)
         resolvedMonthlyKwh = Math.round(directKw * 5 * 30 * 0.85);
         if (tariffType === 'custom' && typeof customTariffPrice === 'number') {
           effectiveKwhPrice = customTariffPrice;
@@ -438,16 +489,18 @@ const SolarWizard: React.FC = () => {
     }
 
     // 2. Sizing and pricing variables
-    const peakSunHours = 5;
-    const losses = 0.85;
-    const derate = 0.8;
-    const systemLifetimeYears = 25;
-
     let systemKw = 0;
     if (sizingBasis === 'energy') {
       const dailyKwh = resolvedMonthlyKwh / 30;
       const requiredKw = dailyKwh / peakSunHours;
       systemKw = requiredKw / losses;
+    } else if (sizingBasis === 'area') {
+      const area = typeof availableArea === 'number' && availableArea > 0 ? availableArea : 0;
+      const selTier = 'standard';
+      const selPanel = PANEL_PRICING[selTier];
+      const panelWattEst = selPanel.wattage * selPanel.efficiency;
+      const panelsEst = area > 0 ? Math.max(1, Math.floor(area / panelAreaM2)) : 10;
+      systemKw = (panelsEst * panelWattEst) / 1000;
     } else {
       systemKw = typeof directKw === 'number' ? directKw : 0;
     }
@@ -464,7 +517,7 @@ const SolarWizard: React.FC = () => {
     let premiumFitSuccess = false;
 
     // Check if space is constrained
-    if (typeof availableArea === 'number' && availableArea > 0 && initialAreaNeeded > availableArea) {
+    if (typeof availableArea === 'number' && availableArea > 0 && initialAreaNeeded > availableArea && sizingBasis !== 'area') {
       // Switch to premium high efficiency panel
       panelTier = 'premium';
       selectedPanel = PANEL_PRICING[panelTier];
@@ -479,7 +532,6 @@ const SolarWizard: React.FC = () => {
         initialAreaNeeded = premiumAreaNeeded;
       } else {
         premiumStillTooBig = true;
-        // Keep the premium panel as it is still the best attempt to minimize area
         initialPanels = premiumPanels;
         initialAreaNeeded = premiumAreaNeeded;
       }
@@ -519,18 +571,22 @@ const SolarWizard: React.FC = () => {
     let inverterUpgradeCost = 0;
     if (connectionType === 'hybrid') {
       batteryCost = batteryKwh * 1400; // 1400 SAR per kWh
-      // Inverter upgrade markup (around 40% of installation value or standard inverter size)
       inverterUpgradeCost = Math.round((panelsCost * 0.35) * 0.4);
     }
 
-    // Base package price represents standard on-grid system. We add premium panels difference, batteries, and hybrid inverter upsell.
     const rawTotalSystemCost = basePackagePrice + panelPriceDiff + batteryCost + inverterUpgradeCost;
     const totalSystemCost = Math.round(rawTotalSystemCost);
 
-    // Savings
+    // Savings & Production
     const annualProdKwh = actualSystemKw * peakSunHours * 365 * derate * selectedPanel.efficiency;
-    const annualLoadKwh = resolvedMonthlyKwh * 12;
-    const annualOffset = Math.min(annualProdKwh, annualLoadKwh);
+    const monthlyGenKwh = Math.round(annualProdKwh / 12);
+    const yearlyGenKwh = Math.round(annualProdKwh);
+    const monthlyLoadKwh = resolvedMonthlyKwh;
+    const yearlyLoadKwh = resolvedMonthlyKwh * 12;
+    const monthlyCoveragePercent = monthlyLoadKwh > 0 ? Math.round((monthlyGenKwh / monthlyLoadKwh) * 100) : 100;
+    const yearlyCoveragePercent = yearlyLoadKwh > 0 ? Math.round((yearlyGenKwh / yearlyLoadKwh) * 100) : 100;
+
+    const annualOffset = Math.min(annualProdKwh, yearlyLoadKwh);
     const annualSavingsSar = Math.round(annualOffset * effectiveKwhPrice);
 
     const paybackYears = annualSavingsSar > 0 ? Number((totalSystemCost / annualSavingsSar).toFixed(1)) : Infinity;
@@ -541,7 +597,7 @@ const SolarWizard: React.FC = () => {
     for (let year = 1; year <= systemLifetimeYears; year++) {
       const factor = (1 - firstYearDrop) * Math.pow(1 - degradationRate, year - 1);
       const annualProdKwhYear = annualProdKwh * factor;
-      const annualOffsetYear = Math.min(annualProdKwhYear, annualLoadKwh);
+      const annualOffsetYear = Math.min(annualProdKwhYear, yearlyLoadKwh);
       lifetimeGrossSavings += annualOffsetYear * effectiveKwhPrice;
     }
     lifetimeGrossSavings = Math.round(lifetimeGrossSavings);
@@ -571,6 +627,13 @@ const SolarWizard: React.FC = () => {
       batteryKwh,
       batteryCost,
       totalSystemCost,
+      annualProdKwh,
+      monthlyGenKwh,
+      yearlyGenKwh,
+      monthlyLoadKwh,
+      yearlyLoadKwh,
+      monthlyCoveragePercent,
+      yearlyCoveragePercent,
       annualSavingsSar,
       paybackYears,
       lifetimeGrossSavings,
@@ -828,9 +891,9 @@ const SolarWizard: React.FC = () => {
                     </h4>
 
                     <div className="row g-4 mt-2">
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div
-                          className={`solar-option-card ${sizingBasis === 'energy' ? 'selected' : ''}`}
+                          className={`solar-option-card h-100 ${sizingBasis === 'energy' ? 'selected' : ''}`}
                           onClick={() => setSizingBasis('energy')}
                         >
                           <div className="solar-option-icon">
@@ -841,9 +904,22 @@ const SolarWizard: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div
-                          className={`solar-option-card ${sizingBasis === 'capacity' ? 'selected' : ''}`}
+                          className={`solar-option-card h-100 ${sizingBasis === 'area' ? 'selected' : ''}`}
+                          onClick={() => setSizingBasis('area')}
+                        >
+                          <div className="solar-option-icon">
+                            <FontAwesomeIcon icon={faRulerCombined} />
+                          </div>
+                          <h5 className="fw-bold">{tW('basisOptArea')}</h5>
+                          <p className="text-muted small mt-2">{tW('basisOptAreaDesc')}</p>
+                        </div>
+                      </div>
+
+                      <div className="col-md-4">
+                        <div
+                          className={`solar-option-card h-100 ${sizingBasis === 'capacity' ? 'selected' : ''}`}
                           onClick={() => setSizingBasis('capacity')}
                         >
                           <div className="solar-option-icon">
@@ -871,10 +947,98 @@ const SolarWizard: React.FC = () => {
                   </div>
                 )}
 
-                {/* STEP 2: Consumption Details */}
+                {/* STEP 2: Consumption Details & Sizing Parameters */}
                 {currentStep === 2 && (
                   <div className="fade-step-enter-active">
-                    {sizingBasis === 'energy' ? (
+                    {sizingBasis === 'area' ? (
+                      <>
+                        <h4 className="fw-bold mb-4 text-center">
+                          <FontAwesomeIcon icon={faRulerCombined} className="text-success me-2" />
+                          {tW('areaStepTitle')}
+                        </h4>
+
+                        <div className="row justify-content-center">
+                          <div className="col-md-8">
+                            {/* Available Area */}
+                            <div className="mb-4">
+                              <label className="form-label fw-semibold mb-1 d-flex align-items-center justify-content-between">
+                                <span>{tW('areaInputLabel')}</span>
+                                <span className="badge bg-success-subtle text-success border border-success">
+                                  {panelAreaM2 || 5} {lang === 'ar' ? 'م² لكل لوح' : 'm²/panel'}
+                                </span>
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control solar-form-input text-center fw-bold fs-4"
+                                value={availableArea}
+                                onChange={(e) => setAvailableArea(e.target.value === '' ? '' : Number(e.target.value))}
+                                placeholder={lang === 'ar' ? 'مثال: 150' : 'e.g. 150'}
+                                min={5}
+                              />
+                              <small className="text-muted d-block text-center mt-1">{tW('areaInputHelper')}</small>
+                            </div>
+
+                            {/* Optional Consumption for exact coverage % */}
+                            <div className="card p-3 bg-light border-0 rounded-4 mb-4">
+                              <div className="d-flex justify-content-between align-items-center mb-2">
+                                <h6 className="fw-bold mb-0 text-dark small">
+                                  <FontAwesomeIcon icon={faBolt} className="me-1.5 text-warning" />
+                                  {lang === 'ar' ? 'بيانات الاستهلاك (لحساب نسبة التغطية التقديرية):' : 'Electricity Consumption (To compute exact coverage %):'}
+                                </h6>
+                              </div>
+                              <div className="row g-2">
+                                <div className="col-md-6">
+                                  <label className="form-label small text-muted mb-1">{tW('kwhLabel')}</label>
+                                  <input
+                                    type="number"
+                                    className="form-control"
+                                    value={monthlyKwhInput}
+                                    onChange={(e) => setMonthlyKwhInput(e.target.value === '' ? '' : Number(e.target.value))}
+                                    placeholder={lang === 'ar' ? 'مثال: 6000' : 'e.g. 6000'}
+                                    min={1}
+                                  />
+                                </div>
+                                <div className="col-md-6">
+                                  <label className="form-label small text-muted mb-1">{tW('billLabel')}</label>
+                                  <input
+                                    type="number"
+                                    className="form-control"
+                                    value={monthlyBillInput}
+                                    onChange={(e) => setMonthlyBillInput(e.target.value === '' ? '' : Number(e.target.value))}
+                                    placeholder={lang === 'ar' ? 'مثال: 1200' : 'e.g. 1200'}
+                                    min={1}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Live coverage summary box */}
+                            {calculatedData && (
+                              <div className="card bg-success text-white p-3 rounded-4 mb-4 shadow-sm text-center">
+                                <h6 className="fw-bold mb-2 d-flex align-items-center justify-content-center gap-1">
+                                  <FontAwesomeIcon icon={faSun} className="text-warning" />
+                                  {tW('coverageBoxTitle')}
+                                </h6>
+                                <div className="row g-2 mt-1">
+                                  <div className="col-6">
+                                    <div className="bg-white bg-opacity-20 p-2 rounded-3">
+                                      <small className="d-block" style={{ fontSize: '0.8rem' }}>{lang === 'ar' ? 'تغطية الاستهلاك الشهري' : 'Monthly Coverage'}</small>
+                                      <span className="fs-5 fw-bold">{calculatedData.monthlyCoveragePercent}%</span>
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="bg-white bg-opacity-20 p-2 rounded-3">
+                                      <small className="d-block" style={{ fontSize: '0.8rem' }}>{lang === 'ar' ? 'تغطية الاستهلاك السنوي' : 'Yearly Coverage'}</small>
+                                      <span className="fs-5 fw-bold">{calculatedData.yearlyCoveragePercent}%</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    ) : sizingBasis === 'energy' ? (
                       <>
                         <h4 className="fw-bold mb-4 text-center">{tW('consQ')}</h4>
 
@@ -1365,41 +1529,35 @@ const SolarWizard: React.FC = () => {
                       </div>
 
                       <h6 className="fw-bold border-bottom pb-2 mb-3 text-dark">{tW('techDetails')}</h6>
-                      <div className="row g-3 text-center mb-4">
+                      <div className="row g-2 text-center mb-4">
                         <div className="col-4 col-md-2">
-                          <div className="bg-white p-2 rounded-3 shadow-sm">
-                            <div className="small text-muted">سعة النظام</div>
+                          <div className="bg-white p-2 rounded-3 shadow-sm h-100">
+                            <div className="small text-muted">{lang === 'ar' ? 'سعة النظام' : 'System Size'}</div>
                             <div className="fw-bold text-success">{calculatedData.systemKw.toFixed(1)} kWp</div>
                           </div>
                         </div>
                         <div className="col-4 col-md-2">
-                          <div className="bg-white p-2 rounded-3 shadow-sm">
-                            <div className="small text-muted">عدد الألواح</div>
+                          <div className="bg-white p-2 rounded-3 shadow-sm h-100">
+                            <div className="small text-muted">{lang === 'ar' ? 'عدد الألواح' : 'Panels'}</div>
                             <div className="fw-bold text-success">{calculatedData.panels}</div>
                           </div>
                         </div>
                         <div className="col-4 col-md-2">
-                          <div className="bg-white p-2 rounded-3 shadow-sm">
-                            <div className="small text-muted">نوع الألواح</div>
-                            <div className="fw-bold text-success">{calculatedData.selectedPanel.label}</div>
+                          <div className="bg-white p-2 rounded-3 shadow-sm h-100">
+                            <div className="small text-muted">{lang === 'ar' ? 'مساحة التركيب' : 'Footprint Area'}</div>
+                            <div className="fw-bold text-success">~{Math.round(calculatedData.areaNeeded)} م²</div>
                           </div>
                         </div>
-                        <div className="col-4 col-md-2">
-                          <div className="bg-white p-2 rounded-3 shadow-sm">
-                            <div className="small text-muted">مساحة التركيب</div>
-                            <div className="fw-bold text-success">{Math.round(calculatedData.areaNeeded)} م²</div>
+                        <div className="col-6 col-md-3">
+                          <div className="bg-white p-2 rounded-3 shadow-sm h-100">
+                            <div className="small text-muted">{lang === 'ar' ? 'الإنتاج السنوي' : 'Annual Gen'}</div>
+                            <div className="fw-bold text-success">{calculatedData.annualProdKwh?.toLocaleString()} kWh</div>
                           </div>
                         </div>
-                        <div className="col-4 col-md-2">
-                          <div className="bg-white p-2 rounded-3 shadow-sm">
-                            <div className="small text-muted">نوع الربط</div>
-                            <div className="fw-bold text-success">{connectionType === 'hybrid' ? 'هجين' : 'شبكي'}</div>
-                          </div>
-                        </div>
-                        <div className="col-4 col-md-2">
-                          <div className="bg-white p-2 rounded-3 shadow-sm">
-                            <div className="small text-muted">البطاريات</div>
-                            <div className="fw-bold text-success">{calculatedData.batteryKwh} kWh</div>
+                        <div className="col-6 col-md-3">
+                          <div className="bg-white p-2 rounded-3 shadow-sm h-100">
+                            <div className="small text-muted">{lang === 'ar' ? 'نسبة التغطية' : 'Consumption Coverage'}</div>
+                            <div className="fw-bold text-success">{calculatedData.monthlyCoveragePercent}% {lang === 'ar' ? 'شهرياً' : 'Mo'} | {calculatedData.yearlyCoveragePercent}% {lang === 'ar' ? 'سنوياً' : 'Yr'}</div>
                           </div>
                         </div>
                       </div>
@@ -1613,6 +1771,35 @@ const SolarWizard: React.FC = () => {
                         <div className="d-flex justify-content-between mb-2">
                           <span className="text-muted small">{tW('sidebarArea')}</span>
                           <span className="fw-bold text-success">~{Math.round(calculatedData.areaNeeded)} م²</span>
+                        </div>
+                      </div>
+
+                      {/* Coverage Ratios */}
+                      <div className="bg-light p-2.5 rounded-3 mb-2.5 border">
+                        <div className="d-flex justify-content-between align-items-center mb-1">
+                          <span className="text-muted small" style={{ fontSize: '0.8rem' }}>{tW('sidebarMonthlyCoverage')}</span>
+                          <span className={`badge ${calculatedData.monthlyCoveragePercent >= 100 ? 'bg-success' : calculatedData.monthlyCoveragePercent >= 70 ? 'bg-primary' : 'bg-warning text-dark'} fw-bold`}>
+                            {calculatedData.monthlyCoveragePercent}%
+                          </span>
+                        </div>
+                        <div className="progress mb-2" style={{ height: '6px' }}>
+                          <div
+                            className={`progress-bar ${calculatedData.monthlyCoveragePercent >= 100 ? 'bg-success' : calculatedData.monthlyCoveragePercent >= 70 ? 'bg-primary' : 'bg-warning'}`}
+                            style={{ width: `${Math.min(100, calculatedData.monthlyCoveragePercent)}%` }}
+                          />
+                        </div>
+
+                        <div className="d-flex justify-content-between align-items-center mb-1">
+                          <span className="text-muted small" style={{ fontSize: '0.8rem' }}>{tW('sidebarYearlyCoverage')}</span>
+                          <span className={`badge ${calculatedData.yearlyCoveragePercent >= 100 ? 'bg-success' : calculatedData.yearlyCoveragePercent >= 70 ? 'bg-info' : 'bg-warning text-dark'} fw-bold`}>
+                            {calculatedData.yearlyCoveragePercent}%
+                          </span>
+                        </div>
+                        <div className="progress" style={{ height: '6px' }}>
+                          <div
+                            className={`progress-bar ${calculatedData.yearlyCoveragePercent >= 100 ? 'bg-success' : calculatedData.yearlyCoveragePercent >= 70 ? 'bg-info' : 'bg-warning'}`}
+                            style={{ width: `${Math.min(100, calculatedData.yearlyCoveragePercent)}%` }}
+                          />
                         </div>
                       </div>
 

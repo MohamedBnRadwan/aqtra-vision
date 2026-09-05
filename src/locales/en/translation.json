@@ -169,9 +169,18 @@
     "panelPriceCategory": "Panel price category",
     "panelTierCostLine": "{{cost}} SAR / panel — {{note}}",
     "panelTier": {
-      "economy": { "label": "Economy", "note": "Lower cost, shorter lifespan" },
-      "standard": { "label": "Standard", "note": "Balanced price/performance" },
-      "premium": { "label": "Premium", "note": "Higher efficiency, longer lifespan" }
+      "economy": {
+        "label": "Economy",
+        "note": "Lower cost, shorter lifespan"
+      },
+      "standard": {
+        "label": "Standard",
+        "note": "Balanced price/performance"
+      },
+      "premium": {
+        "label": "Premium",
+        "note": "Higher efficiency, longer lifespan"
+      }
     },
     "adjustDegradationRate": "Adjust Annual Degradation & Initial Drop (%)",
     "degradationHelper": "Sets the initial (first year) output drop and the annual degradation rate. These affect long-term cumulative savings over the system's 25-year lifetime.",

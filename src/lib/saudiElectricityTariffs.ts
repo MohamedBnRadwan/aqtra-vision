@@ -397,10 +397,10 @@ export function computeSolarEstimate(input: SolarEstimateInput): SolarEstimateRe
     typeof input.dailyKWh === 'number' && input.dailyKWh > 0
       ? input.dailyKWh * 30
       : typeof input.monthlyKWh === 'number' && input.monthlyKWh > 0
-      ? input.monthlyKWh
-      : typeof input.monthlyBill === 'number' && input.monthlyBill > 0
-      ? monthlyKwhFromBill(input.monthlyBill, tariff, VAT_RATE, billingDays, meterFeeSar)
-      : 0;
+        ? input.monthlyKWh
+        : typeof input.monthlyBill === 'number' && input.monthlyBill > 0
+          ? monthlyKwhFromBill(input.monthlyBill, tariff, VAT_RATE, billingDays, meterFeeSar)
+          : 0;
 
   if (!monthlyBase) {
     return { ok: false, message: 'Please provide a valid average monthly/daily energy consumption or monthly bill amount.' };
